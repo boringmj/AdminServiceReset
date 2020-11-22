@@ -2,25 +2,30 @@
 
 function config_auto($name=null)
 {
-    if($name==='HTTP_TYPE')
+    switch($name)
     {
-        if(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']=='on')
-            return 'https';
-        elseif(isset($_SERVER['HTTP_X_FORWARDED_PROTO'])&&$_SERVER['HTTP_X_FORWARDED_PROTO']=='https')
-            return 'https';
-        else
-            return 'http';
+
+        case 'REQUEST_HTTP_TYPE':
+            if(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']=='on')
+                return 'https';
+            elseif(isset($_SERVER['HTTP_X_FORWARDED_PROTO'])&&$_SERVER['HTTP_X_FORWARDED_PROTO']=='https')
+                return 'https';
+            else
+                return 'http';
+        case 'REQUEST_HTTP_PATH':
+            if(isset($_SERVER['HTTP_X_FORWARDED_HOST']))
+                return $_SERVER['HTTP_X_FORWARDED_HOST'];
+            elseif(isset($_SERVER['HTTP_HOST']))
+                return $_SERVER['HTTP_HOST'];
+            elseif(isset($_SERVER['SERVER_ADDR']))
+                return $_SERVER['SERVER_ADDR'];
+            else
+                return '';
+        case 'LOG_DIR':
+            return APPLICATION_PATH.'/Log';
+        default:
+        return $name;
     }
-    if($name==='HTTP_PATH')
-    {
-        if(isset($_SERVER['HTTP_X_FORWARDED_HOST']))
-            return $_SERVER['HTTP_X_FORWARDED_HOST'];
-        elseif(isset($_SERVER['HTTP_HOST']))
-            return $_SERVER['HTTP_HOST'];
-        else
-            return '';
-    }
-    return $name;
 }
 
 function config_load($name=null,$content='')
