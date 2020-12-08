@@ -1,7 +1,12 @@
 <?php
 
+/* 常量注册池
+ * APPLICATION_PATH 应用安装路径
+ * 
+*/
+
 if(!defined('APPLICATION_PATH')&&is_dir(APPLICATION_PATH))
-    exit('APPLICATION_PATH 未按要求传入');
+    exit('<b>APPLICATION_PATH</b> Not incoming as required.');
 if(!defined('APPLICATION_DEBUG'))
     define('APPLICATION_DEBUG',false);
 if(!defined('APPLICATION_DEBUG_LEVEL'))

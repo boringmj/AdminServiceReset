@@ -16,7 +16,8 @@
 */
 $CONFIG_REQUEST=array(
     'HTTP_TYPE'     =>  config_auto('REQUEST_HTTP_TYPE'),
-    'HTTP_PATH'     =>  config_auto('REQUEST_HTTP_PATH')
+    'HTTP_PATH'     =>  config_auto('REQUEST_HTTP_PATH'),
+    'HTTP_CODE'     =>  'UTF-8'
 );
 config_examine('CONFIG_REQUEST');
 

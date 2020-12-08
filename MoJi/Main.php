@@ -1,10 +1,10 @@
-
 <?php
 
 require dirname(__FILE__).'/function.php';
 require dirname(__FILE__).'/constant.php';
 require dirname(__FILE__).'/config/Main.php';
 require dirname(__FILE__).'/module/Load.module.php';
+require dirname(__FILE__).'/module/Language.module.php';
 
 error_reporting(APPLICATION_DEBUG_LEVEL);
 date_default_timezone_set('PRC');
@@ -31,18 +31,12 @@ if(CONFIG_LOG_STATUS)
 }
 foreach($write_path_array as $write_path)
     if(!is_writable($write_path)&&!empty($write_path))
-        exit("{$write_path} 目录或文件不可写");
+        exit("{$write_path} ".LANGUAGE_WRITE_PATH);
 
+//按顺序加载相对应的模块
 $module_array=array('Log','Request');
 LoadModule($module_array);
 
-write_log("站点被请求","请求地址".REQUEST_IP,__FILE__);
-
-echo '<br>以下为测试期内容<br>';
-echo CONFIG_PROJECT_COPYRIGHT;
-echo '<br>';
-echo TEST;
-echo '<br>';
-echo CONFIG_REQUEST_HTTP_PATH;
+write_log(LANGUAGE_REQUEST_SITES,LANGUAGE_REQUEST_ADDR.REQUEST_IP,__FILE__);
 
 ?>

@@ -35,6 +35,12 @@ function write_log($title,$msg,$file,$grade=1)
         'id'=>REQUEST_ID
     );
     $log_path=CONFIG_LOG_DIR.'/'.CONFIG_LOG_PATH;
+    if(filesize($log_path)>=CONFIG_LOG_FILE_SIZE)
+    {
+        if(!rename($log_path,$log_path.'.1'))
+            unlink($log_path);
+        file_put_contents($log_path,'');
+    }
     $log_file=fopen($log_path,"a");
     if($log_file)
         fwrite($log_file,variable_load($content_array,CONFIG_LOG_FORMAT));
