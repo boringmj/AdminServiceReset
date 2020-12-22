@@ -13,6 +13,7 @@
 /* REQUEST
  * HTTP_TYPE WEB请求类型 String 允许填写为auto(),http,https
  * HTTP_PATH WEB请求地址 String 允许填写为auto(),地址带端口
+ * HTTP_CODE 编码类型 String 默认为utf-8
 */
 $CONFIG_REQUEST=array(
     'HTTP_TYPE'     =>  config_auto('REQUEST_HTTP_TYPE'),

@@ -1,10 +1,5 @@
 <?php
 
-/* 常量注册池
- * APPLICATION_PATH 应用安装路径
- * 
-*/
-
 if(!defined('APPLICATION_PATH')&&is_dir(APPLICATION_PATH))
     exit('<b>APPLICATION_PATH</b> Not incoming as required.');
 if(!defined('APPLICATION_DEBUG'))
@@ -14,6 +9,8 @@ if(!defined('APPLICATION_DEBUG_LEVEL'))
         define('APPLICATION_DEBUG_LEVEL',E_ALL);
     else
         define('APPLICATION_DEBUG_LEVEL',0);
+if(!defined('DATABASE_ENABLE'))
+    define('DATABASE_ENABLE',FALSE);
 
 $constant_array=array(
     'TEST'=>'Hello World!'

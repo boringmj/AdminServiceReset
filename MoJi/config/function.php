@@ -24,7 +24,7 @@ function config_auto($name=null)
         case 'LOG_DIR':
             return APPLICATION_PATH.'/Log';
         default:
-        return $name;
+            return $name;
     }
 }
 
