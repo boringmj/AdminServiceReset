@@ -1,9 +1,9 @@
 <?php
 
-debug_log("请求模块","Request模块顺利启动",__FILE__);
+debug_log(LANGUAGE_REQUEST_NAME,LANGUAGE_REQUEST_SUCCESS,__FILE__);
 
 //外层请求安全模块
-debug_log("请求模块","请求IP:".REQUEST_IP." 代理IP: ".REQUEST_FORWARDED,__FILE__);
+debug_log(LANGUAGE_REQUEST_NAME,LANGUAGE_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
 
 //集体处理请求
 if(empty($_REQUEST['type']))

@@ -19,8 +19,15 @@ $LANGUAGE=array(
     'WRITE_PATH'=>'如果您不是管理员:<br>出现致命错误,请联系管理员处理<br><br>如果您是管理员:<br>您可以打开调试来查看具体问题',
     'REQUEST_SITES'=>'站点被请求',
     'REQUEST_ADDR'=>'请求地址',
+    'REQUEST_IP'=>'请求IP',
+    'REQUEST_NAME'=>'请求模块',
+    'REQUEST_SUCCESS'=>'请求模块启动成功',
+    'AGENT_IP'=>'代理IP',
     'DATABASE_ERROR_DEBUG'=>'数据库连接失败,请检查配置是否正确,具体信息以及写入日志',
-    'DATABASE_ERROR'=>'如果您不是管理员:<br>出现致命错误,请联系管理员处理<br><br>如果您是管理员:<br>您可以查看日志或打开调试(不推荐)来查看具体问题'
+    'DATABASE_ERROR'=>'如果您不是管理员:<br>出现致命错误,请联系管理员处理<br><br>如果您是管理员:<br>您可以查看日志或打开调试(不推荐)来查看具体问题',
+    'DATABASE_NAME'=>'数据库模块',
+    'DATABASE_ERROR_TITLE'=>'数据库连接失败',
+    'DATABASE_SUCCESS'=>'数据库模块启动成功'
 );
 config_examine('LANGUAGE');
 
