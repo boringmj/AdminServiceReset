@@ -23,6 +23,12 @@ function config_auto($name=null)
                 return '';
         case 'LOG_DIR':
             return APPLICATION_PATH.'/Log';
+        case 'LOG_LEVEL':
+                return 0;
+        case 'REQUEST_ERROR_LEVEL':
+            return 1;
+        case 'REQUEST_ERROR_FROM':
+            return CONFIG_REQUEST_HTTP_TYPE.'://'.CONFIG_REQUEST_HTTP_PATH.'/?from=error&info=ERROR_FROM';
         default:
             return $name;
     }

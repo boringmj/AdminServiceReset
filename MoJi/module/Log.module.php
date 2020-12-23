@@ -3,6 +3,8 @@
 //debug_log("title","msg",__FILE__);
 function debug_log($title,$msg,$file,$grade=1)
 {
+    if(CONFIG_LOG_LEVEL!=0&&$grade<CONFIG_LOG_LEVEL)
+        return;
     if(APPLICATION_DEBUG&&CONFIG_LOG_STATUS)
     {
         $log_date=date(CONFIG_LOG_FORMAT_DATE,time());
@@ -25,6 +27,8 @@ function debug_log($title,$msg,$file,$grade=1)
 //write_log("title","msg",__FILE__);
 function write_log($title,$msg,$file,$grade=1)
 {
+    if(CONFIG_LOG_LEVEL!=0&&$grade<CONFIG_LOG_LEVEL)
+        return;
     if(CONFIG_LOG_STATUS)
     {
         $log_date=date(CONFIG_LOG_FORMAT_DATE,time());

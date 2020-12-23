@@ -13,7 +13,7 @@ if(DATABASE_ENABLE&&class_exists('Database'))
     $CONFIG_DATABASE=null;
     if(!$Database->Link())
     {
-        write_log(LANGUAGE_DATABASE_ERROR_TITLE,$Database->error,__FILE__);
+        write_log(LANGUAGE_DATABASE_ERROR_TITLE,$Database->error,__FILE__,20);
         if(APPLICATION_DEBUG)
             exit(LANGUAGE_DATABASE_ERROR_DEBUG);
         else

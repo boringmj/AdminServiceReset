@@ -14,6 +14,7 @@ date_default_timezone_set('PRC');
 $module_array=array('Write','Log','Database','Request');
 LoadModule($module_array);
 
+//将每一次请求都记录到日志
 write_log(LANGUAGE_REQUEST_SITES,LANGUAGE_REQUEST_ADDR.REQUEST_IP,__FILE__);
 
 ?>

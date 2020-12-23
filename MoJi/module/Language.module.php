@@ -2,9 +2,15 @@
 
 /* 语言模块
  * 翻译来源于谷歌翻译
+ * 如果您想要提供更多的语言支持可以向wuliaodemoji@wuliaomj.com发送邮件并且注明语言
+ * 如果您的语言模块审核通过,我们将会匿名新增到新的版本中作为可选语言支持
+ * 语言模块仅允许使用字符串(String)作为值
  *
  * Language module
  * Translation comes from Google Translate
+ * If you want to provide more language support, you can send an email to wuliaodemoji@wuliaomj.com and indicate the language
+ * If your language module is approved, we will add it to the new version anonymously as optional language support
+ * The language module only allows to use String as a value
 */
 
 /*
@@ -21,6 +27,10 @@ $LANGUAGE=array(
     'REQUEST_ADDR'=>'请求地址',
     'REQUEST_IP'=>'请求IP',
     'REQUEST_NAME'=>'请求模块',
+    'REQUEST_ERROR'=>'请求错误',
+    'REQUEST_ILLEGAL'=>'非法请求',
+    'REQUEST_ERROR_TITLE'=>'Unexpected request',
+    'REQUEST_ERROR_MSG'=>'Your request was terminated unexpectedly: please check if the link is correct',
     'REQUEST_SUCCESS'=>'请求模块启动成功',
     'AGENT_IP'=>'代理IP',
     'DATABASE_ERROR_DEBUG'=>'数据库连接失败,请检查配置是否正确,具体信息以及写入日志',

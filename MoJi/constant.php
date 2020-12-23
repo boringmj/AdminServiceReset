@@ -13,16 +13,15 @@ if(!defined('DATABASE_ENABLE'))
     define('DATABASE_ENABLE',FALSE);
 
 $constant_array=array(
-    'TEST'=>'Hello World!'
+    'REQUEST_ID'=>get_rand_string_id(),
+    'REQUEST_IP'=>$_SERVER['REMOTE_ADDR'],
+    'REQUEST_FORWARDED'=>isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:'0.0.0.0',
+    'RES_PATH'=>dirname(__FILE__).'/res'
 );
 
 foreach($constant_array as $constant_name=>$constant_value)
 {
     define($constant_name,$constant_value);
 }
-
-define('REQUEST_ID',get_rand_string_id());
-define('REQUEST_IP',$_SERVER['REMOTE_ADDR']);
-define('REQUEST_FORWARDED',isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:'0.0.0.0');
 
 ?>
