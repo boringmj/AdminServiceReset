@@ -38,7 +38,7 @@ function config_auto($name=null)
                 $port=':'.CONFIG_HTTP_PORT;
             $web_path=preg_replace('/'.preg_variable_load(CONFIG_HTTP_PATH).'/','',isset($_SERVER['SCRIPT_FILENAME'])?$_SERVER['SCRIPT_FILENAME']:'');
             $web_path=dirname($web_path);
-            if($web_path==='/')
+            if($web_path==='/'||$web_path==='\\')
                 $web_path='';
             return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$port.$web_path;
         case 'REQUEST_ERROR_LEVEL':
@@ -49,7 +49,7 @@ function config_auto($name=null)
                 $port=':'.CONFIG_HTTP_PORT;
             $web_path=preg_replace('/'.preg_variable_load(CONFIG_HTTP_PATH).'/','',isset($_SERVER['SCRIPT_FILENAME'])?$_SERVER['SCRIPT_FILENAME']:'');
             $web_path=dirname($web_path);
-            if($web_path==='/')
+            if($web_path==='/'||$web_path==='\\')
                 $web_path='';
             return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$port.$web_path.'/?from=error&info=ERROR_FROM';
         default:
