@@ -6,7 +6,7 @@
  * ERROR_FROM 引导地址 String 错误后引导的地址
 */
 $CONFIG_REQUEST=array(
-    'URL'      =>  config_auto('REQUEST_URL'),
+    'URL'           =>  config_auto('REQUEST_URL'),
     'ERROR_LEVEL'   =>  config_auto('REQUEST_ERROR_LEVEL'),
     'ERROR_FROM'    =>  config_auto('REQUEST_ERROR_FROM')
 );
