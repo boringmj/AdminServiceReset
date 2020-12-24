@@ -11,7 +11,7 @@ error_reporting(APPLICATION_DEBUG_LEVEL);
 date_default_timezone_set('PRC');
 
 //按顺序加载相对应的模块
-$module_array=array('Write','Log','Database','Request');
+$module_array=array('Write','Log','Check','Database','Request');
 LoadModule($module_array);
 
 //将每一次请求都记录到日志

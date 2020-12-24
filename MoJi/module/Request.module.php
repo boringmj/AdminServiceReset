@@ -4,17 +4,13 @@ debug_log(LANGUAGE_REQUEST_NAME,LANGUAGE_REQUEST_SUCCESS,__FILE__);
 
 //集体处理请求
 if(empty($_REQUEST['type']))
-    $_REQUEST['type']='http';
-if($_REQUEST['type']==='http')
-    header('Content-Type: text/html; charset='.CONFIG_REQUEST_HTTP_CODE);
-else if($_REQUEST['type']==='json')
+    $_REQUEST['type']='html';
+if($_REQUEST['type']==='html')
+    header('Content-Type: text/html; charset='.CONFIG_HTTP_CODE);
+else if($_REQUEST['type']==='api')
     header('Content-Type:application/json');
 if(empty($_REQUEST['from']))
     $_REQUEST['from']='Main';
-
-//外层请求安全模块
-debug_log(LANGUAGE_REQUEST_NAME,LANGUAGE_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
-debug_log(LANGUAGE_REQUEST_NAME,'/?from='.urlencode($_REQUEST['from']).'&type='.urlencode($_REQUEST['type']),__FILE__);
 
 //错误页显示
 if($_REQUEST['from']==='error')
@@ -39,6 +35,18 @@ if($_REQUEST['from']==='error')
     exit(variable_load($content_array,$content));
 }
 
+//外层请求安全模块
+debug_log(LANGUAGE_REQUEST_NAME,LANGUAGE_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
+debug_log(LANGUAGE_REQUEST_NAME,'/?from='.urlencode($_REQUEST['from']).'&type='.urlencode($_REQUEST['type']),__FILE__);
+if($_REQUEST['type']==='html')
+{
+    //页面安全模块
+}
+else
+{
+    //接口安全模块
+}
+
 //检验访问地址合法性
 if(preg_match("/\./",$_REQUEST['from']))
 {
@@ -51,7 +59,7 @@ if(preg_match("/\./",$_REQUEST['from']))
 }
 else
 {
-    $app_path=APPLICATION_PATH.'/'.$_REQUEST['from'].'.php';
+    $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/html').'/'.$_REQUEST['from'].'.php';
     if(is_file($app_path))
         include $app_path;
     else

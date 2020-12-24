@@ -1,16 +1,19 @@
 <?php
 
-/* REQUEST
- * HTTP_TYPE WEB请求类型 String 允许填写为auto(),http,https
- * HTTP_PATH WEB请求地址 String 允许填写为auto(),地址带端口
- * HTTP_CODE 编码类型 String 默认为utf-8
+/* HTTP
+ * TYPE WEB请求类型 String 允许填写为auto(),http,https
+ * HOST WEB请求地址 String 允许填写为auto(),地址带端口
+ * CODE 编码类型 String 默认为utf-8
+ * PATH web根目录  String 一个合法的web根目录
 */
-$CONFIG_REQUEST=array(
-    'HTTP_TYPE'     =>  config_auto('REQUEST_HTTP_TYPE'),
-    'HTTP_PATH'     =>  config_auto('REQUEST_HTTP_PATH'),
-    'HTTP_CODE'     =>  'UTF-8'
+$CONFIG_HTTP=array(
+    'TYPE'      =>  config_auto('HTTP_TYPE'),
+    'HOST'      =>  config_auto('HTTP_HOST'),
+    'CODE'      =>  'UTF-8',
+    'PORT'      =>  config_auto('HTTP_PORT'),
+    'PATH'      =>  config_auto('HTTP_PATH')
 );
-config_examine('CONFIG_REQUEST');
+config_examine('CONFIG_HTTP');
 
 /* INFO
  * 暂不提供帮助

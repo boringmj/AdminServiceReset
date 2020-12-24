@@ -10,12 +10,7 @@
  * Translation comes from Google Translate
  * If you want to provide more language support, you can send an email to wuliaodemoji@wuliaomj.com and indicate the language
  * If your language module is approved, we will add it to the new version anonymously as optional language support
- * The language module only allows to use String as a value
-*/
-
-/*
-//English
-
+ * The language module only allows to use string(String) as a value
 */
 
 //简体中文
@@ -37,7 +32,10 @@ $LANGUAGE=array(
     'DATABASE_ERROR'=>'如果您不是管理员:<br>出现致命错误,请联系管理员处理<br><br>如果您是管理员:<br>您可以查看日志或打开调试(不推荐)来查看具体问题',
     'DATABASE_NAME'=>'数据库模块',
     'DATABASE_ERROR_TITLE'=>'数据库连接失败',
-    'DATABASE_SUCCESS'=>'数据库模块启动成功'
+    'DATABASE_SUCCESS'=>'数据库模块启动成功',
+    'EXTENSION_UNSPPORTED'=>'扩展缺失',
+    'EXTENSION_UNSPPORTED_MSG'=>'扩展不支持,请您下载相关扩展后重新尝试',
+    'EXTENSION_UNSPPORTED_WARN'=>'扩展不支持,但已被忽视,系统随时可能因为此问题终止正常的运行的服务'
 );
 config_examine('LANGUAGE');
 

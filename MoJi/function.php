@@ -7,6 +7,18 @@ function variable_load($variable_array,$content)
     return $content;
 }
 
+function preg_variable_load($content)
+{
+    $variable_array=array(
+        '\\'=>'\\\\',
+        '/'=>'\\/',
+        '.'=>'\\.'
+    );
+    foreach($variable_array as $variable=>$variable_value)
+        $content=str_replace($variable,$variable_value,$content);
+    return $content;
+}
+
 function get_rand_string($len,$chars=null)
 {
     if(is_null($chars))
