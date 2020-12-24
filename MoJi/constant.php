@@ -1,6 +1,6 @@
 <?php
 
-if(!defined('APPLICATION_PATH')&&is_dir(APPLICATION_PATH))
+if(!defined('APPLICATION_PATH')||!is_dir(APPLICATION_PATH))
     exit('<b>APPLICATION_PATH</b> Not incoming as required.');
 if(!defined('APPLICATION_DEBUG'))
     define('APPLICATION_DEBUG',false);
