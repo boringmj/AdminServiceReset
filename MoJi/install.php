@@ -13,7 +13,7 @@ class Install()
     public $error_info=array();
     protected $data_path=DATA_PATH.'/install.data.json';
     protected $database_tables=array(
-        ''=>''
+        'table'=>'info'
     );
 
     //默认调用的方法
@@ -47,7 +47,7 @@ class Install()
                     exit(LANGUAGE_INSTALL_DATA_ERROR);
             }
             else
-                exit($this->data_path' '..LANGUAGE_INSTALL_DATA_PATH_ERROR);
+                exit($this->data_path.' '.LANGUAGE_INSTALL_DATA_PATH_ERROR);
             return true;
         }
         return false;
