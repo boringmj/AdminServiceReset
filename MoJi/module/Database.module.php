@@ -20,5 +20,10 @@ if(DATABASE_ENABLE&&class_exists('Database'))
             exit(LANGUAGE_DATABASE_ERROR);
     }
 }
+else
+{
+    //不支持或未开启处理
+    $Database=null;
+}
 
 ?>

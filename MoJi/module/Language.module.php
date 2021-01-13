@@ -35,7 +35,9 @@ $LANGUAGE=array(
     'DATABASE_SUCCESS'=>'数据库模块启动成功',
     'EXTENSION_UNSPPORTED'=>'扩展缺失',
     'EXTENSION_UNSPPORTED_MSG'=>'扩展不支持,请您下载相关扩展后重新尝试',
-    'EXTENSION_UNSPPORTED_WARN'=>'扩展不支持,但已被忽视,系统随时可能因为此问题终止正常的运行的服务'
+    'EXTENSION_UNSPPORTED_WARN'=>'扩展不支持,但已被忽视,系统随时可能因为此问题终止正常的运行的服务',
+    'INSTALL_DATA_ERROR'=>'安装信息不是一个合法的json',
+    'INSTALL_DATA_PATH_ERROR'=>'文件不可写或不是文件类型'
 );
 config_examine('LANGUAGE');
 

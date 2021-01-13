@@ -19,6 +19,7 @@ if(CONFIG_LOG_STATUS)
         array_push($write_path_array,$log_path);
     }
 }
+array_push($write_path_array,DATA_PATH);
 foreach($write_path_array as $write_path)
     if(!is_writable($write_path)&&!empty($write_path))
         if(APPLICATION_DEBUG)
