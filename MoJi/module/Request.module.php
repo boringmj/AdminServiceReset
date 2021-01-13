@@ -29,7 +29,7 @@ if($_REQUEST['from']==='error')
     {
         $content_array=array(
             'error_title'=>'ERROR',
-            'error_msg'=>'nginx'
+            'error_msg'=>'You have encountered an unknown error.'
         );
     }
     exit(variable_load($content_array,$content));
