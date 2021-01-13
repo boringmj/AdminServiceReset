@@ -38,13 +38,13 @@ if($_REQUEST['from']==='error')
 //外层请求安全模块
 debug_log(LANGUAGE_REQUEST_NAME,LANGUAGE_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
 debug_log(LANGUAGE_REQUEST_NAME,'/?from='.urlencode($_REQUEST['from']).'&type='.urlencode($_REQUEST['type']),__FILE__);
-if($_REQUEST['type']==='html')
+if($_REQUEST['type']==='api')
 {
-    //页面安全模块
+    //接口安全模块
 }
 else
 {
-    //接口安全模块
+    //页面安全模块
 }
 
 //检验访问地址合法性
