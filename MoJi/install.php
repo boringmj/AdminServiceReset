@@ -19,12 +19,24 @@ class Install
     //默认调用的方法
     public function Start(&$Database='')
     {
+        //判断安装是否有价值,没有价值就不进行安装
         if($this->Check($Database))
             return true;
-        if(DATABASE_ENABLE)
-            $this->Database($Database);
-        $this->Other();
-        $this->Updata($Database);
+        if(isset($_REQUEST['from'])&&$_REQUEST['from']==='__install')
+        {
+            //安装
+            if(DATABASE_ENABLE)
+                $this->Database($Database);
+            $this->Other();
+            $this->Updata($Database);
+            file_put_contents($this->data_path,json_encode(array('grade'=>CONFIG_INFO_GRADE)));
+        }
+        else if(isset($_REQUEST['from'])&&$_REQUEST['from']==='__update')
+        {
+            //更新
+            $this->Updata($Database);
+            file_put_contents($this->data_path,json_encode(array('grade'=>CONFIG_INFO_GRADE)));
+        }
         return false;
     }
 
@@ -38,17 +50,27 @@ class Install
                 $install_info=file_get_contents($this->data_path);
                 $install_info_object;
                 if($install_info_object=json_decode($install_info))
+                {
                     if(CONFIG_INFO_GRADE>$install_info_object->grade)
                     {
-                        $this->Updata($Database);
-                        exit();
+                        //更新引导
+                        $url=CONFIG_REQUEST_URL.'/?from=__update';
+                        echo LANGUAGE_INSTALL_NOT_UPDATE."<a href='{$url}'>".LANGUAGE_INSTALL_NOT_UPDATE_CLICK."</a>";
+                        return false;
                     }
+                }
                 else
                     exit(LANGUAGE_INSTALL_DATA_ERROR);
             }
             else
                 exit($this->data_path.' '.LANGUAGE_INSTALL_DATA_PATH_ERROR);
             return true;
+        }
+        //安装引导
+        if(!isset($_REQUEST['from']))
+        {
+            $url=CONFIG_REQUEST_URL.'/?from=__install';
+            echo LANGUAGE_INSTALL_NOT_INSTALL."<a href='{$url}'>".LANGUAGE_INSTALL_NOT_INSTALL_CLICK."</a>";
         }
         return false;
     }

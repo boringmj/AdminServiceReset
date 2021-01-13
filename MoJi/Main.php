@@ -11,8 +11,8 @@ require dirname(__FILE__).'/install.php';
 error_reporting(APPLICATION_DEBUG_LEVEL);
 date_default_timezone_set('PRC');
 
-//按顺序加载相对应的模块
-$module_array=array('Write','Log','Check','Database','Request');
+//预加载模块
+$module_array=array('Write','Log','Check','Database');
 LoadModule($module_array);
 
 //进行安装
@@ -22,5 +22,9 @@ if($Install->Start($Database))
 else
     exit();
 unset($Install);
+
+//后加载模块
+$module_array=array('Request');
+LoadModule($module_array);
 
 ?>
