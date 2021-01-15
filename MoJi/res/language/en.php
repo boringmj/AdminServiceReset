@@ -17,7 +17,8 @@ $LANGUAGE=array(
     'INSTALL_NOT_INSTALL'=>'You have not finished the installation, please click',
     'INSTALL_NOT_UPDATE'=>'Update detected, please click',
     'INSTALL_NOT_INSTALL_CLICK'=>'Initial Installation',
-    'INSTALL_NOT_UPDATE_CLICK'=>'Install Extension Updates'
+    'INSTALL_NOT_UPDATE_CLICK'=>'Install Extension Updates',
+    'EXCEPTION_ERROR_NOT_DEBUG'=>'Exceptional error occurred'
 );
 
 ?>

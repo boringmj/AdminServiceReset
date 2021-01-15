@@ -17,7 +17,8 @@ $LANGUAGE=array(
     'INSTALL_NOT_INSTALL'=>'您尚未完成安装,请点击',
     'INSTALL_NOT_UPDATE'=>'检测到更新,请点击',
     'INSTALL_NOT_INSTALL_CLICK'=>'初始安装',
-    'INSTALL_NOT_UPDATE_CLICK'=>'安装扩展更新'
+    'INSTALL_NOT_UPDATE_CLICK'=>'安装扩展更新',
+    'EXCEPTION_ERROR_NOT_DEBUG'=>'发生异常错误'
 );
 
 ?>

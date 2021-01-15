@@ -71,6 +71,10 @@ else
             catch(Exception $error)
             {
                 write_log(LANGUAGE_LOG_EXCEPTION_ERROR,$error->getMessage(),__FILE__,20);
+                if(APPLICATION_DEBUG)
+                    exit($error->getMessage());
+                else
+                    exit(LANGUAGE_EXCEPTION_ERROR_NOT_DEBUG);
             }
         });
     else
