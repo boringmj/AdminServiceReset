@@ -54,7 +54,7 @@ class Install
                     if(CONFIG_INFO_GRADE>$install_info_object->grade)
                     {
                         //更新引导
-                        $url=CONFIG_REQUEST_URL.'/?from=__update';
+                        $url=CONFIG_REQUEST_URL.'/?from=__update'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'');
                         echo LANGUAGE_INSTALL_NOT_UPDATE." <a href='{$url}'>".LANGUAGE_INSTALL_NOT_UPDATE_CLICK."</a>";
                         return false;
                     }
@@ -69,7 +69,7 @@ class Install
         //安装引导
         if(!isset($_REQUEST['from']))
         {
-            $url=CONFIG_REQUEST_URL.'/?from=__install';
+            $url=CONFIG_REQUEST_URL.'/?from=__install'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'');
             echo LANGUAGE_INSTALL_NOT_INSTALL." <a href='{$url}'>".LANGUAGE_INSTALL_NOT_INSTALL_CLICK."</a>";
         }
         return false;

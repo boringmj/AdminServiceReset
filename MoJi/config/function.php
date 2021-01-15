@@ -51,7 +51,7 @@ function config_auto($name=null)
             $web_path=dirname($web_path);
             if($web_path==='/'||$web_path==='\\')
                 $web_path='';
-            return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$port.$web_path.'/?from=error&info=ERROR_FROM';
+            return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$port.$web_path.'/?from=error&info=ERROR_FROM'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'');
         default:
             return $name;
     }

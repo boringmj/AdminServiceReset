@@ -8,6 +8,7 @@
  * APPLICATION_DEBUG 常量决定是否开启调试模式
  * APPLICATION_PATH 常量决定程序路径(非框架路径)(不可缺省)
  * DATABASE_ENABLE 常量决定是否启用数据库(仅支持Mysql且需要PDO支持,还需要自行配置配置文件)
+ * DEFAULT_LANGUAGE 常量决定默认语言(需要本框架支持该语言才行,默认语言为zh-cn)
  * 
  * 调试模式
  * 调试模式比正常模式来说更加浪费读写资源
@@ -19,6 +20,7 @@ $APP_PATH=dirname(__FILE__).'/AdminService';
 define('APPLICATION_DEBUG',true);
 define('APPLICATION_PATH',$APP_PATH);
 define('DATABASE_ENABLE',true);
+define('DEFAULT_LANGUAGE','zh-cn');
 unset($APP_PATH);
 
 require dirname(__FILE__).'/MoJi/Main.php';

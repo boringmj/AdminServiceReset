@@ -11,6 +11,15 @@ if(!defined('APPLICATION_DEBUG_LEVEL'))
         define('APPLICATION_DEBUG_LEVEL',0);
 if(!defined('DATABASE_ENABLE'))
     define('DATABASE_ENABLE',FALSE);
+if(!defined('DEFAULT_LANGUAGE'))
+    define('DEFAULT_LANGUAGE','zh-cn');
+if(!empty($_REQUEST['language']))
+    if(!preg_match("/(\.|\_)/",$_REQUEST['language']))
+        define('CURRENT_LANGUAGE',$_REQUEST['language']);
+    else
+        define('CURRENT_LANGUAGE',DEFAULT_LANGUAGE);
+else
+    define('CURRENT_LANGUAGE',DEFAULT_LANGUAGE);
 
 $constant_array=array(
     'REQUEST_ID'=>get_rand_string_id(),

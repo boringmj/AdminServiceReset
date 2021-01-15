@@ -13,15 +13,10 @@
  * The language module only allows to use string(String) as a value
 */
 
-if(empty($_REQUEST['language']))
-    $_REQUEST['language']='zh-cn';
-$language_path=RES_PATH.'/language/zh-cn.php';
-if(!preg_match("/(\.|\_)/",$_REQUEST['language']))
-{
-    $language_path_temp=RES_PATH.'/language/'.$_REQUEST['language'].'.php';
-    if(is_file($language_path_temp))
-        $language_path=$language_path_temp;
-}
+$language_path=RES_PATH.'/language/'.DEFAULT_LANGUAGE.'.php';
+$language_path_temp=RES_PATH.'/language/'.CURRENT_LANGUAGE.'.php';
+if(is_file($language_path_temp))
+    $language_path=$language_path_temp;
 include $language_path;
 include RES_PATH.'/language/_log.php';
 config_examine('LANGUAGE');
