@@ -14,6 +14,9 @@ require dirname(__FILE__).'/install.php';
 error_reporting(APPLICATION_DEBUG_LEVEL);
 date_default_timezone_set('PRC');
 
+//预定义变量
+$Database;
+
 //预加载模块
 $module_array=array('Write','Log','Check','Database','Plugin');
 LoadModule($module_array);
