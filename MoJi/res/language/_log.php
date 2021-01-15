@@ -19,7 +19,13 @@ $LANGUAGE_LOG=array(
     'EXTENSION_UNSPPORTED_WARN'=>'扩展不支持,但已被忽视,系统随时可能因为此问题终止正常的运行的服务',
     'EXTENSION_UNSPPORTED_MSG'=>'扩展不支持,请您下载相关扩展后重新尝试',
     'EXECUTION_TIME'=>'本次运行消耗时长',
-    'EXECUTION_TIME_TITLE'=>'消耗时间'
+    'EXECUTION_TIME_TITLE'=>'消耗时间',
+    'PLUGIN_PARSING_FAILED'=>'插件解析失败',
+    'PLUGIN_NOT_INFO_MSG'=>'插件目录下缺失 info.json 文件(该错误会导致该插件无法被加载,不会影响主程序运行)',
+    'PLUGIN_CONFIG_NOT_IS_JSON_MSG'=>'无法解析 config.json 文件,但已被忽略,该错误可能会导致插件异常',
+    'PLUGIN_INFO_NOT_IS_JSON_MSG'=>'无法解析 info.json 文件(该错误会导致该插件无法被加载,不会影响主程序运行)',
+    'PLUGIN_ADD_TITLE'=>'插件识别成功',
+    'PLUGIN_ADD_MSG'=>'已添加入可用插件中'
 );
 
 ?>

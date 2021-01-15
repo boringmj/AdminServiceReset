@@ -70,7 +70,7 @@ else
             }
             catch(Exception $error)
             {
-                write_log(LANGUAGE_LOG_EXCEPTION_ERROR,$error->getMessage(),__FILE__,20);
+                write_log(LANGUAGE_LOG_EXCEPTION_ERROR,$error->getMessage(),$app_path,20);
                 if(APPLICATION_DEBUG)
                     exit($error->getMessage());
                 else

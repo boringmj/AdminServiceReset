@@ -9,6 +9,7 @@
     "Grade": 0,
     "Level": 100,
     "Main": "SdkMain",
+    "PackageName": "com.sdk",
     "Updata": {
         "Open": 0,
         "Url": ""

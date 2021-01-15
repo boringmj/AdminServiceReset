@@ -19,6 +19,8 @@ if(CONFIG_LOG_STATUS)
         array_push($write_path_array,$log_path);
     }
 }
+if(file_exists(PLUGIN_DATA_PATH))
+    array_push($write_path_array,PLUGIN_DATA_PATH);
 array_push($write_path_array,DATA_PATH);
 foreach($write_path_array as $write_path)
     if(!is_writable($write_path)&&!empty($write_path))

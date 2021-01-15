@@ -27,7 +27,9 @@ $constant_array=array(
     'REQUEST_FORWARDED'=>isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:'0.0.0.0',
     'RES_PATH'=>dirname(__FILE__).'/res',
     'DATA_PATH'=>APPLICATION_PATH.'/Data',
-    'USER_CLASS_PATH'=>APPLICATION_PATH.'/class'
+    'USER_CLASS_PATH'=>APPLICATION_PATH.'/class',
+    'PLUGIN_PATH'=>dirname(__FILE__).'/plugin',
+    'PLUGIN_DATA_PATH'=>APPLICATION_PATH.'/Data/plugin',
 );
 
 foreach($constant_array as $constant_name=>$constant_value)

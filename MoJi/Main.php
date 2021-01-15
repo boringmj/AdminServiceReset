@@ -15,7 +15,7 @@ error_reporting(APPLICATION_DEBUG_LEVEL);
 date_default_timezone_set('PRC');
 
 //预加载模块
-$module_array=array('Write','Log','Check','Database');
+$module_array=array('Write','Log','Check','Database','Plugin');
 LoadModule($module_array);
 
 //进行安装
@@ -27,7 +27,7 @@ else
 unset($Install);
 
 //后加载模块
-$module_array=array('Plugin','Request');
+$module_array=array('Request');
 LoadModule($module_array);
 
 //获取结束时间
