@@ -1,0 +1,21 @@
+{
+    "Name": "插件SDK",
+    "Description": "官方提供的SDK",
+    "Tag": ["官方","SDK"],
+    "Type": 0,
+    "Developer": "Boringmj",
+    "Email": "wuliaodemoji@wuliaomj.com",
+    "Version": "1.0",
+    "Grade": 0,
+    "Level": 100,
+    "Main": "SdkMain",
+    "Updata": {
+        "Open": 0,
+        "Url": ""
+    },
+    "Authentication": {
+        "State": false,
+        "Id": "",
+        "Sign": ""
+    }
+}

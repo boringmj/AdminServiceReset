@@ -3,7 +3,7 @@
 //该模块需要Database类的支持,如有缺失请前往开源库自行获取
 if(DATABASE_ENABLE&&class_exists('Database'))
 {
-    debug_log(LANGUAGE_DATABASE_NAME,LANGUAGE_REQUEST_SUCCESS,__FILE__);
+    debug_log(LANGUAGE_LOG_DATABASE_NAME,LANGUAGE_LOG_DATABASE_SUCCESS,__FILE__);
     $Database=new Database();
     $Database->SetHost(CONFIG_DATABASE_HOST);
     $Database->SetUser(CONFIG_DATABASE_USER);
@@ -13,7 +13,7 @@ if(DATABASE_ENABLE&&class_exists('Database'))
     $CONFIG_DATABASE=null;
     if(!$Database->Link())
     {
-        write_log(LANGUAGE_DATABASE_ERROR_TITLE,$Database->error,__FILE__,20);
+        write_log(LANGUAGE_LOG_DATABASE_ERROR_TITLE,$Database->error,__FILE__,20);
         if(APPLICATION_DEBUG)
             exit(LANGUAGE_DATABASE_ERROR_DEBUG);
         else

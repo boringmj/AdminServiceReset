@@ -1,5 +1,5 @@
 <?php
 
-echo json_encode(array('title'=>'主程序已被调用','msg'=>LANGUAGE_NAME));
+echo json_encode(array('title'=>LANGUAGE_LOG_REQUEST_SUCCESS,'msg'=>LANGUAGE_NAME));
 
 ?>

@@ -55,7 +55,7 @@ class Install
                     {
                         //更新引导
                         $url=CONFIG_REQUEST_URL.'/?from=__update';
-                        echo LANGUAGE_INSTALL_NOT_UPDATE."<a href='{$url}'>".LANGUAGE_INSTALL_NOT_UPDATE_CLICK."</a>";
+                        echo LANGUAGE_INSTALL_NOT_UPDATE." <a href='{$url}'>".LANGUAGE_INSTALL_NOT_UPDATE_CLICK."</a>";
                         return false;
                     }
                 }
@@ -70,7 +70,7 @@ class Install
         if(!isset($_REQUEST['from']))
         {
             $url=CONFIG_REQUEST_URL.'/?from=__install';
-            echo LANGUAGE_INSTALL_NOT_INSTALL."<a href='{$url}'>".LANGUAGE_INSTALL_NOT_INSTALL_CLICK."</a>";
+            echo LANGUAGE_INSTALL_NOT_INSTALL." <a href='{$url}'>".LANGUAGE_INSTALL_NOT_INSTALL_CLICK."</a>";
         }
         return false;
     }

@@ -1,0 +1,48 @@
+{
+    "User": {
+        "Name1": {
+            "Name": "编辑框",
+            "Type": 0,
+            "Options": {
+                "Text": "默认内容",
+                "Hint": "提示信息",
+                "Type": "text"
+            }
+        },
+        "Name2": {
+            "Name": "单选",
+            "Type": 1,
+            "Options": {
+                "Content": [["选项一", true],["选项二", false]],
+                "Default": ["选项一", true]
+            }
+        },
+        "Name3": {
+            "Name": "多选",
+            "Type": 2,
+            "Options": {
+                "Content": [["选项一", true],["选项二", false]],
+                "Default": [["选项一", true]]
+            }
+        },
+        "Name4": {
+            "Name": "下拉菜单",
+            "Type": 3,
+            "Options": {
+                "Content": [["选项一",1],["选项二",2]],
+                "Default": ["菜单一",1]
+            }
+        }
+    },
+    "System": {
+        "Privilege": {
+            "Database": false
+        },
+        "Config": {
+            "Options": {
+                "Name1": "Value1",
+                "Name2": "Value2"
+            } 
+        }
+    }
+}
