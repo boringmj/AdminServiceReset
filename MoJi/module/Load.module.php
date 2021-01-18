@@ -2,7 +2,7 @@
 
 function LoadModule($module_array)
 {
-    global $Database;
+    global $Database,$plugin_array;
     foreach($module_array as $module)
     {
         $module_path=dirname(__FILE__).'/'.$module.'.module.php';

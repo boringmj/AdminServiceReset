@@ -6,34 +6,34 @@ class Database
     public $object;
     public $error;
 
-    protected $host;
-    protected $user;
-    protected $passwd;
-    protected $database;
-    protected $type='mysql';
+    protected $_host;
+    protected $_user;
+    protected $_passwd;
+    protected $_database;
+    protected $_type='mysql';
 
     //设置连接地址
     public function SetHost($host)
     {
-        $this->host=$host;
+        $this->_host=$host;
     }
     
     //设置连接用户
     public function SetUser($user)
     {
-        $this->user=$user;
+        $this->_user=$user;
     }
 
     //设置连接密码
     public function SetPasswd($passwd)
     {
-        $this->passwd=$passwd;
+        $this->_passwd=$passwd;
     }
 
     //设置连接库名
     public function SetDatabase($database)
     {
-        $this->database=$database;
+        $this->_database=$database;
     }
 
     //获取数据表名称
@@ -48,25 +48,25 @@ class Database
         try
         {
 
-            $database_link="{$this->type}:host={$this->host};dbname={$this->database}";
-            $this->object=new PDO($database_link,$this->user,$this->passwd);
+            $database_link="{$this->_type}:host={$this->_host};dbname={$this->_database}";
+            $this->object=new PDO($database_link,$this->_user,$this->_passwd);
             return 1;
         }
-        catch(PDOException $err)
+        catch(PDOException $error)
         {
-            $this->error=$err->getMessage();
+            $this->error=$error->getMessage();
             return 0;
         }
     }
 
-    public function __construct($host='',$user='',$passwd='',$database='')
+    function __construct($host='',$user='',$passwd='',$database='')
     {
-        $this->host=$host;
-        $this->user=$user;
-        $this->passwd=$passwd;
-        $this->database=$database;
+        $this->_host=$host;
+        $this->_user=$user;
+        $this->_passwd=$passwd;
+        $this->_database=$database;
         if(!empty($host)&&!empty($user)&&!empty($passwd)&&!empty($database))
-            return $this->Link();
+            return $this->_Link();
     }
 }
 

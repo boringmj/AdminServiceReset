@@ -16,10 +16,15 @@ date_default_timezone_set('PRC');
 
 //预定义变量
 $Database;
+$plugin_array=array();
 
 //预加载模块
 $module_array=array('Write','Log','Check','Database','Plugin');
 LoadModule($module_array);
+
+//加载插件: Strat()
+foreach($plugin_array as $main_class=>$plugin_data)
+    load_plugin($main_class);
 
 //进行安装
 $Install=new Install();

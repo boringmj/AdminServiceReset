@@ -4,8 +4,8 @@ debug_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_SUCCESS,__FILE__);
 
 //集体处理请求
 if(empty($_REQUEST['type']))
-    $_REQUEST['type']='html';
-if($_REQUEST['type']==='html')
+    $_REQUEST['type']='view';
+if($_REQUEST['type']==='view')
     header('Content-Type: text/html; charset='.CONFIG_HTTP_CODE);
 else if($_REQUEST['type']==='api')
     header('Content-Type:application/json');
@@ -15,6 +15,12 @@ if(empty($_REQUEST['from']))
 //错误页显示
 if($_REQUEST['from']==='error')
 {
+    //加载插件: RequestError()
+    foreach($plugin_array as $main_class=>$plugin_data)
+    {
+        if(is_callable(array($plugin_array[$main_class]['Object'],'RequestError')))
+            $plugin_array[$main_class]['Object']->RequestError();
+    }
     if(empty($_GET['info']))
     $_GET['info']='NULL';
     $content=file_get_contents(RES_PATH.'/error.html');
@@ -41,10 +47,22 @@ debug_log(LANGUAGE_LOG_REQUEST_NAME,'/?from='.urlencode($_REQUEST['from']).'&typ
 if($_REQUEST['type']==='api')
 {
     //接口安全模块
+    //加载插件: ApiSecurity()
+    foreach($plugin_array as $main_class=>$plugin_data)
+    {
+        if(is_callable(array($plugin_array[$main_class]['Object'],'ApiSecurity')))
+            $plugin_array[$main_class]['Object']->ApiSecurity();
+    }
 }
 else
 {
-    //页面安全模块
+    //显示安全模块
+    //加载插件: ViewSecurity()
+    foreach($plugin_array as $main_class=>$plugin_data)
+    {
+        if(is_callable(array($plugin_array[$main_class]['Object'],'ViewSecurity')))
+            $plugin_array[$main_class]['Object']->ViewSecurity();
+    }
 }
 
 //检验访问地址合法性
@@ -59,14 +77,20 @@ if(preg_match("/\./",$_REQUEST['from']))
 }
 else
 {
-    $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/html').'/'.$_REQUEST['from'].'.php';
+    $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/view').'/'.$_REQUEST['from'].'.php';
     if(is_file($app_path))
-        call_user_func(function () use (&$Database,$app_path)
+        call_user_func(function () use (&$Database,&$plugin_array,$app_path)
         {
             //这里使用匿名函数主要还是防止变量污染
             try
             {
                 include $app_path;
+                //加载插件: Finish()
+                foreach($plugin_array as $main_class=>$plugin_data)
+                {
+                    if(is_callable(array($plugin_array[$main_class]['Object'],'Finish')))
+                        $plugin_array[$main_class]['Object']->Finish();
+                }
             }
             catch(Exception $error)
             {

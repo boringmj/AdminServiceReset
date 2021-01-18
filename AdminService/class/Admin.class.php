@@ -5,11 +5,11 @@ class Admin
     public $system_id;      //stid
     public $system_key;     //skey
 
-    protected $Database;    //数据库对象
+    protected $_Database;   //数据库对象
 
     public function SetDatabase(&$Database)
     {
-        $this->Database=&$Database;
+        $this->_Database=&$Database;
     }
 
     public function CreatePlatform()

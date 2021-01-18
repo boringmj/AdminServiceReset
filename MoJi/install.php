@@ -11,8 +11,8 @@
 class Install
 {
     public $error_info=array();
-    protected $data_path=DATA_PATH.'/install.data.json';
-    protected $database_tables=array(
+    protected $_data_path=DATA_PATH.'/install.data.json';
+    protected $_database_tables=array(
         'table'=>'info'
     );
 
@@ -20,34 +20,34 @@ class Install
     public function Start(&$Database='')
     {
         //判断安装是否有价值,没有价值就不进行安装
-        if($this->Check($Database))
+        if($this->_Check($Database))
             return true;
         if(isset($_REQUEST['from'])&&$_REQUEST['from']==='__install')
         {
             //安装
             if(DATABASE_ENABLE)
-                $this->Database($Database);
-            $this->Other();
-            $this->Updata($Database);
-            file_put_contents($this->data_path,json_encode(array('grade'=>CONFIG_INFO_GRADE)));
+                $this->_Database($Database);
+            $this->_Other();
+            $this->_Updata($Database);
+            file_put_contents($this->_data_path,json_encode(array('grade'=>CONFIG_INFO_GRADE)));
         }
         else if(isset($_REQUEST['from'])&&$_REQUEST['from']==='__update')
         {
             //更新
-            $this->Updata($Database);
-            file_put_contents($this->data_path,json_encode(array('grade'=>CONFIG_INFO_GRADE)));
+            $this->_Updata($Database);
+            file_put_contents($this->_data_path,json_encode(array('grade'=>CONFIG_INFO_GRADE)));
         }
         return false;
     }
 
     //检查是否需要安装
-    protected function Check(&$Database)
+    protected function _Check(&$Database)
     {
-        if(file_exists($this->data_path))
+        if(file_exists($this->_data_path))
         {
-            if(is_file($this->data_path)&&is_writable($this->data_path))
+            if(is_file($this->_data_path)&&is_writable($this->_data_path))
             {
-                $install_info=file_get_contents($this->data_path);
+                $install_info=file_get_contents($this->_data_path);
                 $install_info_object;
                 if($install_info_object=json_decode($install_info))
                 {
@@ -63,7 +63,7 @@ class Install
                     exit(LANGUAGE_INSTALL_DATA_ERROR);
             }
             else
-                exit($this->data_path.' '.LANGUAGE_INSTALL_DATA_PATH_ERROR);
+                exit($this->_data_path.' '.LANGUAGE_INSTALL_DATA_PATH_ERROR);
             return true;
         }
         //安装引导
@@ -76,13 +76,13 @@ class Install
     }
 
     //数据库类信息安装
-    protected function Database(&$Database)
+    protected function _Database(&$Database)
     {
 
     }
 
     //安装其他东西
-    protected function Other()
+    protected function _Other()
     {
 
     }
@@ -97,7 +97,7 @@ class Install
     }
 
     //安装更新内容
-    protected function Updata(&$Database)
+    protected function _Updata(&$Database)
     {
         if(DATABASE_ENABLE)
         {

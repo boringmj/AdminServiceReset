@@ -7,8 +7,8 @@
     "Email": "wuliaodemoji@wuliaomj.com",
     "Version": "1.0",
     "Grade": 0,
-    "Level": 100,
-    "Main": "SdkMain",
+    "Level": 1,
+    "Main": "PluginSdkMain",
     "PackageName": "com.sdk",
     "Updata": {
         "Open": 0,

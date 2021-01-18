@@ -25,7 +25,14 @@ $LANGUAGE_LOG=array(
     'PLUGIN_CONFIG_NOT_IS_JSON_MSG'=>'无法解析 config.json 文件,但已被忽略,该错误可能会导致插件异常',
     'PLUGIN_INFO_NOT_IS_JSON_MSG'=>'无法解析 info.json 文件(该错误会导致该插件无法被加载,不会影响主程序运行)',
     'PLUGIN_ADD_TITLE'=>'插件识别成功',
-    'PLUGIN_ADD_MSG'=>'已添加入可用插件中'
+    'PLUGIN_ADD_MSG'=>'已添加入可用插件中',
+    'PLUGIN_MAIN_NOT_STANDARD'=>'插件中没有 src/main.php 或 src/main.php 不符合规范',
+    'PLUGIN_MAIN_CLASS_NOT_STANDARD'=>'插件主类(Main Class)不符合命名规范',
+    'PLUGIN_PACKAGE_NMAE_NOT_STANDARD'=>'插件包名命名不规范或存储与命名不一致',
+    'PLUGIN_MAIN_CLASS_FORMAT_NOT_STANDARD'=>'插件主类(Main Class)不符合要求',
+    'PLUGIN_DATA_NOT_JSON_MSG'=>'无法解析该插件的数据,已进行格式化处理',
+    'PLUGIN_NOT_COMPATIBLE_LEVEL_MSG'=>'插件与该版本不兼容',
+    'PLUGIN_MAIN_REPEAT_MSG'=>'插件主类(Main Class)冲突'
 );
 
 ?>
