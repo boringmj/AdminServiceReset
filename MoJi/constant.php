@@ -30,6 +30,7 @@ $constant_array=array(
     'USER_CLASS_PATH'=>APPLICATION_PATH.'/class',
     'PLUGIN_PATH'=>dirname(__FILE__).'/plugin',
     'PLUGIN_DATA_PATH'=>APPLICATION_PATH.'/Data/plugin',
+    'CONFIG_PATH'=>APPLICATION_PATH.'/config'
 );
 
 foreach($constant_array as $constant_name=>$constant_value)
