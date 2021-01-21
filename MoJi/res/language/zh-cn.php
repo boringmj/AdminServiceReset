@@ -18,7 +18,12 @@ $LANGUAGE=array(
     'INSTALL_NOT_UPDATE'=>'检测到更新,请点击',
     'INSTALL_NOT_INSTALL_CLICK'=>'初始安装',
     'INSTALL_NOT_UPDATE_CLICK'=>'安装扩展更新',
-    'EXCEPTION_ERROR_NOT_DEBUG'=>'发生异常错误'
+    'EXCEPTION_ERROR_NOT_DEBUG'=>'发生异常错误',
+    'ADMINSERVICE_ERROR_CODE_MINUS_ONE'=>'Error: 无效的数据返回',
+    'ADMINSERVICE_ERROR_CODE_MINUS_TOW'=>'Error: 基础参数不全',
+    'ADMINSERVICE_ERROR_CODE_MINUS_THREE'=>'Error: 请求已超时',
+    'ADMINSERVICE_ERROR_CODE_MINUS_FOUR'=>'Error: 请求已过期',
+    'ADMINSERVICE_ERROR_CODE_MINUS_FIVES'=>'Error: 签名校验失败'
 );
 
 ?>

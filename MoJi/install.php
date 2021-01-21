@@ -13,7 +13,29 @@ class Install
     public $error_info=array();
     protected $_data_path=DATA_PATH.'/install.data.json';
     protected $_database_tables=array(
-        'table'=>'info'
+        'system_info'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            `app_id`          VARCHAR(32) NOT NULL,
+            `app_key`         VARCHAR(32) NOT NULL,
+            `timestamp`       INT(10)     NOT NULL
+        )',
+        'system_user'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            `app_id`          VARCHAR(32) NOT NULL,
+           ` timestamp`       INT(10)     NOT NULL,
+            `uuid`            VARCHAR(32) NOT NULL,
+            `user_name`       VARCHAR(32) NOT NULL,
+            `password`        VARCHAR(32) NOT NULL,
+            `nickname`        VARCHAR(32) NOT NULL,
+            `user_group`      INT(5)      NOT NULL,
+            `email`           VARCHAR(64) NOT NULL,
+            `head_portraits`  VARCHAR(32) NOT NULL,
+            `status`          INT(5)      NOT NULL
+        ) AUTO_INCREMENT=1000',
+        'ststem_nonce'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            `app_id`          VARCHAR(32) NOT NULL,
+            `timestamp`       INT(10)     NOT NULL,
+            `nonce`           VARCHAR(12) NOT NULL,
+            `sign`            VARCHAR(32) NOT NULL
+        )'
     );
 
     //默认调用的方法
@@ -78,7 +100,24 @@ class Install
     //数据库类信息安装
     protected function _Database(&$Database)
     {
-
+        $server_timestamp=time();
+        //随机生成app_id和app_key
+        $app_id=get_rand_string(22).time();
+        $app_key=md5(get_rand_string(32));
+        //创建数据表
+        foreach($this->_database_tables as $table=>$info)
+        {
+            $table_name=$Database->GetTablename($table);
+            $sql_statement=$Database->object->prepare("CREATE TABLE {$table_name}{$info}");
+            echo $table_name.($sql_statement->execute()?'数据表创建成功':'数据表创建失败或已创建').'<br>';
+        }
+        //插入默认数据
+        $table_name=$Database->GetTablename('system_info');
+        $sql_statement=$Database->object->prepare("INSERT INTO {$table_name}(`app_id`,`app_key`,`timestamp`) VALUES (:app_id,:app_key,:timestamp)");
+        $sql_statement->bindParam(':app_id',$app_id);
+        $sql_statement->bindParam(':app_key',$app_key);
+        $sql_statement->bindParam(':timestamp',$server_timestamp);
+        echo $sql_statement->execute()?"{$table_name}数据表初始数据已插入,<font color=red>App_id={$app_id},APP_key={$app_key}</font><br>":"";
     }
 
     //安装其他东西

@@ -18,7 +18,12 @@ $LANGUAGE=array(
     'INSTALL_NOT_UPDATE'=>'Update detected, please click',
     'INSTALL_NOT_INSTALL_CLICK'=>'Initial Installation',
     'INSTALL_NOT_UPDATE_CLICK'=>'Install Extension Updates',
-    'EXCEPTION_ERROR_NOT_DEBUG'=>'Exceptional error occurred'
+    'EXCEPTION_ERROR_NOT_DEBUG'=>'Exceptional error occurred',
+    'ADMINSERVICE_ERROR_CODE_MINUS_ONE'=>'Error: Invalid data return',
+    'ADMINSERVICE_ERROR_CODE_MINUS_TOW'=>'Error: Incomplete base parameters',
+    'ADMINSERVICE_ERROR_CODE_MINUS_THREE'=>'Error: Request timed out',
+    'ADMINSERVICE_ERROR_CODE_MINUS_FOUR'=>'Error: Request expired',
+    'ADMINSERVICE_ERROR_CODE_MINUS_FIVES'=>'Error: Signature verification failed'
 );
 
 ?>

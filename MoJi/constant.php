@@ -10,7 +10,7 @@ if(!defined('APPLICATION_DEBUG_LEVEL'))
     else
         define('APPLICATION_DEBUG_LEVEL',0);
 if(!defined('DATABASE_ENABLE'))
-    define('DATABASE_ENABLE',FALSE);
+    define('DATABASE_ENABLE',false);
 if(!defined('DEFAULT_LANGUAGE'))
     define('DEFAULT_LANGUAGE','zh-cn');
 if(!empty($_REQUEST['language']))
