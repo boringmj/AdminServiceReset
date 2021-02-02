@@ -72,7 +72,7 @@ if($_REQUEST['type']==='api')
         $GLOBALS['return_data']=array(
             'code'=>-2,
             'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
-            'data'=>array('app_id is empty')
+            'data'=>array('error'=>'app_id is empty')
         );
         echo_return_data();
     }
@@ -115,7 +115,7 @@ if($_REQUEST['type']==='api')
             $GLOBALS['return_data']=array(
                 'code'=>-2,
                 'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
-                'data'=>array('required parameters are empty')
+                'data'=>array('error'=>'required parameters are empty')
             );
             echo_return_data();
         }
