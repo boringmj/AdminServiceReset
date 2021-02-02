@@ -60,21 +60,66 @@ if($_REQUEST['type']==='api')
         if(is_callable(array($plugin_array[$main_class]['Object'],'ApiSecurity')))
             $plugin_array[$main_class]['Object']->ApiSecurity();
     }
+    //绝对参数处理
+    if(empty($_REQUEST['request_type']))
+        $_REQUEST['request_type']='post';
+    if(empty($_REQUEST['return_type']))
+        $_REQUEST['return_type']='json';
+    if($_REQUEST['request_type']==='ium'||$_REQUEST['return_type']==='ium')
+        load_class_array(array('Iumcode'));
+    if(empty($_POST['app_id']))
+    {
+        $GLOBALS['return_data']=array(
+            'code'=>-2,
+            'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
+            'data'=>array('app_id is empty')
+        );
+        echo_return_data();
+    }
+    $GLOBALS['app_key']=Admin::GetAppKey($Database,$_POST['app_id']);
+    //初步处理传入数据
+    if($_REQUEST['request_type'==='ium'])
+    {
+        if(!empty($_POST['s']))
+        {
+            //尝试解密
+            $temp_data=Iumcode::DecodeIum($_POST['s'],$GLOBALS['app_key']);
+            //销毁传入的s参数
+            unset($_POST['s']);
+            //将上传的数据分割为数组
+            $temp_data=explode('&',$temp_data);
+            foreach( $temp_data as $temp_data_value)
+            {
+                //截取出提交数据的
+                if(strpos($temp_data_value,'='))
+                {
+                    $name=substr($temp_data_value,0,strpos($temp_data_value,'='));
+                    $value=substr($temp_data_value,strpos($temp_data_value,'=')+1);
+                    //请注意,这里采用的不是原值,而是urldecode后的值
+                    $_POST[$name]=urldecode($value);
+                }
+                else
+                {
+                    $_POST[$temp_data_value]="";
+                }
+            }
+        }
+    }
     //需要进行鉴权的接口组
     $from_api_security_array=array('Main');
     if(in_array($_REQUEST['from'],$from_api_security_array))
     {
         //基础参数检查
-        if(empty($_POST['sign'])||empty($_POST['app_id'])||empty($_POST['nonce'])||!(!empty($_POST['time'])||!empty($_POST['timestamp'])))
+        if(empty($_POST['sign'])||empty($_POST['nonce'])||!(!empty($_POST['time'])||!empty($_POST['timestamp'])))
         {
             $GLOBALS['return_data']=array(
                 'code'=>-2,
                 'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
-                'data'=>array()
+                'data'=>array('required parameters are empty')
             );
             echo_return_data();
         }
-        //取时间戳
+        //取时间戳,值得注意的是,接口的time参数值为now这类的,那么这个接口就永远不会超时过期
         if(!empty($_POST['timestamp']))
             $post_timestamp=$_POST['timestamp'];
         else
@@ -105,18 +150,27 @@ if($_REQUEST['type']==='api')
             echo_return_data();
         }
         //签名检验
-        $app_key=Admin::GetAppKey($Database,$_POST['app_id']);
         $post_data='';
         $post_data_array=$_POST;
+        //排除签名的数据组
+        $not_sign_key=array('sign','language','type','from');
+        if($_REQUEST['request_type']!=='post')
+            $post_data_array['request_type']=$_REQUEST['request_type'];
+        else
+            array_push($not_sign_key,'return_type');
+        if($_REQUEST['return_type']!=='json')
+            $post_data_array['return_type']=$_REQUEST['return_type'];
+        else
+            array_push($not_sign_key,'return_type');
         asort($post_data_array);
         foreach($post_data_array as $key=>$value)
         {
-            if($key==='sign')
+            if(in_array($key,$not_sign_key))
                 continue;
             $post_data.=(empty($post_data)?'':'&')."{$key}={$value}";
         }
-        $server_sign=md5($post_data.'&app_key='.$app_key);
-        if(empty($app_key)||$_POST['sign']!=$server_sign)
+        $server_sign=md5($post_data.'&app_key='.$GLOBALS['app_key']);
+        if(empty($GLOBALS['app_key'])||$_POST['sign']!=$server_sign)
         {
             $GLOBALS['return_data']=array(
                 'code'=>-5,
@@ -201,7 +255,10 @@ function echo_return_data($return_path='')
     //目前支持的返回方式只有json
     if(is_array($GLOBALS['return_data']))
     {
-        echo json_encode($GLOBALS['return_data']);
+        if($_REQUEST['return_type']==='ium')
+            echo Iumcode::EncodeIum(json_encode($GLOBALS['return_data']),$GLOBALS['app_key']);
+        else
+            echo json_encode($GLOBALS['return_data']);
         //调试模式下记录所有错误请求
         if($GLOBALS['return_data']['code']!=1)
             debug_log(LANGUAGE_LOG_EXCEPTION_ERROR,'Cdoe: '.$GLOBALS['return_data']['code'].','.$GLOBALS['return_data']['msg'],empty($return_path)?__FILE__:$return_path,15);
