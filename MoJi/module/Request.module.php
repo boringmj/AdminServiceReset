@@ -149,7 +149,7 @@ if($_REQUEST['type']==='api')
             );
             echo_return_data();
         }
-        //签名检验
+        //签名校验
         $post_data='';
         $post_data_array=$_POST;
         //排除签名的数据组
