@@ -28,7 +28,7 @@ class Iumcode
     */
     static public function EncodeIum($str,$key)
     {
-        return base64_encode($this->XorEnc(base64_encode($str),base64_encode(md5($key))));
+        return base64_encode(Iumcode::XorEnc(base64_encode($str),base64_encode(md5($key))));
     }
 
     /*
@@ -36,7 +36,7 @@ class Iumcode
     */
     static public function DecodeIum($str,$key)
     {
-        return base64_decode($this->XorEnc(base64_decode($str),base64_encode(md5($key))));
+        return base64_decode(Iumcode::XorEnc(base64_decode($str),base64_encode(md5($key))));
     }
 }
 
