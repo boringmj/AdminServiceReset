@@ -78,7 +78,7 @@ if($_REQUEST['type']==='api')
     }
     $GLOBALS['app_key']=Admin::GetAppKey($Database,$_POST['app_id']);
     //初步处理传入数据
-    if($_REQUEST['request_type'==='ium'])
+    if($_REQUEST['request_type']==='ium')
     {
         if(!empty($_POST['s']))
         {
@@ -255,7 +255,7 @@ function echo_return_data($return_path='')
     //目前支持的返回方式只有json
     if(is_array($GLOBALS['return_data']))
     {
-        if($_REQUEST['return_type']==='ium')
+        if(class_exists('Iumcode')&&!empty($GLOBALS['app_key'])&&$_REQUEST['return_type']==='ium')
             echo Iumcode::EncodeIum(json_encode($GLOBALS['return_data']),$GLOBALS['app_key']);
         else
             echo json_encode($GLOBALS['return_data']);
