@@ -13,6 +13,7 @@ require dirname(__FILE__).'/install.php';
 
 error_reporting(APPLICATION_DEBUG_LEVEL);
 date_default_timezone_set('PRC');
+header('Content-Type: text/html; charset='.CONFIG_HTTP_CODE);
 
 //预定义变量
 $Database;

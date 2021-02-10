@@ -5,9 +5,7 @@ debug_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_SUCCESS,__FILE__);
 //集体处理请求
 if(empty($_REQUEST['type']))
     $_REQUEST['type']='view';
-if($_REQUEST['type']==='view')
-    header('Content-Type: text/html; charset='.CONFIG_HTTP_CODE);
-else if($_REQUEST['type']==='api')
+if($_REQUEST['type']==='api')
     header('Content-Type:application/json');
 if(empty($_REQUEST['from']))
     $_REQUEST['from']='Main';

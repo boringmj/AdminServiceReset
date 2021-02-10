@@ -11,7 +11,7 @@
 class Install
 {
     public $error_info=array();
-    protected $_data_path=DATA_PATH.'/install.data.json';
+    protected $_data_path;
     protected $_database_tables=array(
         'system_info'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             `app_id`          VARCHAR(32) NOT NULL,
@@ -142,6 +142,12 @@ class Install
         {
             //更新数据库已安装内容
         }
+    }
+
+    //使用构造方法兼容5.x版本
+    function __construct()
+    {
+        $this->_data_path=DATA_PATH.'/install.data.json';
     }
 }
 
