@@ -33,25 +33,19 @@ function config_auto($name=null)
         case 'LOG_LEVEL':
                 return 0;
         case 'REQUEST_URL':
-            $port='';
-            if(CONFIG_HTTP_PORT!=80&&CONFIG_HTTP_PORT!=443)
-                $port=':'.CONFIG_HTTP_PORT;
             $web_path=preg_replace('/'.preg_variable_load(CONFIG_HTTP_PATH).'/','',isset($_SERVER['SCRIPT_FILENAME'])?$_SERVER['SCRIPT_FILENAME']:'');
             $web_path=dirname($web_path);
             if($web_path==='/'||$web_path==='\\')
                 $web_path='';
-            return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$port.$web_path;
+            return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$web_path;
         case 'REQUEST_ERROR_LEVEL':
             return 1;
         case 'REQUEST_ERROR_FROM':
-            $port='';
-            if(CONFIG_HTTP_PORT!=80&&CONFIG_HTTP_PORT!=443)
-                $port=':'.CONFIG_HTTP_PORT;
             $web_path=preg_replace('/'.preg_variable_load(CONFIG_HTTP_PATH).'/','',isset($_SERVER['SCRIPT_FILENAME'])?$_SERVER['SCRIPT_FILENAME']:'');
             $web_path=dirname($web_path);
             if($web_path==='/'||$web_path==='\\')
                 $web_path='';
-            return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$port.$web_path.'/?from=error&info=ERROR_FROM'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'');
+            return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$web_path.'/?from=error&info=ERROR_FROM'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'');
         default:
             return $name;
     }
