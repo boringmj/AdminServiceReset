@@ -10,6 +10,7 @@
     "Level": 1,
     "Main": "PluginSdkMain",
     "PackageName": "com.sdk",
+    "Compatible": "5.0",
     "Updata": {
         "Open": 0,
         "Url": ""

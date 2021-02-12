@@ -32,7 +32,8 @@ $LANGUAGE_LOG=array(
     'PLUGIN_MAIN_CLASS_FORMAT_NOT_STANDARD'=>'插件主类(Main Class)不符合要求',
     'PLUGIN_DATA_NOT_JSON_MSG'=>'无法解析该插件的数据,已进行格式化处理',
     'PLUGIN_NOT_COMPATIBLE_LEVEL_MSG'=>'插件与该版本不兼容',
-    'PLUGIN_MAIN_REPEAT_MSG'=>'插件主类(Main Class)冲突'
+    'PLUGIN_MAIN_REPEAT_MSG'=>'插件主类(Main Class)冲突',
+    'PLUGIN_NOT_COMPATIBLE_PHP_VERSION_MSG'=>'插件与当前PHP版本不兼容'
 );
 
 ?>

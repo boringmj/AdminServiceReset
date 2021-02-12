@@ -55,6 +55,12 @@ foreach($plugin_path_array as $plugin_package_name)
         write_log(LANGUAGE_LOG_PLUGIN_PARSING_FAILED,LANGUAGE_LOG_PLUGIN_NOT_COMPATIBLE_LEVEL_MSG,$plugin_path,15);
         continue;
     }
+    //检查插件是否兼容于当前php版本
+    if($info_default_json->Compatible>PHP_VERSION)
+    {
+        write_log(LANGUAGE_LOG_PLUGIN_PARSING_FAILED,LANGUAGE_LOG_PLUGIN_NOT_COMPATIBLE_PHP_VERSION_MSG,$plugin_path,15);
+        continue;
+    }
     //检查 main.php 是否存在
     if(!is_file($plugin_main_path))
     {
