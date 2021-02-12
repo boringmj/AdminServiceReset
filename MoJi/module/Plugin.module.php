@@ -130,6 +130,16 @@ foreach($plugin_path_array as $plugin_package_name)
             write_log(LANGUAGE_LOG_PLUGIN_ADD_TITLE,(empty($info_default_json->Name)?'-NULL-':$info_default_json->Name)."({$plugin_package_name})".' '.LANGUAGE_LOG_PLUGIN_ADD_MSG,__FILE__,5);
             //更新数据
             $data_json=json_decode(file_get_contents($plugin_info_path));
+            //初始化插件
+            $data_path=PLUGIN_DATA_PATH.'/'.$main_package_name;
+            if(!file_exists($data_path))
+            {
+                $dir_path=iconv('UTF-8','GBK',$data_path);
+                mkdir($dir_path,0751,true);
+            }
+            require $plugin_main_path;
+            //加载插件: Init()
+            $main_class::Init($Database,$data_path);
         }
         //开始整理目前的插件并准备好加载
         if($data_json->System->State)

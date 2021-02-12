@@ -20,7 +20,7 @@ $Database;
 $plugin_array=array();
 
 //预加载模块
-$module_array=array('Write','Log','Check','Database','Plugin');
+$module_array=array('Write','Log','Check','Database','Admin','Plugin');
 LoadModule($module_array);
 
 //加载插件: Strat()
