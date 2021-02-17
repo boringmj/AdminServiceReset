@@ -10,11 +10,11 @@
  * 本配置文件遵循php原生语法
 */
 
-require dirname(__FILE__).'/function.php';
-require dirname(__FILE__).'/examine.php';
-require dirname(__FILE__).'/system.config.php';
-require dirname(__FILE__).'/log.config.php';
-require dirname(__FILE__).'/database.config.php';
-require dirname(__FILE__).'/request.config.php';
+require __DIR__.'/function.php';
+require __DIR__.'/examine.php';
+require __DIR__.'/system.config.php';
+require __DIR__.'/log.config.php';
+require __DIR__.'/database.config.php';
+require __DIR__.'/request.config.php';
 
 ?>

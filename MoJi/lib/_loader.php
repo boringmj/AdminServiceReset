@@ -4,7 +4,7 @@
 # 暂无
 
 //第三方库
-require dirname(__FILE__).'/PHPMailer/phpmailer.class.php';
-require dirname(__FILE__).'/AES/AES.php';
+require __DIR__.'/PHPMailer/phpmailer.class.php';
+require __DIR__.'/AES/AES.php';
 
 ?>

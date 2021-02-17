@@ -5,6 +5,6 @@
 //or
 //Mcrypt functions installed and PHP version < 7.1.0-alpha
 
-require dirname(__FILE__).'/GibberishAES.class.php';
+require __DIR__.'/GibberishAES.class.php';
 
 ?>

@@ -16,7 +16,7 @@
  * 调试模式在错误显示上更加具体,并且开放PHP的错误显示(php.ini禁止了错误显示调试模式开启与关闭均无法显示)
 */
 
-$APP_PATH=dirname(__FILE__).'/AdminService';
+$APP_PATH=__DIR__.'/AdminService';
 
 define('APPLICATION_DEBUG',true);
 define('APPLICATION_PATH',$APP_PATH);
@@ -24,6 +24,6 @@ define('DATABASE_ENABLE',true);
 define('DEFAULT_LANGUAGE','zh-cn');
 unset($APP_PATH);
 
-require dirname(__FILE__).'/MoJi/Main.php';
+require __DIR__.'/MoJi/Main.php';
 
 ?>

@@ -3,14 +3,14 @@
 //获取开始时间
 $start_time=microtime(true); 
 
-require dirname(__FILE__).'/function.php';
-require dirname(__FILE__).'/constant.php';
-require dirname(__FILE__).'/config/_loader.php';
-require dirname(__FILE__).'/lib/_loader.php';
-require dirname(__FILE__).'/class/_loader.php';
-require dirname(__FILE__).'/module/Load.module.php';
-require dirname(__FILE__).'/module/Language.module.php';
-require dirname(__FILE__).'/install.php';
+require __DIR__.'/function.php';
+require __DIR__.'/constant.php';
+require __DIR__.'/config/_loader.php';
+require __DIR__.'/lib/_loader.php';
+require __DIR__.'/class/_loader.php';
+require __DIR__.'/module/Load.module.php';
+require __DIR__.'/module/Language.module.php';
+require __DIR__.'/install.php';
 
 error_reporting(APPLICATION_DEBUG_LEVEL);
 date_default_timezone_set('PRC');
