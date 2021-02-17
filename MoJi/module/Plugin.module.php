@@ -56,7 +56,7 @@ foreach($plugin_path_array as $plugin_package_name)
         continue;
     }
     //检查插件是否兼容于当前php版本
-    if($info_default_json->Compatible>PHP_VERSION)
+    if(version_compare(PHP_VERSION,$info_default_json->Compatible,'<'))
     {
         write_log(LANGUAGE_LOG_PLUGIN_PARSING_FAILED,LANGUAGE_LOG_PLUGIN_NOT_COMPATIBLE_PHP_VERSION_MSG,$plugin_path,15);
         continue;
