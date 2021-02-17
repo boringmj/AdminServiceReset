@@ -3,6 +3,7 @@
 /* 关于
  * 本项目采用自写框架,该框架暂未独立开源,均与项目同时发布,且随时可能更新
  * 项目版权由boringmj(别名wuliaomj),邮箱wuliaodemoji@wuliaomj.com所有
+ * 本项目要求框架开启数据库支持(DATABASE_ENABLE 为 true)
  * 
  * 帮助
  * APPLICATION_DEBUG 常量决定是否开启调试模式
