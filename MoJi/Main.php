@@ -5,8 +5,9 @@ $start_time=microtime(true);
 
 require dirname(__FILE__).'/function.php';
 require dirname(__FILE__).'/constant.php';
-require dirname(__FILE__).'/config/Main.php';
-require dirname(__FILE__).'/class/Main.php';
+require dirname(__FILE__).'/config/_loader.php';
+require dirname(__FILE__).'/lib/_loader.php';
+require dirname(__FILE__).'/class/_loader.php';
 require dirname(__FILE__).'/module/Load.module.php';
 require dirname(__FILE__).'/module/Language.module.php';
 require dirname(__FILE__).'/install.php';

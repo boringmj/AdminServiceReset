@@ -8,7 +8,7 @@ if(empty($_REQUEST['type']))
 if($_REQUEST['type']==='api')
     header('Content-Type:application/json');
 if(empty($_REQUEST['from']))
-    $_REQUEST['from']='Main';
+    $_REQUEST['from']='main';
 
 //预定义api输出的数据
 $GLOBALS['return_data']=array();

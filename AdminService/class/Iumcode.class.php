@@ -7,15 +7,13 @@
 
 class Iumcode
 {
-    /*
-    *简单的异或加密解密,秘钥长度不够会被循环使用
-    */
-    static public function XorEnc($str,$key)
+    static public function EncodeBase($str,$key)
     {
-        //预定义结果
         $ret='';
+        $key=md5(base64_encode(md5($key)));
         $keylen=strlen($key);
-        for($i=0;$i<strlen($str);$i++)
+        $len=strlen($str);
+        for($i=0;$i<$len;$i++)
         {
             $k=$i%$keylen;
             $ret.=$str[$i]^$key[$k];
@@ -23,20 +21,14 @@ class Iumcode
         return $ret;
     }
 
-    /*
-    *在异或的基础上加强加密强度,暂时取名叫IUM加密
-    */
     static public function EncodeIum($str,$key)
     {
-        return base64_encode(Iumcode::XorEnc(base64_encode($str),base64_encode(md5($key))));
+        return base64_encode(self::EncodeBase(base64_encode($str),$key));
     }
 
-    /*
-    *解密加密的数据
-    */
     static public function DecodeIum($str,$key)
     {
-        return base64_decode(Iumcode::XorEnc(base64_decode($str),base64_encode(md5($key))));
+        return base64_decode(self::EncodeBase(base64_decode($str),$key));
     }
 }
 
