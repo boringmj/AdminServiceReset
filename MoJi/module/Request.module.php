@@ -76,6 +76,15 @@ if($_REQUEST['type']==='api')
     }
     $GLOBALS['app_key']=Admin::GetAppKey($Database,$_POST['app_id']);
     //初步处理传入数据
+    if(empty($GLOBALS['app_key']))
+    {
+        $GLOBALS['return_data']=array(
+            'code'=>-2,
+            'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
+            'data'=>array('error'=>'app_id is error')
+        );
+        echo_return_data();
+    }
     if($_REQUEST['request_type']==='ium')
     {
         if(!empty($_POST['s']))
@@ -108,7 +117,7 @@ if($_REQUEST['type']==='api')
     if(in_array($_REQUEST['from'],$from_api_security_array))
     {
         //基础参数检查
-        if(empty($_POST['sign'])||empty($_POST['nonce'])||!(!empty($_POST['time'])||!empty($_POST['timestamp'])))
+        if(check_request_empty_array('post',array('sign','nonce'))||!(!empty($_POST['time'])||!empty($_POST['timestamp'])))
         {
             $GLOBALS['return_data']=array(
                 'code'=>-2,
@@ -168,7 +177,7 @@ if($_REQUEST['type']==='api')
             $post_data.=(empty($post_data)?'':'&')."{$key}={$value}";
         }
         $server_sign=md5($post_data.'&app_key='.$GLOBALS['app_key']);
-        if(empty($GLOBALS['app_key'])||$_POST['sign']!=$server_sign)
+        if($_POST['sign']!=$server_sign)
         {
             $GLOBALS['return_data']=array(
                 'code'=>-5,
@@ -271,6 +280,30 @@ function echo_return_data($return_path='')
         write_log(LANGUAGE_LOG_EXCEPTION_ERROR,'Cdoe: -1,'.LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_ONE,empty($return_path)?__FILE__:$return_path,15);
     }
     exit();
+}
+
+//验证参数是否传入且不为空
+function check_request_empty_array($type,$post_variable)
+{
+    //放弃代码量选择效率(反正差距不大)
+    switch($type)
+    {
+        case 'get':
+            foreach($post_variable as $value)
+                if(empty($_GET[$value]))
+                    return true;
+            break;
+        case 'post':
+            foreach($post_variable as $value)
+                if(empty($_POST[$value]))
+                    return true;
+            break;
+        default:
+            foreach($post_variable as $value)
+                if(empty($_REQUEST[$value]))
+                    return true;
+    }
+    return false;
 }
 
 ?>

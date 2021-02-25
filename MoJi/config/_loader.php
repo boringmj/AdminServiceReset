@@ -16,5 +16,6 @@ require __DIR__.'/system.config.php';
 require __DIR__.'/log.config.php';
 require __DIR__.'/database.config.php';
 require __DIR__.'/request.config.php';
+require __DIR__.'/verification.config.php';
 
 ?>
