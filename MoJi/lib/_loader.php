@@ -2,6 +2,7 @@
 
 //框架原生库
 require __DIR__.'/Verification/verification.php';
+require __DIR__.'/Ipquery/ipquery.class.php';
 
 //第三方库
 require __DIR__.'/PHPMailer/phpmailer.class.php';

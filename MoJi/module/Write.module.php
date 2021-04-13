@@ -22,6 +22,7 @@ if(CONFIG_LOG_STATUS)
 if(file_exists(PLUGIN_DATA_PATH))
     array_push($write_path_array,PLUGIN_DATA_PATH);
 array_push($write_path_array,DATA_PATH);
+array_push($write_path_array,DATA_PATH.'/verification.json');
 foreach($write_path_array as $write_path)
     if(!is_writable($write_path)&&!empty($write_path))
         if(APPLICATION_DEBUG)

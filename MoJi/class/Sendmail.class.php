@@ -145,9 +145,6 @@ class Sendmail
     //检查是否配置完成
     protected function _Check()
     {
-        //自动为QQ邮箱或腾讯企业邮箱的465端口设置为ssl方式
-        if($this->_smtp_port==465&&($htis->_smtp_host='smtp.qq.com'||$htis->_smtp_host='smtp.exmail.qq.com'))
-            $this->_ssl=true;
         if(empty($this->_smtp_port))
             return false;
         if(empty($this->_smtp_host))
@@ -160,10 +157,9 @@ class Sendmail
             return false;
         if(empty($this->_from_name))
             return false;
-        if(empty($this->_reply_email))
-            return false;
-        if(empty($this->_reply_name))
-            return false;
+        //自动为QQ邮箱或腾讯企业邮箱的465端口设置为ssl方式
+        if($this->_smtp_port==465&&($this->_smtp_host=='smtp.qq.com'||$this->_smtp_host=='smtp.exmail.qq.com'))
+            $this->_ssl=true;
         //检查依赖
         if(class_exists('PHPMailer'))
             return true;
