@@ -200,7 +200,7 @@ else
 }
 
 //检验访问地址合法性
-if(preg_match("/(\.|\/)/",$_REQUEST['from']))
+if(preg_match("/(\.|\\/|\\\\)/",$_REQUEST['from']))
 {
     //记录非法请求的信息和地址到日志
     write_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_ILLEGAL.' :'.$_REQUEST['from'].' '.LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP,__FILE__,10);

@@ -35,7 +35,7 @@ class PluginSdkMain
          * 本方法请使用公共静态修饰且需要保留
          * 不可修改本方法形参
          * 请注意不要使用 $this
-        */
+         */
 
         $path=$data_path.'/init.data.json';
         $data=array(

@@ -11,7 +11,7 @@
  * If you want to provide more language support, you can send an email to wuliaodemoji@wuliaomj.com and indicate the language
  * If your language module is approved, we will add it to the new version anonymously as optional language support
  * The language module only allows to use string(String) as a value
-*/
+ */
 
 $language_path=RES_PATH.'/language/'.DEFAULT_LANGUAGE.'.php';
 $language_path_temp=RES_PATH.'/language/'.CURRENT_LANGUAGE.'.php';

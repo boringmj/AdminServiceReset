@@ -34,7 +34,7 @@ foreach($plugin_path_array as $plugin_package_name)
         {
             //包名命名检查以及注册与实际是否一致
             $main_package_name=empty($info_default_json->PackageName)?'':$info_default_json->PackageName;
-            if(preg_match("/^com\.[A-Za-z0-9\._\-]+$/",$main_package_name))
+            if(preg_match("/^com\\.[A-Za-z0-9\\._\\-]+$/",$main_package_name))
             {
                 if($plugin_package_name!==$main_package_name)
                     write_log(LANGUAGE_LOG_PLUGIN_PARSING_FAILED,LANGUAGE_LOG_PLUGIN_PACKAGE_NMAE_NOT_STANDARD,$plugin_path,15);

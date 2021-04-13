@@ -8,7 +8,7 @@
  * DATABASE 数据库名称 String 连接的数据库名称
  * 
  * 注意:目前仅支持Mysql数据库
-*/
+ */
 $CONFIG_DATABASE=array(
     'PREFIX'    =>  'Admin_Service_',
     'HOST'      =>  'localhost',

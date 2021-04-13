@@ -7,7 +7,7 @@
  * 
  * 注意:所有选项修改后不会立即生效,需要用户自行删除 项目路径/Data(DATA_PATH) 目录下的 verification.json 后生效
  * 
-*/
+ */
 $CONFIG_VERIFICATION=array(
     'KEY'           =>  config_auto('VERIFICATION_KEY'),
     'SALT'          =>  config_auto('VERIFICATION_SALT'),
