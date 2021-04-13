@@ -113,7 +113,7 @@ if($_REQUEST['type']==='api')
         }
     }
     //需要进行鉴权的接口组
-    $from_api_security_array=array('Main');
+    $from_api_security_array=array('main');
     if(in_array($_REQUEST['from'],$from_api_security_array))
     {
         //基础参数检查
