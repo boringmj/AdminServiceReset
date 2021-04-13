@@ -51,7 +51,7 @@ class Verification
         {
             $string_count++;
             $temp_rand=mt_rand(0,1);
-            $variable_name=get_rand_string(6,'xXoOpPqQ_iIlLvVwWmM').$string_count;
+            $variable_name=get_rand_string(1,'xXoOpPqQ_iIlLvVwWmM').get_rand_string(3,'1234567890xXoOpPqQ_iIlLvVwWmM').$string_count.get_rand_string(3,'1234567890xXoOpPqQ_iIlLvVwWmM');
             if($temp_rand)
             {
                 //处理之前遗留和这的次字符组
