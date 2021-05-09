@@ -113,7 +113,7 @@ if($_REQUEST['type']==='api')
         }
     }
     //需要进行鉴权的接口组
-    $from_api_security_array=array('main');
+    $from_api_security_array=array('main','user');
     if(in_array($_REQUEST['from'],$from_api_security_array))
     {
         //基础参数检查
@@ -160,7 +160,7 @@ if($_REQUEST['type']==='api')
         $post_data='';
         $post_data_array=$_POST;
         //排除签名的数据组
-        $not_sign_key=array('sign','language','type','from');
+        $not_sign_key=array('sign','language','type');
         if($_REQUEST['request_type']!=='post')
             $post_data_array['request_type']=$_REQUEST['request_type'];
         else
@@ -169,11 +169,17 @@ if($_REQUEST['type']==='api')
             $post_data_array['return_type']=$_REQUEST['return_type'];
         else
             array_push($not_sign_key,'return_type');
-        asort($post_data_array);
+        //删除排除的参数,以免对排序造成影响(效率较低)
+        foreach($not_sign_key as $value)
+        {
+            $array_sign_keys=array_keys($post_data_array);
+            $index=array_search($value,$array_sign_keys);
+            if($index!==false)
+                array_splice($post_data_array,$index,1);
+        }
+        krsort($post_data_array);
         foreach($post_data_array as $key=>$value)
         {
-            if(in_array($key,$not_sign_key))
-                continue;
             $post_data.=(empty($post_data)?'':'&')."{$key}={$value}";
         }
         $server_sign=md5($post_data.'&app_key='.$GLOBALS['app_key']);
@@ -211,7 +217,28 @@ if(preg_match("/(\.|\\/|\\\\)/",$_REQUEST['from']))
 }
 else
 {
-    $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/view').'/'.$_REQUEST['from'].'.php';
+    //检查是否为子系统
+    if(!empty($_REQUEST['class']))
+    {
+        //REQUEST的class参数不为空就被识别为REQUEST的from参数的子系统
+        if(!preg_match("/\./",$_REQUEST['class']))
+        {
+            $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/view').'/'.$_REQUEST['from'].'/'.$_REQUEST['class'].'.php';
+        }
+        else
+        {
+            //记录非法请求的信息和地址到日志
+            write_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_ILLEGAL.' :'.$_REQUEST['from'].'&class='.$_REQUEST['class'].' '.LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP,__FILE__,10);
+            if(CONFIG_REQUEST_ERROR_LEVEL)
+                header('Location: '.CONFIG_REQUEST_ERROR_FROM);
+            else
+                exit(LANGUAGE_REQUEST_ERROR);
+        }
+    }
+    else
+    {
+        $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/view').'/'.$_REQUEST['from'].'.php';
+    }
     if(is_file($app_path))
         call_user_func(function () use (&$Database,&$plugin_array,$app_path)
         {

@@ -46,18 +46,25 @@ class Admin
 
     static public function CheckNonce(&$_Database,$app_id,$nonce,$sign)
     {
-        $table_name=$_Database->GetTablename('ststem_nonce');
-        $sql_statement=$_Database->object->prepare("SELECT `nonce`,`sign` FROM {$table_name} WHERE `app_id`=:app_id AND `nonce`=:nonce AND `sign`=:sign ORDER BY `id` DESC LIMIT 0,1");
+        $table_name=$_Database->GetTablename('system_nonce');
+        $sql_statement=$_Database->object->prepare("SELECT `timestamp` FROM {$table_name} WHERE `app_id`=:app_id AND `nonce`=:nonce AND `sign`=:sign ORDER BY `id` DESC LIMIT 0,1");
         $sql_statement->bindParam(':app_id',$app_id);
         $sql_statement->bindParam(':nonce',$nonce);
         $sql_statement->bindParam(':sign',$sign);
         if($sql_statement->execute())
         {
             $result_sql_temp=$sql_statement->fetch();
-            if(empty($result_sql_temp['nonce']))
-                return true;
+            if(!empty($result_sql_temp['timestamp'])&&$result_sql_temp['timestamp']+600>time())
+                return false;
         }
-        return false;
+        $timestamp=time();
+        $sql_statement=$_Database->object->prepare("INSERT INTO {$table_name}(`app_id`,`timestamp`,`nonce`,`sign`) VALUES (:app_id,:timestamp,:nonce,:sign)");
+        $sql_statement->bindParam(':app_id',$app_id);
+        $sql_statement->bindParam(':timestamp',$timestamp);
+        $sql_statement->bindParam(':nonce',$nonce);
+        $sql_statement->bindParam(':sign',$sign);
+        $sql_statement->execute();
+        return true;
     }
 
     public function __construct($app_id='',$app_key='')

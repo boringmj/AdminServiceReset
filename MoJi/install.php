@@ -30,7 +30,7 @@ class Install
             `head_portraits`  VARCHAR(32) NOT NULL,
             `status`          INT(5)      NOT NULL
         ) AUTO_INCREMENT=1000',
-        'ststem_nonce'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        'system_nonce'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             `app_id`          VARCHAR(32) NOT NULL,
             `timestamp`       INT(10)     NOT NULL,
             `nonce`           VARCHAR(12) NOT NULL,
