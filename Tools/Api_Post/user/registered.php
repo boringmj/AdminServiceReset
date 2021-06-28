@@ -6,6 +6,8 @@ $server_variable=array(
     'class'=>"registered",
     'app_id'=>"0u725eCmqQr1ZAotJmiyi9y516111521",
     'time'=>"",
+    'user'=>isset($_GET['user'])?$_GET['user']:'testuser',
+    'email'=>isset($_GET['email'])?$_GET['email']:'usere@test.com',
     'timestamp'=>time(),
     'nonce'=>rand(1000,999999)
 );
@@ -21,7 +23,6 @@ foreach($server_variable as $key=>$value)
     echo "{$key}<input type=\"text\" name=\"{$key}\" value=\"$value\"><br>";
 }
 $server_sign.='&app_key=445b6e6988efb6a117a119e73befa2b3';
-echo $server_sign;
 $server_sign=md5($server_sign);
 echo "[POST]sign<input type=\"text\" name=\"sign\" value=\"$server_sign\"><br>";
 

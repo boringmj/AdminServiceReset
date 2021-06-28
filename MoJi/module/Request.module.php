@@ -44,7 +44,7 @@ if($_REQUEST['from']==='error')
 
 //外层请求安全模块
 debug_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_LOG_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
-debug_log(LANGUAGE_LOG_REQUEST_NAME,'/?from='.urlencode($_REQUEST['from']).'&type='.urlencode($_REQUEST['type']),__FILE__);
+debug_log(LANGUAGE_LOG_REQUEST_NAME,'/?from='.urlencode($_REQUEST['from']).'&type='.urlencode($_REQUEST['type']).(isset($_REQUEST['class'])?'&class='.urlencode($_REQUEST['class']):''),__FILE__);
 
 //预加载类
 load_class_array(array('Admin'));
