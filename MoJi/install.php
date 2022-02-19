@@ -70,7 +70,6 @@ class Install
             if(is_file($this->_data_path)&&is_writable($this->_data_path))
             {
                 $install_info=file_get_contents($this->_data_path);
-                $install_info_object;
                 if($install_info_object=json_decode($install_info))
                 {
                     if(CONFIG_INFO_GRADE>$install_info_object->grade)

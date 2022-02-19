@@ -66,7 +66,7 @@ class Database
         $this->_passwd=$passwd;
         $this->_database=$database;
         if(!empty($host)&&!empty($user)&&!empty($passwd)&&!empty($database))
-            return $this->_Link();
+            return $this->Link();
     }
 }
 
