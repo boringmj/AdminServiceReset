@@ -11,7 +11,7 @@
  */
 
 //请注意类名需要与 info.json->Main 保持一致,且符合命名规范
-class PluginSdkMain
+class PluginVerificationApi
 {
     protected $_Database;       //数据库对象
     protected $_data_path;      //数据存放位置
