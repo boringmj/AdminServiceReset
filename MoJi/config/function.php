@@ -46,9 +46,9 @@ function config_auto($name=null)
             if($web_path==='/'||$web_path==='\\')
                 $web_path='';
             return CONFIG_HTTP_TYPE.'://'.CONFIG_HTTP_HOST.$web_path.'/?from=error&info=ERROR_FROM'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'');
-        case 'VERIFICATION_KEY':
+        case 'KEY_KEY':
             return get_rand_string(32);
-        case 'VERIFICATION_SALT':
+        case 'KEY_SALT':
             return get_rand_string(32);
         default:
             return $name;

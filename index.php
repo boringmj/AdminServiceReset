@@ -24,6 +24,9 @@ define('DATABASE_ENABLE',true);
 define('DEFAULT_LANGUAGE','zh-cn');
 unset($APP_PATH);
 
+//兼容命令行(请保留以下内容)
+if(isset($argv))
+    $GLOBALS["argv"]=&$argv;
 require __DIR__.'/MoJi/Main.php';
 
 ?>

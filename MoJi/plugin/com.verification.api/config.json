@@ -1,10 +1,33 @@
 {
-    "System": {
-        "Config": {
+    "User": {
+        "AutoKey": {
+            "Name": "自动获取秘钥",
+            "Explanation":"是否自动获取秘钥(仅在插件初始化时自动获取)",
+            "Type": 1,
             "Options": {
-                "Name1": "Value1",
-                "Name2": "Value2"
-            } 
+                "Content": [["是", true, "请无视下面的“秘钥”选项"],["否", false, "请填写下面的“秘钥”选项"]],
+                "Default": ["是", true, "请无视下面的“秘钥”选项"]
+            }
+        },
+        "Key": {
+            "Name": "秘钥",
+            "Explanation":"秘钥用于本插件的各种验证,请勿随意更改",
+            "Type": 0,
+            "Options": {
+                "Text": "",
+                "Hint": "请在此处填写秘钥",
+                "Type": "text"
+            }
+        },
+        "Expiration": {
+            "Name": "验证过期时间",
+            "Explanation":"单个验证周期的最大时间,超过该时长的验证将不再合法(知道秘钥是可以伪造时间的),单位:秒",
+            "Type": 0,
+            "Options": {
+                "Text": 300,
+                "Hint": "请填写一个合法的整数",
+                "Type": "int"
+            }
         }
     }
 }

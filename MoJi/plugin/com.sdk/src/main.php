@@ -2,7 +2,7 @@
 
 /** 一般规范
  * 我们规定,main.php中应该有且只有 info.json->Main 中注册的主类
- * 如果需要自定义类,请将类的类名使用 主类名称+自定义类名称 命名,并存放在插件的src目录中
+ * 如果需要自定义类,请将类的类名使用 主类名称+自定义类名称 命名,并存放在插件的src目录或自定义目录中
  * 主类请务必保留 Start(&$Database,$data_path,$config) 方法,且不可修改其形参
  * 主类的 Init(&$Database,$data_path) 方法请使用 公共静态(static public) 修饰,且同样需要保留,也不可修改其形参
  * 主类中不必要的方法允许删除,但请注意上两条
@@ -14,7 +14,7 @@
 class PluginSdkMain
 {
     protected $_Database;       //数据库对象
-    protected $_data_path;      //数据存放位置
+    protected $_data_path;      //数据存放目录
     protected $_config;         //程序配置数据
 
     //默认调用的方法,请保留该方法且不可修改形参

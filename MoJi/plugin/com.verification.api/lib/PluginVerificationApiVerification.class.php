@@ -1,10 +1,12 @@
 <?php
 
-class Verification
+class PluginVerificationApiVerification
 {
     protected $_ck_kid;      //验证id
     protected $_res_path;    //资源文件目录
     protected $_Database;    //数据库对象
+    public $key='';          //Key
+    public $expire_time=0;   //过期时间
 
     public function SetDatabase(&$Database)
     {
@@ -15,8 +17,8 @@ class Verification
     {
         $ck_kid=get_rand_string_id();
         $ck_key=md5(get_rand_string(32));
-        $expire_time=time()+CONFIG_VERIFICATION_EXPIRE_TIME;
-        $ck_token=md5(CONFIG_VERIFICATION_SALT.CONFIG_VERIFICATION_KEY."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
+        $expire_time=time()+$this->expire_time;
+        $ck_token=md5($this->key."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
         setcookie('ck_kid',$ck_kid,$expire_time);
         setcookie('ck_token',$ck_token,$expire_time);
         setcookie('expire_time',$expire_time,$expire_time);

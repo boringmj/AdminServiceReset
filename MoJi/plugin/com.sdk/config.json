@@ -2,6 +2,7 @@
     "User": {
         "Name1": {
             "Name": "编辑框",
+            "Explanation":"这是一个编辑框",
             "Type": 0,
             "Options": {
                 "Text": "默认内容",
@@ -11,26 +12,29 @@
         },
         "Name2": {
             "Name": "单选",
+            "Explanation":"这是一组单选框",
             "Type": 1,
             "Options": {
-                "Content": [["选项一", true],["选项二", false]],
-                "Default": ["选项一", true]
+                "Content": [["选项一", true, "这里是选择该选项的提示内容"],["选项二", false, "这里是选择该选项的提示内容"]],
+                "Default": ["选项一", true, "这里是选择该选项的提示内容"]
             }
         },
         "Name3": {
             "Name": "多选",
+            "Explanation":"这是一组多选框",
             "Type": 2,
             "Options": {
-                "Content": [["选项一", true],["选项二", false]],
-                "Default": [["选项一", true]]
+                "Content": [["选项一", true, "这里是选择该选项的提示内容"],["选项二", false, "这里是选择该选项的提示内容"]],
+                "Default": [["选项一", true, "这里是选择该选项的提示内容"]]
             }
         },
         "Name4": {
             "Name": "下拉菜单",
+            "Explanation":"这是一组下拉菜单",
             "Type": 3,
             "Options": {
-                "Content": [["选项一",1],["选项二",2]],
-                "Default": ["菜单一",1]
+                "Content": [["选项一", 1, "这里是选择该选项的提示内容"],["选项二", 2, "这里是选择该选项的提示内容"]],
+                "Default": ["菜单一", 1, "这里是选择该选项的提示内容"]
             }
         }
     },

@@ -1,6 +1,6 @@
 {
     "Name": "API-验证",
-    "Description": "为API接口提供额外的人机验证服务",
+    "Description": "为API接口提供额外的人机验证服务,特别注意:本程序可能依赖会cookie或session",
     "Tag": ["官方","API","附加功能"],
     "Type": 0,
     "Developer": "Boringmj",
