@@ -44,7 +44,7 @@ if($_REQUEST['from']==='error')
 
 //外层请求安全模块
 debug_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_LOG_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
-debug_log(LANGUAGE_LOG_REQUEST_NAME,'/?from='.urlencode($_REQUEST['from']).'&type='.urlencode($_REQUEST['type']).(isset($_REQUEST['class'])?'&class='.urlencode($_REQUEST['class']):''),__FILE__);
+debug_log(LANGUAGE_LOG_REQUEST_NAME,REQUEST_URI,__FILE__);
 
 //预加载类
 load_class_array(array('Admin'));
@@ -209,7 +209,7 @@ else
 if(preg_match("/(\.|\\/|\\\\)/",$_REQUEST['from']))
 {
     //记录非法请求的信息和地址到日志
-    write_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_ILLEGAL.' :'.$_REQUEST['from'].' '.LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP,__FILE__,10);
+    write_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_ILLEGAL.' :'.REQUEST_URI.' '.LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP,__FILE__,10);
     if(CONFIG_REQUEST_ERROR_LEVEL)
         header('Location: '.CONFIG_REQUEST_ERROR_FROM);
     else

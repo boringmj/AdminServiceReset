@@ -49,39 +49,7 @@ class PluginVerificationApi
     //接口安全
     public function ApiSecurity()
     {
-        //环境补偿,用于 Php 不符合配置要求的情况(仅补偿Cookie)
-        if(isset($_COOKIE['ck_token']))
-        $_REQUEST['ck_token']=$_COOKIE['ck_token'];
-        if(isset($_COOKIE['ck_kid']))
-        $_REQUEST['ck_kid']=$_COOKIE['ck_kid'];
-        if(isset($_COOKIE['ck_key']))
-        $_REQUEST['ck_key']=$_COOKIE['ck_key'];
-        if(isset($_COOKIE['expire_time']))
-        $_REQUEST['expire_time']=$_COOKIE['expire_time'];
-        //我想了又想,最终决定还是基于 $_REQUEST 接收参数
-        if(empty($_REQUEST['ck_token'])||empty($_REQUEST['ck_kid'])||empty($_REQUEST['ck_key'])||empty($_REQUEST['expire_time']))
-        {
-            $GLOBALS['return_data']=array(
-                'code'=>1001,
-                'msg'=>'错误: 暂无验证信息',
-                'data'=>array($_REQUEST)
-            );
-            echo_return_data();
-        }
-        //开始验证结果
-        $ck_kid=$_REQUEST['ck_kid'];
-        $ck_key=$_REQUEST['ck_key'];
-        $expire_time=$_REQUEST['expire_time'];
-        $ck_token=md5($this->_config->User->Key->Options->Text."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
-        if($ck_token!=$_REQUEST['ck_token']||time()>$expire_time)
-        {
-            $GLOBALS['return_data']=array(
-                'code'=>1002,
-                'msg'=>'错误: 验证不通过',
-                'data'=>array()
-            );
-            echo_return_data();
-        }
+        //目前先挖一个坑,以后补
     }
 
     //页面安全
@@ -96,9 +64,10 @@ class PluginVerificationApi
                 $expire_time=isset($_COOKIE['expire_time'])?$_COOKIE['expire_time']:"";
                 $ck_token=md5($this->_config->User->Key->Options->Text."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
                 if($ck_token!=(isset($_COOKIE['ck_token'])?$_COOKIE['ck_token']:"")||time()>$expire_time)
-                    exit("验证失败或请求已过期!");
+                    exit("验证失败或请求已过期!<br>如果您禁止了Cookie,我们将无法为您正常提供服务");
                 setcookie('ck_key',$ck_key,$expire_time);
-                exit("恭喜您通过验证!");
+                header("Location: ".CONFIG_REQUEST_URL.(empty($_COOKIE['url'])?"/":$_COOKIE['url']));
+                exit();
             }
             else
             {
@@ -113,6 +82,37 @@ class PluginVerificationApi
                 echo "<html><script>";
                 echo javascript_encode(variable_load($content_array,$javascript_code));
                 echo "</script></html>";
+                exit();
+            }
+        }
+        else
+        {
+            //环境补偿,用于 Php 不符合配置要求的情况(仅补偿Cookie)
+            if(isset($_COOKIE['ck_token']))
+            $_REQUEST['ck_token']=$_COOKIE['ck_token'];
+            if(isset($_COOKIE['ck_kid']))
+            $_REQUEST['ck_kid']=$_COOKIE['ck_kid'];
+            if(isset($_COOKIE['ck_key']))
+            $_REQUEST['ck_key']=$_COOKIE['ck_key'];
+            if(isset($_COOKIE['expire_time']))
+            $_REQUEST['expire_time']=$_COOKIE['expire_time'];
+            $request_url=REQUEST_URI;
+            //我想了又想,最终决定还是基于 $_REQUEST 接收参数
+            if(empty($_REQUEST['ck_token'])||empty($_REQUEST['ck_kid'])||empty($_REQUEST['ck_key'])||empty($_REQUEST['expire_time']))
+            {
+                header("Location: ".CONFIG_REQUEST_URL."/?from=verification");
+                setcookie("url",$request_url);
+                exit();
+            }
+            //开始验证结果
+            $ck_kid=$_REQUEST['ck_kid'];
+            $ck_key=$_REQUEST['ck_key'];
+            $expire_time=$_REQUEST['expire_time'];
+            $ck_token=md5($this->_config->User->Key->Options->Text."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
+            if($ck_token!=$_REQUEST['ck_token']||time()>$expire_time)
+            {
+                header("Location: ".CONFIG_REQUEST_URL."/?from=verification");
+                setcookie("url",$request_url);
                 exit();
             }
         }
