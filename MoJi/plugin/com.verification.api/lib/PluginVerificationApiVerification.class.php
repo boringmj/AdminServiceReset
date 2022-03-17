@@ -18,7 +18,7 @@ class PluginVerificationApiVerification
         $ck_kid=get_rand_string_id();
         $ck_key=md5(get_rand_string(32));
         $expire_time=time()+$this->expire_time;
-        $ck_token=md5($this->key."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
+        $ck_token=md5(REQUEST_IP.$this->key.REQUEST_FORWARDED."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
         setcookie('ck_kid',$ck_kid,$expire_time);
         setcookie('ck_token',$ck_token,$expire_time);
         setcookie('expire_time',$expire_time,$expire_time);

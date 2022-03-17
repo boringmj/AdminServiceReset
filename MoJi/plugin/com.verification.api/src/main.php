@@ -62,7 +62,7 @@ class PluginVerificationApi
                 $ck_kid=isset($_COOKIE['ck_kid'])?$_COOKIE['ck_kid']:"";
                 $ck_key=isset($_GET['ck_key'])?$_GET['ck_key']:"";
                 $expire_time=isset($_COOKIE['expire_time'])?$_COOKIE['expire_time']:"";
-                $ck_token=md5($this->_config->User->Key->Options->Text."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
+                $ck_token=md5(REQUEST_IP.$this->_config->User->Key->Options->Text.REQUEST_FORWARDED."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
                 if($ck_token!=(isset($_COOKIE['ck_token'])?$_COOKIE['ck_token']:"")||time()>$expire_time)
                     exit("验证失败或请求已过期!<br>如果您禁止了Cookie,我们将无法为您正常提供服务");
                 setcookie('ck_key',$ck_key,$expire_time);
@@ -108,7 +108,7 @@ class PluginVerificationApi
             $ck_kid=$_REQUEST['ck_kid'];
             $ck_key=$_REQUEST['ck_key'];
             $expire_time=$_REQUEST['expire_time'];
-            $ck_token=md5($this->_config->User->Key->Options->Text."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
+            $ck_token=md5(REQUEST_IP.$this->_config->User->Key->Options->Text.REQUEST_FORWARDED."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
             if($ck_token!=$_REQUEST['ck_token']||time()>$expire_time)
             {
                 header("Location: ".CONFIG_REQUEST_URL."/?from=verification");
