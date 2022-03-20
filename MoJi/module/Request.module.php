@@ -13,6 +13,11 @@ if(empty($_REQUEST['from']))
 //预定义api输出的数据
 $GLOBALS['return_data']=array();
 
+//记录请求到日志
+debug_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_LOG_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
+debug_log(LANGUAGE_LOG_REQUEST_NAME,REQUEST_URI,__FILE__);
+debug_log(LANGUAGE_LOG_REQUEST_NAME,json_encode($_REQUEST),__FILE__);
+
 //错误页显示
 if($_REQUEST['from']==='error')
 {
@@ -41,10 +46,6 @@ if($_REQUEST['from']==='error')
     }
     exit(variable_load($content_array,$content));
 }
-
-//外层请求安全模块
-debug_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_LOG_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
-debug_log(LANGUAGE_LOG_REQUEST_NAME,REQUEST_URI,__FILE__);
 
 //预加载类
 load_class_array(array('Admin'));
