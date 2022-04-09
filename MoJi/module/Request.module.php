@@ -18,8 +18,7 @@ debug_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP.' '.
 debug_log(LANGUAGE_LOG_REQUEST_NAME,REQUEST_URI,__FILE__);
 $temp_request=$_REQUEST;
 //在这里清除隐私数据(清除隐私数据是为了防止日志中出现密码等敏感信息)
-if(empty($temp_request['password']))
-   $temp_request['password']='******';
+hide_private_info_array($temp_request,array('password','pass','key','app_key','token'));
 debug_log(LANGUAGE_LOG_REQUEST_NAME,json_encode($temp_request),__FILE__);
 unset($temp_request);
 
@@ -341,6 +340,14 @@ function check_request_empty_array($type,$post_variable)
                     return true;
     }
     return false;
+}
+
+//隐藏隐私信息
+function hide_private_info_array(&$data,$info_array)
+{
+    foreach($info_array as $info)
+        if(isset($data[$info]))
+            $data[$info]='******';
 }
 
 ?>
