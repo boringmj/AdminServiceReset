@@ -16,7 +16,12 @@ $GLOBALS['return_data']=array();
 //记录请求到日志
 debug_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP.' '.LANGUAGE_LOG_AGENT_IP.': '.REQUEST_FORWARDED,__FILE__);
 debug_log(LANGUAGE_LOG_REQUEST_NAME,REQUEST_URI,__FILE__);
-debug_log(LANGUAGE_LOG_REQUEST_NAME,json_encode($_REQUEST),__FILE__);
+$temp_request=$_REQUEST;
+//在这里清除隐私数据(清除隐私数据是为了防止日志中出现密码等敏感信息)
+if(empty($temp_request['password']))
+   $temp_request['password']='******';
+debug_log(LANGUAGE_LOG_REQUEST_NAME,json_encode($temp_request),__FILE__);
+unset($temp_request);
 
 //错误页显示
 if($_REQUEST['from']==='error')
