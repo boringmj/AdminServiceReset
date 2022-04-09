@@ -59,7 +59,7 @@ class Database
         }
     }
 
-    function __construct($host='',$user='',$passwd='',$database='')
+    public function __construct($host='',$user='',$passwd='',$database='')
     {
         $this->_host=$host;
         $this->_user=$user;

@@ -166,7 +166,6 @@ class Sendmail
         else
             return false;
     }
-
 }
 
 ?>

@@ -14,27 +14,33 @@ class Install
     protected $_data_path;
     protected $_database_tables=array(
         'system_info'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            `app_id`          VARCHAR(32) NOT NULL,
-            `app_key`         VARCHAR(32) NOT NULL,
-            `timestamp`       INT(10)     NOT NULL
+            `app_id`          VARCHAR(32)   NOT NULL,
+            `app_key`         VARCHAR(32)   NOT NULL,
+            `timestamp`       INT(10)       NOT NULL
         )',
         'system_user'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            `app_id`          VARCHAR(32) NOT NULL,
-           ` timestamp`       INT(10)     NOT NULL,
-            `uuid`            VARCHAR(32) NOT NULL,
-            `user_name`       VARCHAR(32) NOT NULL,
-            `password`        VARCHAR(32) NOT NULL,
-            `nickname`        VARCHAR(32) NOT NULL,
-            `user_group`      INT(5)      NOT NULL,
-            `email`           VARCHAR(64) NOT NULL,
-            `head_portraits`  VARCHAR(32) NOT NULL,
-            `status`          INT(5)      NOT NULL
+            `app_id`          VARCHAR(32)   NOT NULL,
+           ` timestamp`       INT(10)       NOT NULL,
+            `uuid`            VARCHAR(36)   NOT NULL,
+            `user_name`       VARCHAR(32)   NOT NULL,
+            `password`        VARCHAR(32)   NOT NULL,
+            `nickname`        VARCHAR(32)   NOT NULL,
+            `user_group`      INT(5)        NOT NULL,
+            `email`           VARCHAR(64)   NOT NULL,
+            `head_portraits`  VARCHAR(255)  NOT NULL,
+            `status`          INT(5)        NOT NULL
         ) AUTO_INCREMENT=1000',
+        'system_user_group'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            `app_id`          VARCHAR(32)   NOT NULL,
+            `timestamp`       INT(10)       NOT NULL,
+            `group_name`      VARCHAR(32)   NOT NULL,
+            `group_level`     INT(5)        NOT NULL
+        )',
         'system_nonce'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            `app_id`          VARCHAR(32) NOT NULL,
-            `timestamp`       INT(10)     NOT NULL,
-            `nonce`           VARCHAR(12) NOT NULL,
-            `sign`            VARCHAR(32) NOT NULL
+            `app_id`          VARCHAR(32)   NOT NULL,
+            `timestamp`       INT(10)       NOT NULL,
+            `nonce`           VARCHAR(12)   NOT NULL,
+            `sign`            VARCHAR(32)   NOT NULL
         )'
     );
 
@@ -103,6 +109,11 @@ class Install
         //随机生成app_id和app_key
         $app_id=get_rand_string(22).time();
         $app_key=md5(get_rand_string(32));
+        //默认用户组名称和级别
+        $user_group_default=array(
+            'group_name'=>CONFIG_USER_DEFAULT_GROUP_NAME,
+            'group_level'=>CONFIG_USER_DEFAULT_GROUP_LEVEL
+        );
         //创建数据表
         foreach($this->_database_tables as $table=>$info)
         {
@@ -117,6 +128,14 @@ class Install
         $sql_statement->bindParam(':app_key',$app_key);
         $sql_statement->bindParam(':timestamp',$server_timestamp);
         echo $sql_statement->execute()?"{$table_name}数据表初始数据已插入,<font color=red>App_id={$app_id},APP_key={$app_key}</font><br>":"";
+        //插入默认用户组
+        $table_name=$Database->GetTablename('system_user_group');
+        $sql_statement=$Database->object->prepare("INSERT INTO {$table_name}(`app_id`,`timestamp`,`group_name`,`group_level`) VALUES (:app_id,:timestamp,:group_name,:group_level)");
+        $sql_statement->bindParam(':app_id',$app_id);
+        $sql_statement->bindParam(':timestamp',$server_timestamp);
+        $sql_statement->bindParam(':group_name',$user_group_default['group_name']);
+        $sql_statement->bindParam(':group_level',$user_group_default['group_level']);
+        echo $sql_statement->execute()?"{$table_name}数据表初始数据已插入,<font color=red>App_id={$app_id},Group_name={$user_group_default['group_name']},Group_level={$user_group_default['group_level']}</font><br>":"";
     }
 
     //安装其他东西
@@ -125,13 +144,24 @@ class Install
 
     }
 
-    //卸载安装
+    //卸载安装(请在命令行调用该方法)
     public function Uninstall(&$Database)
     {
         if(DATABASE_ENABLE)
         {
             //卸载数据库已安装内容
+            foreach($this->_database_tables as $table=>$info)
+            {
+                $table_name=$Database->GetTablename($table);
+                $sql_statement=$Database->object->prepare("DROP TABLE {$table_name}");
+                echo $table_name.($sql_statement->execute()?'数据表删除成功':'数据表删除失败或已删除')."\n\r";
+            }
         }
+        //这里懒得判断是否成功了
+        if(file_exists($this->_data_path))
+            unlink($this->_data_path);
+        $this->_DeleteDir(DATA_PATH);
+        echo LANGUAGE_INSTALL_UNINSTALL_SUCCESS."\n\r";
     }
 
     //安装更新内容
@@ -143,8 +173,26 @@ class Install
         }
     }
 
+    //删除目录和目录下所有文件
+    protected function _DeleteDir($dir)
+    {
+        if(!is_dir($dir))
+            return false;
+        $handle=opendir($dir);
+        while(false!==($file=readdir($handle)))
+        {
+            if($file!='.'&&$file!='..')
+            {
+                $dir2=$dir.'/'.$file;
+                is_dir($dir2)?$this->_DeleteDir($dir2):unlink($dir2);
+            }
+        }
+        closedir($handle);
+        return rmdir($dir);
+    }
+
     //使用构造方法兼容5.x版本
-    function __construct()
+    public function __construct()
     {
         $this->_data_path=DATA_PATH.'/install.data.json';
     }

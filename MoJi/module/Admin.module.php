@@ -79,9 +79,15 @@ if(isset($GLOBALS["argv"][1])&&REQUEST_IP=="0.0.0.0")
             exit("plugin 帮助:\n\r-- [help] -- 查看插件系统帮助\n\r-- <list> [dirname]-- 显示插件存放目录名称(无论是否合法均显示)\n\r-- <list> <name>-- 显示插件名称(无论是否合法均显示)\n\r-- <list> <info>-- 显示插件名称(无论是否合法均显示)\n\r");
         }
     }
+    else if($GLOBALS["argv"][1]=='uninstall')
+    {
+        $Install=new Install();
+        $Install->Uninstall($Database);
+        exit();
+    }
     else if($GLOBALS["argv"][1]=='help')
     {
-        exit("php index.php 帮助:\n\r-- <help> -- 查看帮助\n\r-- <plugin> -- 插件系统管理\n\r请使用完整形式执行命令,如:\n\rphp index.php help\n\r");
+        exit("php index.php 帮助:\n\r-- <help> -- 查看帮助\n\r-- <uninstall> -- 卸载安装\n\r-- <plugin> [...] -- 插件系统管理\n\r请使用完整形式执行命令,如:\n\rphp index.php help\n\r");
     }
     else
     {

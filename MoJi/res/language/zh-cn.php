@@ -18,6 +18,7 @@ $LANGUAGE=array(
     'INSTALL_NOT_UPDATE'=>'检测到更新,请点击',
     'INSTALL_NOT_INSTALL_CLICK'=>'初始安装',
     'INSTALL_NOT_UPDATE_CLICK'=>'安装扩展更新',
+    'INSTALL_UNINSTALL_SUCCESS'=>'卸载成功',
     'EXCEPTION_ERROR_NOT_DEBUG'=>'发生异常错误',
     'ADMINSERVICE_ERROR_CODE_MINUS_ONE'=>'错误: 无效的数据返回',
     'ADMINSERVICE_ERROR_CODE_MINUS_TOW'=>'错误: 基础参数不全',

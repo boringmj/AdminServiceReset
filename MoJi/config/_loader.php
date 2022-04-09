@@ -10,12 +10,18 @@
  * 本配置文件遵循php原生语法
  */
 
+//配置文件处理核心
 require __DIR__.'/function.php';
 require __DIR__.'/examine.php';
+
+//框架配置
 require __DIR__.'/system.config.php';
 require __DIR__.'/log.config.php';
 require __DIR__.'/database.config.php';
 require __DIR__.'/request.config.php';
 require __DIR__.'/key.config.php';
+
+//项目配置(AdminServer)
+require __DIR__.'/user.config.php';
 
 ?>

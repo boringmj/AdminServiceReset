@@ -50,11 +50,15 @@ class PluginVerificationApi
     public function ApiSecurity()
     {
         //目前先挖一个坑,以后补
+        if(in_array($this->GetRequestInfo(),explode(',',$this->_config->User->NoVerification->Options->Text)))
+            return;
     }
 
     //页面安全
     public function ViewSecurity()
     {
+        if(in_array($this->GetRequestInfo(),explode(',',$this->_config->User->NoVerification->Options->Text)))
+            return;
         if($_REQUEST["from"]=="verification")
         {
             if(!empty($_GET['ck_key']))
@@ -116,6 +120,14 @@ class PluginVerificationApi
                 exit();
             }
         }
+    }
+
+    public function GetRequestInfo(){
+        //本次请求信息(默认值同 Request 模块)
+        $request_type=(empty($_REQUEST['type'])?'view':$_REQUEST['type']);
+        $request_from=(empty($_REQUEST['from'])?'main':$_REQUEST['from']);
+        $request_class=(empty($_REQUEST['class'])?'':$_REQUEST['class']);
+        return "{$request_type}:{$request_from}".(empty($request_class)?'':"/{$request_class}");
     }
 }
 

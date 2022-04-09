@@ -14,6 +14,7 @@ class Admin
 
      static public function CreatePlatform(&$_Database)
     {
+        //注意,本方法不生成对应的用户组等其他信息,需要调用者自己生成
         $server_timestamp=time();
         //随机生成app_id和app_key
         $app_id=get_rand_string(22).time();

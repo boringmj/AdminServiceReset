@@ -50,6 +50,8 @@ function config_auto($name=null)
             return get_rand_string(32);
         case 'KEY_SALT':
             return get_rand_string(32);
+        case 'USER_HEAD_PORTRAIT':
+            return CONFIG_REQUEST_URL.'/?from=user&class=head_portrait&action=default';
         default:
             return $name;
     }

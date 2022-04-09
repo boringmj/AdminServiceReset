@@ -28,6 +28,16 @@
                 "Hint": "请填写一个合法的整数",
                 "Type": "int"
             }
+        },
+        "NoVerification": {
+            "Name": "不需要验证的页面",
+            "Explanation":"不需要验证的页面,可以填写多个,每个页面用逗号“,”分隔,格式为<type>:<from>[/class]如:view:index,api:user/login",
+            "Type": 0,
+            "Options": {
+                "Text": "",
+                "Hint": "每个页面用逗号“,”分隔,格式为<type>:<from>[/class]如:view:index,api:user/login",
+                "Type": "text"
+            }
         }
     }
 }
