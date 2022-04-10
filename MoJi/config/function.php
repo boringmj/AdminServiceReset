@@ -50,8 +50,18 @@ function config_auto($name=null)
             return get_rand_string(32);
         case 'KEY_SALT':
             return get_rand_string(32);
+        case 'USER_NAME_RULE':
+            return '/^[a-zA-Z0-9_]{6,32}$/';
+        case 'USER_PASSWORD_RULE':
+            return '/^.{6,36}$/';
+        case 'USER_NICKNAME_RULE':
+            return '/^[a-zA-Z0-9_\x{4e00}-\x{9fa5}]{2,16}$/';
+        case 'USER_EMAIL_RULE':
+            return '/^(?=.{6,64}$)[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)+$/';
         case 'USER_HEAD_PORTRAIT':
             return CONFIG_REQUEST_URL.'/?from=user&class=head_portrait&action=default';
+        case 'EMAIL_FROM_NAME':
+            return CONFIG_PROJECT_NAME;
         default:
             return $name;
     }

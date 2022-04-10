@@ -20,7 +20,7 @@ class Install
         )',
         'system_user'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             `app_id`          VARCHAR(32)   NOT NULL,
-           ` timestamp`       INT(10)       NOT NULL,
+            `timestamp`       INT(10)       NOT NULL,
             `uuid`            VARCHAR(36)   NOT NULL,
             `user_name`       VARCHAR(32)   NOT NULL,
             `password`        VARCHAR(32)   NOT NULL,

@@ -23,6 +23,11 @@ class User
         $this->user_salt=$salt;
     }
 
+    public function DebugGetPdoError()
+    {
+        return $this->_Database->object->errorInfo();
+    }
+
     public function AddUser($user,$nickname,$password,$email)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -65,6 +70,39 @@ class User
             return 0;
     }
 
+    public function RemoveUser($uuid)
+    {
+        $tab_name=$this->_Database->GetTablename('system_user');
+        $sql_statement=$this->_Database->object->prepare("DELETE FROM {$tab_name} WHERE uuid=:uuid");
+        $sql_statement->bindParam(':uuid',$uuid);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+    
+    public function RemoveUserByUserName($user_name)
+    {
+        $tab_name=$this->_Database->GetTablename('system_user');
+        $sql_statement=$this->_Database->object->prepare("DELETE FROM {$tab_name} WHERE user_name=:user_name");
+        $sql_statement->bindParam(':user_name',$user_name);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+
+    public function RemoveGroup($id)
+    {
+        $tab_name=$this->_Database->GetTablename('system_user_group');
+        $sql_statement=$this->_Database->object->prepare("DELETE FROM {$tab_name} WHERE id=:id");
+        $sql_statement->bindParam(':id',$id);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+
     public function CheckUserGroup($id)
     {
         $tab_name=$this->_Database->GetTablename('system_user_group');
@@ -101,27 +139,29 @@ class User
         return '';
     }
 
-
-    public function GetUserGroup($id)
+    public function CheckUserExist($user,$email)
     {
-        $tab_name=$this->_Database->GetTablename('system_user_group');
-        $sql_statement=$this->_Database->object->prepare("SELECT `group_name`,`group_level` FROM {$tab_name} WHERE `app_id`=:app_id AND `id`=:id");
+        $tab_name=$this->_Database->GetTablename('system_user');
+        $sql_statement=$this->_Database->object->prepare("SELECT `id` FROM {$tab_name} WHERE `app_id`=:app_id AND `user_name`=:user_name OR `email`=:email");
         $sql_statement->bindParam(':app_id',$this->app_id);
-        $sql_statement->bindParam(':id',$id);
+        $sql_statement->bindParam(':user_name',$user);
+        $sql_statement->bindParam(':email',$email);
         if($sql_statement->execute())
         {
             $result_sql_temp=$sql_statement->fetch();
-            if(!empty($result_sql_temp['group_name']))
-                return $result_sql_temp;
+            if(!empty($result_sql_temp['id']))
+                return 1;
+            else
+                return 0;
         }
-        return '';
+        else
+            return 0;
     }
 
     public function GetUserInfo($uuid)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
-        //只有状态为1的用户才允许
-        $sql_statement=$this->_Database->object->prepare("SELECT * FROM {$tab_name} WHERE `app_id`=:app_id AND `uuid`=:uuid AND `status`=1 ORDER BY `id` DESC LIMIT 0,1");
+        $sql_statement=$this->_Database->object->prepare("SELECT * FROM {$tab_name} WHERE `app_id`=:app_id AND `uuid`=:uuid ORDER BY `id` DESC LIMIT 0,1");
         $sql_statement->bindParam(':app_id',$this->app_id);
         $sql_statement->bindParam(':uuid',$uuid);
         if($sql_statement->execute())
@@ -136,14 +176,43 @@ class User
     public function GetUserInfoByUser($user)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
-        //只有状态为1的用户才允许
-        $sql_statement=$this->_Database->object->prepare("SELECT * FROM {$tab_name} WHERE `app_id`=:app_id AND `user_name`=:user_name AND `status`=1 ORDER BY `id` DESC LIMIT 0,1");
+        $sql_statement=$this->_Database->object->prepare("SELECT * FROM {$tab_name} WHERE `app_id`=:app_id AND `user_name`=:user_name ORDER BY `id` DESC LIMIT 0,1");
         $sql_statement->bindParam(':app_id',$this->app_id);
         $sql_statement->bindParam(':user_name',$user);
         if($sql_statement->execute())
         {
             $result_sql_temp=$sql_statement->fetch();
             if(!empty($result_sql_temp['uuid']))
+                return $result_sql_temp;
+        }
+        return '';
+    }
+
+    public function GetUserInfoByEmail($email)
+    {
+        $tab_name=$this->_Database->GetTablename('system_user');
+        $sql_statement=$this->_Database->object->prepare("SELECT * FROM {$tab_name} WHERE `app_id`=:app_id AND `email`=:email ORDER BY `id` DESC LIMIT 0,1");
+        $sql_statement->bindParam(':app_id',$this->app_id);
+        $sql_statement->bindParam(':email',$email);
+        if($sql_statement->execute())
+        {
+            $result_sql_temp=$sql_statement->fetch();
+            if(!empty($result_sql_temp['uuid']))
+                return $result_sql_temp;
+        }
+        return '';
+    }
+
+    public function GetUserGroup($id)
+    {
+        $tab_name=$this->_Database->GetTablename('system_user_group');
+        $sql_statement=$this->_Database->object->prepare("SELECT `group_name`,`group_level` FROM {$tab_name} WHERE `app_id`=:app_id AND `id`=:id");
+        $sql_statement->bindParam(':app_id',$this->app_id);
+        $sql_statement->bindParam(':id',$id);
+        if($sql_statement->execute())
+        {
+            $result_sql_temp=$sql_statement->fetch();
+            if(!empty($result_sql_temp['group_name']))
                 return $result_sql_temp;
         }
         return '';
@@ -162,9 +231,8 @@ class User
             return 0;
     }
 
-    public function __construct(&$Database,$app_id='',$user_salt='')
+    public function __construct($app_id='',$user_salt='')
     {
-        $this->_Database=$Database;
         if(!empty($app_id))
             $this->app_id=$app_id;
         if(!empty($user_salt))

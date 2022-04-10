@@ -187,9 +187,7 @@ if($_REQUEST['type']==='api')
             }
             krsort($post_data_array);
             foreach($post_data_array as $key=>$value)
-            {
                 $post_data.=(empty($post_data)?'':'&')."{$key}={$value}";
-            }
             $server_sign=md5($post_data.'&app_key='.$GLOBALS['app_key']);
             if($_POST['sign']!=$server_sign)
             {
@@ -298,13 +296,25 @@ function echo_return_data($return_path='')
     //目前支持的返回方式只有json
     if(is_array($GLOBALS['return_data']))
     {
+        if(empty($GLOBALS['return_data']['code']))
+            $GLOBALS['return_data']['code']=0;
+        if(empty($GLOBALS['return_data']['msg']))
+            $GLOBALS['return_data']['msg']=LANGUAGE_LOG_EXCEPTION_ERROR;
+        if(empty($GLOBALS['return_data']['data']))
+            $GLOBALS['return_data']['data']=array();
+        if(empty($GLOBALS['app_key']))
+            $GLOBALS['app_key']='';
         if(class_exists('Iumcode')&&!empty($GLOBALS['app_key'])&&$_REQUEST['return_type']==='ium')
             echo Iumcode::EncodeIum(json_encode($GLOBALS['return_data']),$GLOBALS['app_key']);
         else
             echo json_encode($GLOBALS['return_data']);
-        //调试模式下记录所有错误请求
+        //记录所有错误请求到日志
+        
         if($GLOBALS['return_data']['code']!=1)
-            debug_log(LANGUAGE_LOG_EXCEPTION_ERROR,'Cdoe: '.$GLOBALS['return_data']['code'].','.$GLOBALS['return_data']['msg'],empty($return_path)?__FILE__:$return_path,15);
+        {
+            debug_log(LANGUAGE_LOG_EXCEPTION_ERROR,json_encode($GLOBALS['return_data']),empty($return_path)?__FILE__:$return_path,15);
+            write_log(LANGUAGE_LOG_EXCEPTION_ERROR,'Cdoe: '.$GLOBALS['return_data']['code'].','.$GLOBALS['return_data']['msg'].','.json_encode($GLOBALS['return_data']['data']),empty($return_path)?__FILE__:$return_path,15);
+        }
     }
     else
     {

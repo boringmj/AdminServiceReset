@@ -10,7 +10,7 @@ class Database
     protected $_user;
     protected $_passwd;
     protected $_database;
-    protected $_type='mysql';
+    protected $_type;
 
     //设置连接地址
     public function SetHost($host)
@@ -61,6 +61,7 @@ class Database
 
     public function __construct($host='',$user='',$passwd='',$database='')
     {
+        $this->_type='mysql';
         $this->_host=$host;
         $this->_user=$user;
         $this->_passwd=$passwd;

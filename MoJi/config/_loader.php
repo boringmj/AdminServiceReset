@@ -23,5 +23,6 @@ require __DIR__.'/key.config.php';
 
 //项目配置(AdminServer)
 require __DIR__.'/user.config.php';
+require __DIR__.'/email.config.php';
 
 ?>

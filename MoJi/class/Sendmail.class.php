@@ -2,16 +2,16 @@
 
 class Sendmail
 {
-    protected $_smtp_port=465;      //smtp端口(可能需要放行该端口)
-    protected $_smtp_host='';       //smtp地址
-    protected $_smtp_user='';       //smtp用户(邮箱用户名)
-    protected $_smtp_pass='';       //smtp密码或授权码
-    protected $_from_email='';      //发送邮件的电子邮箱
-    protected $_from_name='';       //发件邮箱的昵称
-    protected $_reply_email='';     //回复邮箱(一般为空)
-    protected $_reply_name='';      //回复昵称(一般为空)
-    protected $_ssl=false;          //是否打开ssl
-    public $error_info=array();     //错误信息
+    protected $_smtp_port;       //smtp端口(可能需要放行该端口)
+    protected $_smtp_host;       //smtp地址
+    protected $_smtp_user;       //smtp用户(邮箱用户名)
+    protected $_smtp_pass;       //smtp密码或授权码
+    protected $_from_email;      //发送邮件的电子邮箱
+    protected $_from_name;       //发件邮箱的昵称
+    protected $_reply_email;     //回复邮箱(一般为空)
+    protected $_reply_name;      //回复昵称(一般为空)
+    protected $_ssl;             //是否打开ssl
+    public $error_info;          //错误信息
 
     //设置smtp端口
     public function SetSmtpPort($smtp_port)
@@ -165,6 +165,14 @@ class Sendmail
             return true;
         else
             return false;
+    }
+
+    public function __construct()
+    {
+        $this->_smtp_port;
+        $this->_smtp_host;
+        $this->_ssl=false;
+        $this->error_info=array();
     }
 }
 
