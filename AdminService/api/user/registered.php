@@ -104,14 +104,9 @@ $sign_array=array(
     'timestamp'=>$server_timestamp,
     'uuid'=>$uuid,
     'key'=>md5(CONFIG_USER_SALT.CONFIG_KEY_KEY.CONFIG_KEY_SALT),
-    'app_id'=>$_REQUEST['app_id'],
-    'app_key'=>$GLOBALS['app_key']
+    'app_id'=>$_REQUEST['app_id']
 );
-krsort($sign_array);
-$sign_string='';
-foreach($sign_array as $key=>$value)
-    $sign_string.=(empty($sign_string)?'':'&')."{$key}={$value}";
-$sign=md5($sign_string);
+$sign=sign($sign_array,$GLOBALS['app_key']);
 $url=CONFIG_REQUEST_URL."?from=user&class=verify&sign={$sign}&user={$_POST['user']}&token={$password}&timestamp={$server_timestamp}&uuid={$uuid}&app_id={$_REQUEST['app_id']}";
 
 //发送验证邮件

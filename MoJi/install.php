@@ -41,6 +41,13 @@ class Install
             `timestamp`       INT(10)       NOT NULL,
             `nonce`           VARCHAR(12)   NOT NULL,
             `sign`            VARCHAR(32)   NOT NULL
+        )',
+        'user_token'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            `app_id`          VARCHAR(32)   NOT NULL,
+            `timestamp`       INT(10)       NOT NULL,
+            `uuid`            VARCHAR(36)   NOT NULL,
+            `token`           VARCHAR(36)   NOT NULL,
+            `expire_time`     INT(10)       NOT NULL
         )'
     );
 

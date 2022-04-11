@@ -1,6 +1,6 @@
 <?php
 
-/* USER(AdminServer)
+/* USER(AdminService)
  * NAME_RULE 用户名规则 String 允许填写为auto(),一个合法的正则表达式(请注意,该项数据库最高存储长度为32个字符串)
  * PASSWORD_RULE 密码规则 String 允许填写为auto(),一个合法的正则表达式
  * NICKNAME_RULE 昵称规则 String 允许填写为auto(),一个合法的正则表达式(请注意,该项数据库最高存储32个字符串)
@@ -13,7 +13,7 @@
  * SALT 盐 String 长度推荐大于等于16个字符,允许定义为任何字符,该项涉及安全如不了解请勿修改
  * VERIFY_OVERDUE_TIME 验证过期时间 Int 推荐为3600(一小时),单位秒(该项修改后立即生效),过期未激活用户将被自动删除
  * 
- * 注意: 本配置文件为AdminServer独有配置
+ * 注意: 本配置文件为AdminService独有配置
  * 正则表达式需要使用 "/"开头和结尾,例如: '/^[a-zA-Z0-9_]{6,16}$/'
  * 
  * 默认规则:

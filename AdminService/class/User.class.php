@@ -70,6 +70,24 @@ class User
             return 0;
     }
 
+    public function AddUserToken($uuid)
+    {
+        $tab_name=$this->_Database->GetTablename('user_token');
+        $sql_statement=$this->_Database->object->prepare("INSERT INTO {$tab_name}(`app_id`,`timestamp`,`uuid`,`token`,`expire_time`) VALUES (:app_id,:timestamp,:uuid,:token,:expire_time)");
+        $timestamp=time();
+        $token=get_rand_string_id();
+        $expire_time=time()+CONFIG_SECURITY_USER_TOKEN_TIME;
+        $sql_statement->bindParam(':app_id',$this->app_id);
+        $sql_statement->bindParam(':timestamp',$timestamp);
+        $sql_statement->bindParam(':uuid',$uuid);
+        $sql_statement->bindParam(':token',$token);
+        $sql_statement->bindParam(':expire_time',$expire_time);
+        if($sql_statement->execute())
+            return $token;
+        else
+            return 0;
+    }
+
     public function RemoveUser($uuid)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -109,6 +127,29 @@ class User
         $sql_statement=$this->_Database->object->prepare("DELETE FROM {$tab_name} WHERE timestamp<:timestamp AND status=2");
         $timestamp=time()-CONFIG_USER_VERIFY_OVERDUE_TIME;
         $sql_statement->bindParam(':timestamp',$timestamp);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+
+    public function RemoveUserToken($uuid)
+    {
+        $tab_name=$this->_Database->GetTablename('user_token');
+        $sql_statement=$this->_Database->object->prepare("DELETE FROM {$tab_name} WHERE uuid=:uuid");
+        $sql_statement->bindParam(':uuid',$uuid);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+
+    public function RemoveExpiredToken()
+    {
+        $tab_name=$this->_Database->GetTablename('user_token');
+        $sql_statement=$this->_Database->object->prepare("DELETE FROM {$tab_name} WHERE expire_time<:expire_time");
+        $expire_time=time();
+        $sql_statement->bindParam(':expire_time',$expire_time);
         if($sql_statement->execute())
             return 1;
         else

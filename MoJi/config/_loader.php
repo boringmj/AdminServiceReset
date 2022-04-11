@@ -21,8 +21,9 @@ require __DIR__.'/database.config.php';
 require __DIR__.'/request.config.php';
 require __DIR__.'/key.config.php';
 
-//项目配置(AdminServer)
+//项目配置(AdminService)
 require __DIR__.'/user.config.php';
 require __DIR__.'/email.config.php';
+require __DIR__.'/security.config.php';
 
 ?>

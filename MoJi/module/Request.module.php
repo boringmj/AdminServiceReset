@@ -185,10 +185,7 @@ if($_REQUEST['type']==='api')
                 if($index!==false)
                     array_splice($post_data_array,$index,1);
             }
-            krsort($post_data_array);
-            foreach($post_data_array as $key=>$value)
-                $post_data.=(empty($post_data)?'':'&')."{$key}={$value}";
-            $server_sign=md5($post_data.'&app_key='.$GLOBALS['app_key']);
+            $server_sign=sign($post_data_array,$GLOBALS['app_key']);
             if($_POST['sign']!=$server_sign)
             {
                 $GLOBALS['return_data']=array(
@@ -358,6 +355,16 @@ function hide_private_info_array(&$data,$info_array)
     foreach($info_array as $info)
         if(isset($data[$info]))
             $data[$info]='******';
+}
+
+//签名
+function sign($data,$app_key)
+{
+    krsort($data);
+    $sign_string='';
+    foreach($data as $key=>$value)
+        $sign_string.=(empty($sign_string)?'':'&')."{$key}={$value}";
+    return $sign=md5($sign_string.'&app_key='.$app_key);
 }
 
 ?>

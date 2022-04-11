@@ -25,7 +25,7 @@ $CONFIG_INFO=array(
     'VERSION'       =>  '1.1',
     'GRADE'         =>  1,
     'START_DATE'    =>  '2020',
-    'FINALLY_DATE'  =>  '2020',
+    'FINALLY_DATE'  =>  config_auto('INFO_FINALLY_DATE'),
     'HOME'          =>  'http://wuliaomj.com',
     'API_GRADE'     =>  1
 );
@@ -37,7 +37,7 @@ config_examine('CONFIG_INFO');
  */
 $CONFIG_PROJECT=array(
     'NAME'          =>  'AdminService',
-    'COPYRIGHT'     =>  config_load('COPYRIGHT','Copyright ${DATES} <a href="${HOME}">${OWNER}</a>. All rights reserved.')
+    'COPYRIGHT'     =>  config_load('PROJECT_COPYRIGHT','Copyright ${DATES} <a href="${HOME}">${OWNER}</a>. All rights reserved.')
 );
 config_examine('CONFIG_PROJECT');
 

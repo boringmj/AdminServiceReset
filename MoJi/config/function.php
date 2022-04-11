@@ -62,6 +62,8 @@ function config_auto($name=null)
             return CONFIG_REQUEST_URL.'/?from=user&class=head_portrait&action=default';
         case 'EMAIL_FROM_NAME':
             return CONFIG_PROJECT_NAME;
+        case 'INFO_FINALLY_DATE':
+            return date('Y',time());
         default:
             return $name;
     }
@@ -69,7 +71,7 @@ function config_auto($name=null)
 
 function config_load($name=null,$content='')
 {
-    if($name==='COPYRIGHT')
+    if($name==='PROJECT_COPYRIGHT')
     {
         $content_array=array(
             'DATES'=>CONFIG_INFO_START_DATE===CONFIG_INFO_FINALLY_DATE?CONFIG_INFO_START_DATE:CONFIG_INFO_START_DATE.'-'.CONFIG_INFO_FINALLY_DATE,

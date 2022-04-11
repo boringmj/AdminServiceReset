@@ -31,14 +31,9 @@ $sign_array=array(
     'timestamp'=>$_GET['timestamp'],
     'uuid'=>$_GET['uuid'],
     'key'=>md5(CONFIG_USER_SALT.CONFIG_KEY_KEY.CONFIG_KEY_SALT),
-    'app_id'=>$_GET['app_id'],
-    'app_key'=>$app_key
+    'app_id'=>$_GET['app_id']
 );
-krsort($sign_array);
-$sign_string='';
-foreach($sign_array as $key=>$value)
-    $sign_string.=(empty($sign_string)?'':'&')."{$key}={$value}";
-$sign=md5($sign_string);
+$sign=sign($sign_array,$app_key);
 //签名校验
 if($sign!=$_GET['sign'])
 {
