@@ -258,16 +258,12 @@ class User
 
     public function SetUserPassword($uuid,$password)
     {
-        debug_log('数据调试',"user_salt:{$this->user_salt}",__FILE__);
-        debug_log('数据调试',"0:{$password}",__FILE__);
         $tab_name=$this->_Database->GetTablename('system_user');
         $sql_statement=$this->_Database->object->prepare("UPDATE {$tab_name} SET `password`=:password WHERE `app_id`=:app_id AND `uuid`=:uuid");
         $sql_statement->bindParam(':app_id',$this->app_id);
         $sql_statement->bindParam(':uuid',$uuid);
         $password=md5($password.$this->user_salt);
         $sql_statement->bindParam(':password',$password);
-        debug_log('数据调试',"1:{$password}",__FILE__);
-        debug_log('数据调试',"UPDATE {$tab_name} SET `password`='{$password}' WHERE `app_id`='{$this->app_id}' AND `uuid`='{$uuid}'",__FILE__);
         if($sql_statement->execute())
             return 1;
         else

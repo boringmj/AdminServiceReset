@@ -163,7 +163,6 @@ else
     $User->SetUserStatus($_GET['uuid'],1);
     $User->SetUserNickname($_GET['uuid'],$_POST['nickname']);
     $User->SetUserPassword($_GET['uuid'],$_POST['password']);
-    debug_log('数据调试',$_POST['password']."|".$User->app_id,__FILE__);
     $GLOBALS['return_data']=array(
         'code'=>1,
         'msg'=>'您的账户已激活!',
