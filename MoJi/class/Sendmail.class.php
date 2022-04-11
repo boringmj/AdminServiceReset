@@ -104,7 +104,7 @@ class Sendmail
             $PHPMailer->SMTPAuth=true;                          //启用 SMTP 验证功能
             if($this->_ssl)
                 $PHPMailer->SMTPSecure='ssl';                   //使用安全协议
-            $PHPMailer->Host=$this->_smtp_host;                 //SMTP 服务器
+            $PHPMailer->Host=$this->_smtp_host;                 //SMTP服务器
             $PHPMailer->Port=$this->_smtp_port;                 //SMTP服务器的端口号
             $PHPMailer->Username=$this->_smtp_user;             //SMTP服务器用户名
             $PHPMailer->Password=$this->_smtp_pass;             //SMTP服务器密码

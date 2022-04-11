@@ -55,7 +55,7 @@ function config_auto($name=null)
         case 'USER_PASSWORD_RULE':
             return '/^.{6,36}$/';
         case 'USER_NICKNAME_RULE':
-            return '/^[a-zA-Z0-9_\x{4e00}-\x{9fa5}]{2,16}$/';
+            return '/^[a-zA-Z0-9_\x{4e00}-\x{9fa5}]{2,16}$/u';
         case 'USER_EMAIL_RULE':
             return '/^(?=.{6,64}$)[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)+$/';
         case 'USER_HEAD_PORTRAIT':

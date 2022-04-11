@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+        <title>${title}</title>
+        <style>
+            *{margin:0;padding:0}.a{font-size: 12px;color: #bbb;}.info{display: none;}.error{color:red;display: inline;}.error_post{font-size: 14px;display: none;}.control .error_yes{display: inline;color: green}.error_error{display: inline;color: red}.cg,.error{font-size:12px;margin-left: 10px;}.cg{display: none;}body{background:#f3f3f3}.control{position:absolute;top:50%;left:50%;width:340px;border-radius:5px;background:#fff;transform:translate(-50%,-50%)}.content{width:100%}.content div{display:none;margin:20px 30px;text-align:left}p{margin-top:10px;margin-bottom:6px;color:#4a4a4a;font-size:15px}.content input[type=password],.content input[type=text]{box-sizing:border-box;padding:0 10px;width:100%;height:40px;border:1px solid #adadad;border-radius:3px}.content .submit{margin-top:40px;margin-bottom:40px;width:100%;height:40px;border:1px solid #adadad;border-radius:5px;background:#44a4f8;color:#fff;letter-spacing:4px;cursor:pointer}.active{background:#fff}.disabled,.item div:hover{background:#f6f6f6}.disabled{border:1px solid #adadad;color:#adadad;cursor:not-allowed}.control .content .submit_yes{background: green;}.control .submit_no,.control .content .submit_ing{background: #848484;color: #f3f3f3;}
+        </style>
+    </head>
+    <body>
+        <!--因为懒得去优化,所以代码烂了点,但无所谓,反正是客户端处理的-->
+        <div class="control">
+            <div class="content">
+                <div style="display: block;" class="box1">
+                    <br><h3>最后一步!</h3>
+                    <p>请您填写以下信息用于完成激活</p>
+                    <p class="a">在此之前,您应先了解昵称命名规则<br>昵称可以由2-16个任意数字、字母、下划线和任意汉字组成</p>
+                    <p class="a">除此之外,密码也有对应规则,密码可以由6-36个任意字符组成<br>您可以放心输入您的密码,我们将会对其加密存储,该过程是不可逆的</p>
+                    <p class="a">* 本页面自动过期时间: ${overdue_date}<br>* 一旦激活成功,本页面立即失效<br>接下来请完成下面的信息,启用您的新账户!</p>
+                    <p class="a" style="text-align: right;">- ${organization}</p>
+                    <p class="error_post">出现错误</p>
+                    <br>
+                    <p>用户名</p>
+                    <input class="disabled" onfocus=this.blur() type="text" placeholder="user" id="user" name="user" value="${user}">
+                    <p>昵称<span class="info">请填写</span></p>
+                    <input type="text" placeholder="nickname" id="nickname" name="nickname" value="${user}">
+                    <p>新密码<span class="info">请填写</span></p>
+                    <input type="password" placeholder="new password" id="password" name="password">
+                    <p>再次输入密码<span class="info">请填写</span></p>
+                    <input type="password" placeholder="repeat password" id="rpassword" name="rpassword">
+                    <br>
+                    <input class="submit submit_no" type="submit" value="激活">
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+        <script>
+            var rule=[
+                ${nickname_rule},
+                ${password_rule},
+            ];
+            var url='${url}';
+            eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[3-9a-l]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('function check(8=9){f a=$(\'#a\').g();f 7=$(\'#7\').g();f b=$(\'#b\').g();3(!k[0].l(a)){$(\'.4\').5(0).h(\'昵称不符合要求\');$(\'.4\').5(0).6(\'i\');3(8)$(\'#a\').j();$(\'.c\').6(\'d\');e 9}3(!k[1].l(7)){$(\'.4\').5(1).h(\'密码不符合要求\');$(\'.4\').5(1).6(\'i\');3(8)$(\'#7\').j();$(\'.c\').6(\'d\');e 9}3(b!=7){$(\'.4\').5(2).h(\'两次密码不一致\');$(\'.4\').5(2).6(\'i\');3(8)$(\'#b\').j();$(\'.c\').6(\'d\');e 9}$(\'.c\').removeClass(\'d\');e true}',[],22,'|||if|info|eq|addClass|password|go|false|nickname|rpassword|submit|submit_no|return|var|val|html|error|focus|rule|test'.split('|'),0,{}))
+            window.onload=function(){
+                eval(function(p,a,c,k,e,r){e=function(c){return c.toString(36)};if('0'.replace(0,e)==0){while(c--)r[e(c)]=k[c];k=[function(e){return r[e]||e}];e=function(){return'[3-9a-df-y]'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('$(\'#9\').n("o p",h(){c 9=$(\'#9\').3();d(9==\'\'){$(\'.4\').5(0).a(\'用户名不能为空\');$(\'.4\').5(0).7(\'b\')}i d(!s[0].t($(\'#9\').3())){$(\'.4\').5(0).a(\'昵称不符合要求\');$(\'.4\').5(0).7(\'b\')}i{$(\'.4\').5(0).j(\'b\')}k()});$(\'#6\').n("o p",h(){c 6=$(\'#6\').3();d(6==\'\'){$(\'.4\').5(1).a(\'密码不能为空\');$(\'.4\').5(1).7(\'b\')}i d(!s[1].t($(\'#6\').3())){$(\'.4\').5(1).a(\'密码不符合要求\');$(\'.4\').5(1).7(\'b\')}i{$(\'.4\').5(1).j(\'b\')}k()});$(\'#f\').n("o p",h(){c 6=$(\'#6\').3();c f=$(\'#f\').3();d(f!=6){$(\'.4\').5(2).a(\'两次密码不一致\');$(\'.4\').5(2).7(\'b\')}i{$(\'.4\').5(2).j(\'b\')}k()});$(\'.8\').click(h(){c l=$(\'#l\').3();c 9=$(\'#9\').3();c 6=$(\'#6\').3();c f=$(\'#f\').3();d(k(true)){d($(\'.8\').u(\'q\')||$(\'.8\').u(\'v\')){return}$(\'.8\').7(\'q\');$(\'.8\').3(\'正在激活\');try{$.ajax({w:w,type:"POST",data:{\'l\':l,\'f\':x(f),\'6\':x(6),\'9\':9},dataType:"json",success:h(m){d(m.code==1){$(\'.8\').7(\'v\');$(\'.8\').3(\'已完成激活\');$(".g").a(m.y);$(".g").7("error_yes")}i{$(\'.8\').3(\'激活\');$(".g").a(m.y);$(".g").7("r")}},b:h(){$(\'.8\').3(\'激活\');$(".g").a("连接失败,请检查网络原因或联系管理员处理");$(".g").7("r")}})}catch(e){$(\'.8\').3(\'激活\');$(".g").a("异常错误");$(".g").7("r")}$(\'.8\').j(\'q\')}});',[],35,'|||val|info|eq|password|addClass|submit|nickname|html|error|var|if||rpassword|error_post|function|else|removeClass|check|user|result|bind|input|propertychange|submit_ing|error_error|rule|test|hasClass|submit_yes|url|md5|msg'.split('|'),0,{}))
+            }
+        </script>
+    </body>
+</html>

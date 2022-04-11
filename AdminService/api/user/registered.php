@@ -56,6 +56,8 @@ $Sendmail->SetFromConfig(CONFIG_EMAIL_FROM_EMAIL,CONFIG_EMAIL_FROM_NAME);
 //准备用户类
 $User=new User();
 $User->SetDatabase($Database);
+//删除过期未激活用户(可放到监控中执行,也可以直接在这里执行)
+$User->RemoveExpiredUser();
 
 //验证用户是否已经存在
 if($User->CheckUserExist($_POST['user'],$_POST['email']))
@@ -101,14 +103,16 @@ $sign_array=array(
     'token'=>$password,
     'timestamp'=>$server_timestamp,
     'uuid'=>$uuid,
-    'key'=>md5(CONFIG_USER_SALT.CONFIG_KEY_KEY.CONFIG_KEY_SALT)
+    'key'=>md5(CONFIG_USER_SALT.CONFIG_KEY_KEY.CONFIG_KEY_SALT),
+    'app_id'=>$_REQUEST['app_id'],
+    'app_key'=>$GLOBALS['app_key']
 );
 krsort($sign_array);
 $sign_string='';
 foreach($sign_array as $key=>$value)
-    $sign_string.=(empty($sign_string)?'':'&').$key.'='.$value;
+    $sign_string.=(empty($sign_string)?'':'&')."{$key}={$value}";
 $sign=md5($sign_string);
-$url=CONFIG_REQUEST_URL."?from=user&class=verify&sign={$sign}&user={$_POST['user']}&token={$password}&timestamp={$server_timestamp}&uuid={$uuid}";
+$url=CONFIG_REQUEST_URL."?from=user&class=verify&sign={$sign}&user={$_POST['user']}&token={$password}&timestamp={$server_timestamp}&uuid={$uuid}&app_id={$_REQUEST['app_id']}";
 
 //发送验证邮件
 $title='感谢您使用-'.CONFIG_PROJECT_NAME;
@@ -120,7 +124,7 @@ $content=variable_load(array(
     'url'=>$url,
     'date'=>date('Y-m-d H:i:s',$server_timestamp)
 ),file_get_contents(RES_PATH.'/mail/email_user_verify.html'));
-if($Sendmail->send($title,$content,$_POST['email'],CONFIG_PROJECT_NAME))
+if($Sendmail->send($title,$content,$_POST['email'],$_POST['user']))
 {
     $GLOBALS['return_data']=array(
         'code'=>1,

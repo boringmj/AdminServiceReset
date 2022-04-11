@@ -103,6 +103,18 @@ class User
             return 0;
     }
 
+    public function RemoveExpiredUser()
+    {
+        $tab_name=$this->_Database->GetTablename('system_user');
+        $sql_statement=$this->_Database->object->prepare("DELETE FROM {$tab_name} WHERE timestamp<:timestamp AND status=2");
+        $timestamp=time()-CONFIG_USER_VERIFY_OVERDUE_TIME;
+        $sql_statement->bindParam(':timestamp',$timestamp);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+
     public function CheckUserGroup($id)
     {
         $tab_name=$this->_Database->GetTablename('system_user_group');
@@ -231,16 +243,47 @@ class User
             return 0;
     }
 
+    public function SetUserNickname($uuid,$nickname)
+    {
+        $tab_name=$this->_Database->GetTablename('system_user');
+        $sql_statement=$this->_Database->object->prepare("UPDATE {$tab_name} SET `nickname`=:nickname WHERE `app_id`=:app_id AND `uuid`=:uuid");
+        $sql_statement->bindParam(':app_id',$this->app_id);
+        $sql_statement->bindParam(':uuid',$uuid);
+        $sql_statement->bindParam(':nickname',$nickname);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+
+    public function SetUserPassword($uuid,$password)
+    {
+        debug_log('数据调试',"user_salt:{$this->user_salt}",__FILE__);
+        debug_log('数据调试',"0:{$password}",__FILE__);
+        $tab_name=$this->_Database->GetTablename('system_user');
+        $sql_statement=$this->_Database->object->prepare("UPDATE {$tab_name} SET `password`=:password WHERE `app_id`=:app_id AND `uuid`=:uuid");
+        $sql_statement->bindParam(':app_id',$this->app_id);
+        $sql_statement->bindParam(':uuid',$uuid);
+        $password=md5($password.$this->user_salt);
+        $sql_statement->bindParam(':password',$password);
+        debug_log('数据调试',"1:{$password}",__FILE__);
+        debug_log('数据调试',"UPDATE {$tab_name} SET `password`='{$password}' WHERE `app_id`='{$this->app_id}' AND `uuid`='{$uuid}'",__FILE__);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+
     public function __construct($app_id='',$user_salt='')
     {
         if(!empty($app_id))
             $this->app_id=$app_id;
         if(!empty($user_salt))
             $this->user_salt=$user_salt;
-        if(empty($this->app_id)&&isset($_REQUEST['app_id']))
-            $this->app_id=$_REQUEST['app_id'];
         else
             $this->user_salt=CONFIG_USER_SALT;
+        if(empty($app_id)&&isset($_REQUEST['app_id']))
+            $this->app_id=$_REQUEST['app_id'];
     }
 }
 

@@ -76,7 +76,7 @@ class PluginVerificationApi
             else
             {
                 $javascript_code=file_get_contents(__DIR__.'/../res/verification.js');
-                $javascript_script=new PluginVerificationApiVerification($Database);
+                $javascript_script=new PluginVerificationApiVerification($this->_Database);
                 $javascript_script->key=$this->_config->User->Key->Options->Text;
                 $javascript_script->expire_time=$this->_config->User->Expiration->Options->Text;
                 $javascript_tmp=$javascript_script->StartCheck();
