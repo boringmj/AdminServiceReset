@@ -16,9 +16,6 @@ $server_sign='';
 foreach($server_variable as $key=>$value)
 {
     $server_sign.=$server_sign?"&{$key}={$value}":"{$key}={$value}";
-    if($key==="from")
-    echo "[GET]";
-    else
     echo "[POST]";
     echo "{$key}<input type=\"text\" name=\"{$key}\" value=\"$value\"><br>";
 }

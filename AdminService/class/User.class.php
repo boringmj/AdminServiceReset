@@ -211,6 +211,40 @@ class User
             return 0;
     }
 
+    public function CheckUserToken($uuid,$token)
+    {
+        $tab_name=$this->_Database->GetTablename('user_token');
+        $sql_statement=$this->_Database->object->prepare("SELECT `id` FROM {$tab_name} WHERE `uuid`=:uuid AND `token`=:token AND `expire_time`>=:expire_time");
+        $expire_time=time();
+        $sql_statement->bindParam(':uuid',$uuid);
+        $sql_statement->bindParam(':token',$token);
+        $sql_statement->bindParam(':expire_time',$expire_time);
+        if($sql_statement->execute())
+        {
+            $result_sql_temp=$sql_statement->fetch();
+            if(!empty($result_sql_temp['id']))
+                return 1;
+            else
+                return 0;
+        }
+        else
+            return 0;
+    }
+
+    public function ResteUserTokenTime($uuid,$token)
+    {
+        $tab_name=$this->_Database->GetTablename('user_token');
+        $sql_statement=$this->_Database->object->prepare("UPDATE {$tab_name} SET `expire_time`=:expire_time WHERE `uuid`=:uuid AND `token`=:token");
+        $expire_time=time()+CONFIG_SECURITY_USER_TOKEN_TIME;
+        $sql_statement->bindParam(':uuid',$uuid);
+        $sql_statement->bindParam(':token',$token);
+        $sql_statement->bindParam(':expire_time',$expire_time);
+        if($sql_statement->execute())
+            return 1;
+        else
+            return 0;
+    }
+
     public function GetUserInfo($uuid)
     {
         $tab_name=$this->_Database->GetTablename('system_user');

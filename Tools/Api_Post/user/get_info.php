@@ -3,11 +3,12 @@
 <?php
 $server_variable=array(
     'from'=>"user",
-    'class'=>"registered",
+    'class'=>"get_info",
     'app_id'=>"0u725eCmqQr1ZAotJmiyi9y516111521",
     'time'=>"",
-    'user'=>isset($_GET['user'])?$_GET['user']:'testuser',
-    'email'=>isset($_GET['email'])?$_GET['email']:'usere@test.com',
+    'uuid'=>isset($_GET['uuid'])?$_GET['uuid']:'',
+    'token'=>isset($_GET['token'])?$_GET['token']:'',
+    'ukey'=>isset($_GET['ukey'])?$_GET['ukey']:'',
     'timestamp'=>time(),
     'nonce'=>rand(1000,999999)
 );

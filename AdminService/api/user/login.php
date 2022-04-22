@@ -41,16 +41,11 @@ if($uuid)
     $sign_array=array(
         'uuid'=>$user_info['uuid'],
         'user'=>$user_info['user_name'],
-        'nickname'=>$user_info['nickname'],
         'token'=>$token,
         'ukey'=>$ukey,
         'timestamp'=>$timestamp,
-        'user_group'=>$user_info['user_group'],
         'app_id'=>$_POST['app_id'],
-        'head_portraits'=>$user_info['head_portraits'],
-        'status'=>$user_info['status'],
-        'group_name'=>empty($group_info['group_name'])?'无效的组名':$group_info['group_name'],
-        'group_level'=>empty($group_info['group_level'])?1:$group_info['group_level']
+        'status'=>$user_info['status']
     );
     $sign=sign($sign_array,$GLOBALS['app_key']);
     $sign_array['sign']=$sign;
