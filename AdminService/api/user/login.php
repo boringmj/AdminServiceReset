@@ -43,8 +43,8 @@ if($uuid)
         'user'=>$user_info['user_name'],
         'token'=>$token,
         'ukey'=>$ukey,
-        'timestamp'=>$timestamp,
-        'app_id'=>$_POST['app_id'],
+        'server_timestamp'=>$timestamp,
+        'server_app_id'=>$_POST['app_id'],
         'status'=>$user_info['status']
     );
     $sign=sign($sign_array,$GLOBALS['app_key']);
