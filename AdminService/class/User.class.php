@@ -195,7 +195,7 @@ class User
     public function CheckUserExist($user,$email)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
-        $sql_statement=$this->_Database->object->prepare("SELECT `id` FROM {$tab_name} WHERE `app_id`=:app_id AND `user_name`=:user_name OR `email`=:email");
+        $sql_statement=$this->_Database->object->prepare("SELECT `id` FROM {$tab_name} WHERE `app_id`=:app_id AND (`user_name`=:user_name OR `email`=:email)");
         $sql_statement->bindParam(':app_id',$this->app_id);
         $sql_statement->bindParam(':user_name',$user);
         $sql_statement->bindParam(':email',$email);

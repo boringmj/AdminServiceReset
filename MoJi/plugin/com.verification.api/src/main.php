@@ -3,8 +3,8 @@
 /** 一般规范
  * 我们规定,main.php中应该有且只有 info.json->Main 中注册的主类
  * 如果需要自定义类,请将类的类名使用 主类名称+自定义类名称 命名,并存放在插件的src目录或自定义目录中
- * 主类请务必保留 Start(&$Database,$data_path,$config) 方法,且不可修改其形参
- * 主类的 Init(&$Database,$data_path) 方法请使用 公共静态(static public) 修饰,且同样需要保留,也不可修改其形参
+ * 主类请务必保留 Start(&$this->_Database,$data_path,$config) 方法,且不可修改其形参
+ * 主类的 Init(&$this->_Database,$data_path) 方法请使用 公共静态(static public) 修饰,且同样需要保留,也不可修改其形参
  * 主类中不必要的方法允许删除,但请注意上两条
  * 三个保留字段请保留
  * 插件数据请存放入规定的 数据存放目录(protected $_data_path)
@@ -24,6 +24,7 @@ class PluginVerificationApi
         $this->_data_path=$data_path;
         $this->_config=$config;
         include __DIR__.'/../lib/PluginVerificationApiVerification.class.php';
+        include __DIR__.'/../lib/PluginVerificationApiVerifyImg.class.php';
     }
 
     //插件被初始化,请使用公共静态修饰,请保留该方法且不可修改形参
@@ -44,14 +45,151 @@ class PluginVerificationApi
             $plugin_data_json->Program->User->Key->Options->Text=get_rand_string(32);
         $plugin_data_json->System->State=true;
         file_put_contents($plugin_data,json_encode($plugin_data_json));
+
+        //创建数据表
+        $database_tables=array(
+            'PluginVerificationApi_token'=>'(`id` INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                `ck_kid`          VARCHAR(36)   NOT NULL,
+                `ck_key`          VARCHAR(32)   NOT NULL,
+                `timestamp`       INT(10)       NOT NULL,
+                `value`           VARCHAR(32)   NOT NULL,
+                `number`          INT(10)       NOT NULL
+            )',
+        );
+        foreach($database_tables as $table=>$info)
+        {
+            $table_name=$Database->GetTablename($table);
+            $sql_statement=$Database->object->prepare("CREATE TABLE {$table_name}{$info}");
+            $sql_statement->execute();
+        }
     }
 
     //接口安全
     public function ApiSecurity()
     {
-        //目前先挖一个坑,以后补
-        if(in_array($this->GetRequestInfo(),explode(',',$this->_config->User->NoVerification->Options->Text)))
+        //以后将会限制某个ip某段时间内的访问次数且本方法均不验证存储是否成功
+        if(!in_array($this->GetRequestInfo(),explode(',',$this->_config->User->NoVerification->Options->Text)))
             return;
+        $table_name=$this->_Database->GetTablename('PluginVerificationApi_token');
+        //删除过期的数据
+        $sql_statement=$this->_Database->object->prepare("DELETE FROM {$table_name} WHERE timestamp<:timestamp OR number<=0");
+        $expire_time=time()-$this->_config->User->Expiration->Options->Text;
+        $sql_statement->bindValue(':timestamp',$expire_time);
+        $sql_statement->execute();
+        if($_REQUEST['from']=='verification_img'&&!empty($_REQUEST['ck_kid'])&&!empty($_REQUEST['ck_token']))
+        {
+            //验证请求是否存在
+            $sql_statement=$this->_Database->object->prepare("SELECT * FROM {$table_name} WHERE `ck_kid`=:ck_kid AND `ck_key`=:ck_key");
+            $sql_statement->bindParam(':ck_kid',$_REQUEST['ck_kid']);
+            $sql_statement->bindParam(':ck_key',$_REQUEST['ck_token']);
+            $sql_statement->execute();
+            $result=$sql_statement->fetch();
+            if(empty($result['timestamp']))
+            {
+                $GLOBALS['return_data']=array(
+                    'code'=>1023,
+                    'msg'=>'错误: 非法请求',
+                    'data'=>array('from'=>$_REQUEST['from'])
+                );
+                echo_return_data();
+            }
+            if(!function_exists('imagecreate'))
+            {
+                $GLOBALS['return_data']=array(
+                    'code'=>1022,
+                    'msg'=>'错误: 暂不支持图片验证码',
+                    'data'=>array('from'=>$_REQUEST['from'])
+                );
+                echo_return_data();
+            }
+            //生成两个随机数
+            $rand_one=rand(1,9);
+            $rand_two=rand(1,9);
+            $value=-1;
+            if($rand_one>$rand_two)
+                $value=$rand_one-$rand_two;
+            else
+                $value=$rand_one+$rand_two;
+            $table_name=$this->_Database->GetTablename('PluginVerificationApi_token');
+            $sql_statement=$this->_Database->object->prepare("UPDATE {$table_name} SET `value`=:value WHERE `ck_kid`=:ck_kid");
+            $sql_statement->bindParam(':ck_kid',$_REQUEST['ck_kid']);
+            $sql_statement->bindParam(':value',$value);
+            $sql_statement->execute();
+            PluginVerificationApiVerifyImg::get($rand_one,$rand_two);
+        }
+        else if($_REQUEST['from']=='verification_get')
+        {
+            $expire_time=time()+$this->_config->User->Expiration->Options->Text;
+            $ck_kid=get_rand_string_id();
+            $ck_key=$this->_config->User->Key->Options->Text;
+            $timestamp=time();
+            $value=-1;
+            $number=5;
+            $ck_token=md5(REQUEST_IP.$this->_config->User->Key->Options->Text.REQUEST_FORWARDED."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
+            $sql_statement=$this->_Database->object->prepare("INSERT INTO {$table_name}(`ck_kid`,`ck_key`,`timestamp`,`value`,`number`) VALUES (:ck_kid,:ck_key,:timestamp,:value,:number)");
+            $sql_statement->bindParam(':ck_kid',$ck_kid);
+            $sql_statement->bindParam(':ck_key',$ck_token);
+            $sql_statement->bindParam(':timestamp',$timestamp);
+            $sql_statement->bindParam(':value',$value);
+            $sql_statement->bindParam(':number',$number);
+            $sql_statement->execute();
+            $GLOBALS['return_data']=array(
+                'code'=>1,
+                'msg'=>'成功',
+                'data'=>array(
+                    'ck_kid'=>$ck_kid,
+                    'expire_time'=>$expire_time,
+                    'ck_token'=>$ck_token
+                )
+            );
+            echo_return_data();
+        }
+        else if(!empty($_REQUEST['verification_value'])&&!empty($_REQUEST['ck_kid'])&&!empty($_REQUEST['ck_token']))
+        {
+            //验证请求是否存在
+            $sql_statement=$this->_Database->object->prepare("SELECT * FROM {$table_name} WHERE `ck_kid`=:ck_kid AND `ck_key`=:ck_key");
+            $sql_statement->bindParam(':ck_kid',$_REQUEST['ck_kid']);
+            $sql_statement->bindParam(':ck_key',$_REQUEST['ck_token']);
+            $sql_statement->execute();
+            $result=$sql_statement->fetch();
+            if(empty($result['timestamp']))
+            {
+                $GLOBALS['return_data']=array(
+                    'code'=>1023,
+                    'msg'=>'错误: 非法请求',
+                    'data'=>array('from'=>$_REQUEST['from'])
+                );
+                echo_return_data();
+            }
+            if($_REQUEST['verification_value']==-1||$result['value']!=$_REQUEST['verification_value'])
+            {
+                //扣除次数
+                $sql_statement=$this->_Database->object->prepare("UPDATE {$table_name} SET `number`=:number WHERE `ck_kid`=:ck_kid");
+                $number=$result['number']-1;
+                $sql_statement->bindParam(':number',$number);
+                $sql_statement->bindParam(':ck_kid',$_REQUEST['ck_kid']);
+                $sql_statement->execute();
+                $GLOBALS['return_data']=array(
+                    'code'=>1002,
+                    'msg'=>'错误: 验证码错误',
+                    'data'=>array('from'=>$_REQUEST['from'])
+                );
+                echo_return_data();
+            }
+            //删除请求
+            $sql_statement=$this->_Database->object->prepare("DELETE FROM {$table_name} WHERE `ck_kid`=:ck_kid");
+            $sql_statement->bindParam(':ck_kid',$_REQUEST['ck_kid']);
+            $sql_statement->execute();
+        }
+        else
+        {
+            $GLOBALS['return_data']=array(
+                'code'=>1001,
+                'msg'=>'错误: 暂无验证信息',
+                'data'=>array('from'=>$_REQUEST['from'])
+            );
+            echo_return_data();
+        }
     }
 
     //页面安全
@@ -76,7 +214,7 @@ class PluginVerificationApi
             else
             {
                 $javascript_code=file_get_contents(__DIR__.'/../res/verification.js');
-                $javascript_script=new PluginVerificationApiVerification($this->_Database);
+                $javascript_script=new PluginVerificationApiVerification($this->_this->_Database);
                 $javascript_script->key=$this->_config->User->Key->Options->Text;
                 $javascript_script->expire_time=$this->_config->User->Expiration->Options->Text;
                 $javascript_tmp=$javascript_script->StartCheck();
