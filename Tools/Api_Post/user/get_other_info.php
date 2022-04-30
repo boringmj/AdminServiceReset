@@ -4,7 +4,7 @@
 include "../test_data.php";
 $server_variable=array(
     'from'=>"user",
-    'class'=>"user_info",
+    'class'=>"get_other_info",
     'app_id'=>$app_id,
     'time'=>"",
     'uuid'=>isset($_GET['uuid'])?$_GET['uuid']:'',
