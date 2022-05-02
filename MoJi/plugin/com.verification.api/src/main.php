@@ -216,7 +216,7 @@ class PluginVerificationApi
                             <p style="text-align:center">
                                 高危警告: 您当前有被<a href="https://baike.baidu.com/item/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/13777878?fr=aladdin">CSRF攻击</a>风险,我们将会拦截本次请求!<br><br>
                                 请您确认您的目标地址无误后点击下面的链接继续<br>
-                                您继续访问该目标地址将会视为您自愿无视本次风险且造成的所有后果由您自己承担!<br><br><br>
+                                您继续访问该目标地址将会视为您自愿无视本次风险且造成的所有影响由您自己承担!<br><br><br>
                                 <a href="'.CONFIG_REQUEST_URL.REQUEST_URI.'">'.CONFIG_REQUEST_URL.REQUEST_URI.'</a><br><br><br>
                                 您也可以放弃本次请求选择<br><br><br>
                                 <a href="'.CONFIG_REQUEST_URL.'">前往首页</a> | <a href="javascript:history.back(-1)">返回源地址</a>
