@@ -197,18 +197,52 @@ class PluginVerificationApi
     {
         if(in_array($this->GetRequestInfo(),explode(',',$this->_config->User->NoVerification->Options->Text)))
             return;
-        if($_REQUEST["from"]=="verification")
+        //csrf安全更新内容,该检查仅在用户浏览器提交本参数的情况下运行且本项仅作为一种额外保护浏览器安全的手段(首页默认放行)
+        if(!empty($_SERVER['HTTP_REFERER'])&&$_REQUEST['from']!='main')
+        {
+            if(preg_match('/^(((https?|file):)?\/\/)?(?<host>[a-zA-Z0-9\.]+\.[a-zA-Z0-9]+)(:[0-9]+)?(\/)?.*$/',$_SERVER['HTTP_REFERER'],$matches))
+            {
+                //目前无法兼容localhost等方式访问,只能通过符合规则的ip或域名访问(域名不支持中文域名)
+                $referer_host=$matches['host'];
+                if($referer_host!=CONFIG_HTTP_HOST)
+                {
+                    exit('
+                    <html>
+                        <meta charset="utf-8">
+                        <head><title>请求拦截-CSRF</title></head>
+                        <body>
+                            <h1 style="text-align:center">风险警告</h1>
+                            <hr>
+                            <p style="text-align:center">
+                                高危警告: 您当前有被<a href="https://baike.baidu.com/item/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/13777878?fr=aladdin">CSRF攻击</a>风险,我们将会拦截本次请求!<br><br>
+                                请您确认您的目标地址无误后点击下面的链接继续<br>
+                                您继续访问该目标地址将会视为您自愿无视本次风险且造成的所有后果由您自己承担!<br><br><br>
+                                <a href="'.CONFIG_REQUEST_URL.REQUEST_URI.'">'.CONFIG_REQUEST_URL.REQUEST_URI.'</a><br><br><br>
+                                您也可以放弃本次请求选择<br><br><br>
+                                <a href="'.CONFIG_REQUEST_URL.'">前往首页</a> | <a href="javascript:history.back(-1)">返回源地址</a>
+                            </p>
+                        </body>
+                    </html>
+                    ');
+                }
+            }
+            else
+            {
+                exit('内部错误!(com.verification.api.ViewSecurity)');
+            }
+        }
+        if($_REQUEST['from']=='verification')
         {
             if(!empty($_GET['ck_key']))
             {
-                $ck_kid=isset($_COOKIE['ck_kid'])?$_COOKIE['ck_kid']:"";
-                $ck_key=isset($_GET['ck_key'])?$_GET['ck_key']:"";
-                $expire_time=isset($_COOKIE['expire_time'])?$_COOKIE['expire_time']:"";
+                $ck_kid=isset($_COOKIE['ck_kid'])?$_COOKIE['ck_kid']:'';
+                $ck_key=isset($_GET['ck_key'])?$_GET['ck_key']:'';
+                $expire_time=isset($_COOKIE['expire_time'])?$_COOKIE['expire_time']:'';
                 $ck_token=md5(REQUEST_IP.$this->_config->User->Key->Options->Text.REQUEST_FORWARDED."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
-                if($ck_token!=(isset($_COOKIE['ck_token'])?$_COOKIE['ck_token']:"")||time()>$expire_time)
-                    exit("验证失败或请求已过期!<br>如果您禁止了Cookie,我们将无法为您正常提供服务");
+                if($ck_token!=(isset($_COOKIE['ck_token'])?$_COOKIE['ck_token']:'')||time()>$expire_time)
+                    exit('验证失败或请求已过期!<br>如果您禁止了Cookie,我们将无法为您正常提供服务');
                 setcookie('ck_key',$ck_key,$expire_time);
-                header("Location: ".CONFIG_REQUEST_URL.(empty($_COOKIE['url'])?"/":$_COOKIE['url']));
+                header('Location: '.CONFIG_REQUEST_URL.(empty($_COOKIE['url'])?'/':$_COOKIE['url']));
                 exit();
             }
             else
@@ -221,9 +255,9 @@ class PluginVerificationApi
                 $content_array=array(
                     'javascript_script'=>$javascript_tmp
                 );
-                echo "<html><script>";
+                echo '<html><script>';
                 echo javascript_encode(variable_load($content_array,$javascript_code));
-                echo "</script></html>";
+                echo '</script></html>';
                 exit();
             }
         }
@@ -242,7 +276,7 @@ class PluginVerificationApi
             //我想了又想,最终决定还是基于 $_REQUEST 接收参数
             if(empty($_REQUEST['ck_token'])||empty($_REQUEST['ck_kid'])||empty($_REQUEST['ck_key'])||empty($_REQUEST['expire_time']))
             {
-                header("Location: ".CONFIG_REQUEST_URL."/?from=verification");
+                header('Location: '.CONFIG_REQUEST_URL.'/?from=verification');
                 setcookie("url",$request_url);
                 exit();
             }
@@ -253,8 +287,8 @@ class PluginVerificationApi
             $ck_token=md5(REQUEST_IP.$this->_config->User->Key->Options->Text.REQUEST_FORWARDED."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
             if($ck_token!=$_REQUEST['ck_token']||time()>$expire_time)
             {
-                header("Location: ".CONFIG_REQUEST_URL."/?from=verification");
-                setcookie("url",$request_url);
+                header('Location: '.CONFIG_REQUEST_URL.'/?from=verification');
+                setcookie('url',$request_url);
                 exit();
             }
         }

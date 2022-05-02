@@ -13,10 +13,13 @@ function config_auto($name=null)
             else
                 return 'http';
         case 'HTTP_HOST':
-            if(isset($_SERVER['HTTP_X_FORWARDED_HOST']))
-                return $_SERVER['HTTP_X_FORWARDED_HOST'];
-            elseif(isset($_SERVER['HTTP_HOST']))
+            // 本代码已废弃,后续将不再信任代理服务器,也不再支持自动识别出代理服务器,如业务需要,请自行配置
+            // if(isset($_SERVER['HTTP_X_FORWARDED_HOST']))
+            //     return $_SERVER['HTTP_X_FORWARDED_HOST'];
+            if(isset($_SERVER['HTTP_HOST']))
                 return $_SERVER['HTTP_HOST'];
+            elseif(isset($_SERVER['SERVER_NAME']))
+                return $_SERVER['SERVER_NAME'];
             elseif(isset($_SERVER['SERVER_ADDR']))
                 return $_SERVER['SERVER_ADDR'];
             else
@@ -59,7 +62,8 @@ function config_auto($name=null)
         case 'USER_EMAIL_RULE':
             return '/^(?=.{6,64}$)[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)+$/';
         case 'USER_HEAD_PORTRAIT':
-            return CONFIG_REQUEST_URL.'/?from=user&class=head_portrait&action=default';
+            //头像不再以固定链接方式存储
+            return 'default';
         case 'EMAIL_FROM_NAME':
             return CONFIG_PROJECT_NAME;
         case 'INFO_FINALLY_DATE':

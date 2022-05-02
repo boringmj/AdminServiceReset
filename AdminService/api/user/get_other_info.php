@@ -48,7 +48,7 @@ if($user_info)
         'server_app_id'=>$_POST['app_id'],
         'regtime'=>date('Y-m-d',$user_info['timestamp']),
         'user_group'=>$user_info['user_group'],
-        'head_portraits'=>$user_info['head_portraits'],
+        'head_portraits'=>CONFIG_REQUEST_URL.'/?from=user&class=head_portrait&action='.$user_info['head_portraits'],
         'status'=>$user_info['status'],
         'group_name'=>empty($group_info['group_name'])?'无效的组名':$group_info['group_name'],
         'group_level'=>empty($group_info['group_level'])?1:$group_info['group_level']
