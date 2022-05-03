@@ -67,7 +67,65 @@ class PluginVerificationApi
     //接口安全
     public function ApiSecurity()
     {
-        //以后将会限制某个ip某段时间内的访问次数且本方法均不验证存储是否成功
+        //csrf新增验证内容,该项仅作为额外的验证手段,不作为核心使用,该项不是强制检查的,如果用户不能提供Referer(来源地址),则不会检查
+        if(!empty($_SERVER['HTTP_REFERER']))
+        {
+            if(preg_match('/^(((https?|file):)?\/\/)?(?<host>[a-zA-Z0-9\.]+\.[a-zA-Z0-9]+)(:[0-9]+)?(\/)?.*$/',$_SERVER['HTTP_REFERER'],$matches))
+            {
+                //目前无法兼容localhost等方式访问,只能通过符合规则的ip或域名访问(域名不支持中文域名)
+                $referer_host=$matches['host'];
+                if($referer_host!=CONFIG_HTTP_HOST)
+                {
+                    $GLOBALS['return_data']=array(
+                        'code'=>1025,
+                        'msg'=>'非法请求',
+                        'data'=>array()
+                    );
+                    echo_return_data();
+                }
+                //获取请求信息(优先通过Apache的方式获取请求头,如果失败使用nginx获取,如果其他服务没对该项提供支持,将无法通过验证)
+                $request_headers=array();
+                if(function_exists('apache_request_headers'))
+                    $request_headers=apache_request_headers();
+                $henader_info=array(
+                    'Token'=>(empty($request_headers['Token'])?(empty($_SERVER['HTTP_TOKEN'])?'':$_SERVER['HTTP_TOKEN']):$request_headers['Token']),
+                    'Token_Expire_Time'=>(empty($request_headers['Token_Expire_Time'])?(empty($_SERVER['HTTP_TOKEN_EXPIRE_TIME'])?'':$_SERVER['HTTP_TOKEN_EXPIRE_TIME']):$request_headers['Token_Expire_Time']),
+                );
+                $token_sign=(empty($request_headers['Token_Sign'])?(empty($_SERVER['HTTP_TOKEN_SIGN'])?'':$_SERVER['HTTP_TOKEN_SIGN']):$request_headers['Token_Sign']);
+                unset($request_headers);
+                //验证签名,签名通过视为token有效
+                $sign=md5(sign($henader_info,$this->_config->User->Key->Options->Text).REQUEST_IP.REQUEST_FORWARDED);
+                if($sign!=$token_sign)
+                {
+                    $GLOBALS['return_data']=array(
+                        'code'=>1026,
+                        'msg'=>'非法请求',
+                        'data'=>array()
+                    );
+                    echo_return_data();
+                }
+                //验证Token是否已经过期
+                if(empty($henader_info['Token_Expire_Time'])||time()>$henader_info['Token_Expire_Time'])
+                {
+                    $GLOBALS['return_data']=array(
+                        'code'=>1027,
+                        'msg'=>'令牌已过期',
+                        'data'=>array()
+                    );
+                    echo_return_data();
+                }
+            }
+            else
+            {
+                $GLOBALS['return_data']=array(
+                    'code'=>1024,
+                    'msg'=>'非法请求',
+                    'data'=>array()
+                );
+                echo_return_data();
+            }
+        }
+        //API图片验证码相关,以下代码均不验证存储是否成功
         if(!in_array($this->GetRequestInfo(),explode(',',$this->_config->User->NoVerification->Options->Text)))
             return;
         $table_name=$this->_Database->GetTablename('PluginVerificationApi_token');
@@ -195,6 +253,16 @@ class PluginVerificationApi
     //页面安全
     public function ViewSecurity()
     {
+        //所有页面均需要返回一个随机Token到Header中
+        $token_info=array(
+            'Token'=>get_rand_string_id(),
+            'Token_Expire_Time'=>time()+$this->_config->User->Expiration->Options->Text
+        );
+        //计算出签名,防止数据被篡改(需要验证请求者ip)
+        $sign=md5(sign($token_info,$this->_config->User->Key->Options->Text).REQUEST_IP.REQUEST_FORWARDED);
+        $token_info['Token_Sign']=$sign;
+        foreach($token_info as $key=>$value)
+            header("{$key}: {$value}");
         if(in_array($this->GetRequestInfo(),explode(',',$this->_config->User->NoVerification->Options->Text)))
             return;
         //csrf安全更新内容,该检查仅在用户浏览器提交本参数的情况下运行且本项仅作为一种额外保护浏览器安全的手段(首页默认放行)
