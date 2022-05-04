@@ -7,6 +7,8 @@ if(is_writable(APPLICATION_PATH))
         mkdir(APPLICATION_PATH.'/Data');
     if(!is_dir(APPLICATION_PATH.'/Log'))
         mkdir(APPLICATION_PATH.'/Log');
+    if(!is_dir(APPLICATION_PATH.'/Data/permission'))
+        mkdir(APPLICATION_PATH.'/Data/permission');
 }
 
 $write_path_array=array();
@@ -31,6 +33,7 @@ if(CONFIG_LOG_STATUS)
 if(file_exists(PLUGIN_DATA_PATH))
     array_push($write_path_array,PLUGIN_DATA_PATH);
 array_push($write_path_array,DATA_PATH);
+array_push($write_path_array,DATA_PATH.'/permission');
 // array_push($write_path_array,DATA_PATH.'/key.json');
 foreach($write_path_array as $write_path)
     if(!is_writable($write_path)&&!empty($write_path))
