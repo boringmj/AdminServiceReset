@@ -14,6 +14,26 @@
  * 如果依旧无法获取到权限,将会默认为无权限
  */
 
+//所有默认权限均在此处注册
+$default_permission=array(
+    'request'=>array(
+        'view'=>array(
+            'error'=>true,
+            '__install'=>true,
+            'main'=>true,
+            'user'=>array(
+                'head_portrait'=>true
+            )
+        ),
+        'api'=>array(
+            'main'=>true
+        ),
+        'plugin'=>array(
+            '*'=>true
+        )
+    )
+);
+
 class Permission
 {
     private $_app_id;
@@ -23,6 +43,11 @@ class Permission
     public function SetAppId($app_id)
     {
         $this->_app_id=$app_id;
+    }
+
+    public function SetDefaultPermission($permission)
+    {
+        $this->_default_permission=$permission;
     }
 
     final protected function _GetPermissionInfo($app_id)
@@ -40,11 +65,12 @@ class Permission
     //获取当前权限节点名称
     static public function GetPermissionName()
     {
+        //需与Request模块中的默认值保持一致
         $request_type=(empty($_REQUEST['type'])?'view':$_REQUEST['type']);
         $request_from=(empty($_REQUEST['from'])?'main':$_REQUEST['from']);
         $request_class=(empty($_REQUEST['class'])?'':$_REQUEST['class']);
-        //请求类型严格检查,仅允许为 api 或 view
-        if(!in_array($request_type,array('api','view')))
+        //请求类型严格检查
+        if(!in_array($request_type,array('api','view','plugin')))
             return false;
         //from和class开放性检查,数字字母下划线组成即可通过
         if(!preg_match("/^[A-Za-z0-9_]+$/",$request_from))
@@ -62,12 +88,12 @@ class Permission
         $request_app_id=$this->_app_id;
         $permission_info=self::_GetPermissionInfo($request_app_id);
         $permission_name_array=explode('.',$permission_name);
-        $permission=$this->_GetPermissionByArray($permission_name_array,$permission_info);
+        $permission=$this->GetPermissionByArray($permission_name_array,$permission_info);
         return $permission;
     }
 
     //根据节点数组获取权限
-    private function _GetPermissionByArray($permission_name_array,$permission_info,$is_default=false)
+    public function GetPermissionByArray($permission_name_array,$permission_info,$is_default=false)
     {
         if(!is_array($permission_name_array))
             return false;
@@ -112,7 +138,7 @@ class Permission
         }
         //没找到权限则前往默认权限节点中查找
         if(!$permission_yes&&!$is_default&&!$permission_father)
-            $permission=$this->_GetPermissionByArray($permission_name_array,$this->_default_permission,true);
+            $permission=$this->GetPermissionByArray($permission_name_array,$this->_default_permission,true);
         return $permission;
     }
 
@@ -120,9 +146,15 @@ class Permission
     {
         $this->_app_id=$app_id;
         $this->_data_path=DATA_PATH.'/permission';
-        //所有默认权限均在此处注册
-        $this->_default_permission=array();
     }
 }
 
+//权限检查(权限检查仅检查权限,不验证app_id真实性)
+$Permission=new Permission(empty($_REQUEST['app_id'])?'':$_REQUEST['app_id']);
+$Permission->SetDefaultPermission($default_permission);
+if(!$Permission->CheckPermission())
+{
+    $permission_name=$Permission->GetPermissionName();
+    exit(LANGUAGE_PERMISSION_ERROR_NO_PERMISSION_ONE.': '.($permission_name?$permission_name:'?'));
+}
 ?>

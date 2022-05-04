@@ -24,7 +24,8 @@ $LANGUAGE=array(
     'ADMINSERVICE_ERROR_CODE_MINUS_TOW'=>'Error: Incomplete base parameters',
     'ADMINSERVICE_ERROR_CODE_MINUS_THREE'=>'Error: Request timed out',
     'ADMINSERVICE_ERROR_CODE_MINUS_FOUR'=>'Error: Request expired',
-    'ADMINSERVICE_ERROR_CODE_MINUS_FIVES'=>'Error: Signature verification failed'
+    'ADMINSERVICE_ERROR_CODE_MINUS_FIVES'=>'Error: Signature verification failed',
+    'PERMISSION_ERROR_NO_PERMISSION_ONE'=>'Missing permissions for node'
 );
 
 ?>

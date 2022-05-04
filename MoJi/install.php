@@ -121,6 +121,11 @@ class Install
             'group_name'=>CONFIG_USER_DEFAULT_GROUP_NAME,
             'group_level'=>CONFIG_USER_DEFAULT_GROUP_LEVEL
         );
+        //赋予app_id所有权限
+        $system_permission=array(
+            '*'=>true
+        );
+        file_put_contents(DATA_PATH.'/permission'.'/'.md5($app_id).'data.json',json_encode($system_permission));
         //创建数据表
         foreach($this->_database_tables as $table=>$info)
         {

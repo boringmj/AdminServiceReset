@@ -344,7 +344,7 @@ class PluginVerificationApi
             //我想了又想,最终决定还是基于 $_REQUEST 接收参数
             if(empty($_REQUEST['ck_token'])||empty($_REQUEST['ck_kid'])||empty($_REQUEST['ck_key'])||empty($_REQUEST['expire_time']))
             {
-                header('Location: '.CONFIG_REQUEST_URL.'/?from=verification');
+                header('Location: '.CONFIG_REQUEST_URL.'/?from=verification&type=plugin');
                 setcookie("url",$request_url);
                 exit();
             }
@@ -355,7 +355,7 @@ class PluginVerificationApi
             $ck_token=md5(REQUEST_IP.$this->_config->User->Key->Options->Text.REQUEST_FORWARDED."&ck_kid={$ck_kid}&ck_key={$ck_key}&expire_time={$expire_time}");
             if($ck_token!=$_REQUEST['ck_token']||time()>$expire_time)
             {
-                header('Location: '.CONFIG_REQUEST_URL.'/?from=verification');
+                header('Location: '.CONFIG_REQUEST_URL.'/?from=verification&type=plugin');
                 setcookie('url',$request_url);
                 exit();
             }
