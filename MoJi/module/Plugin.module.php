@@ -3,7 +3,8 @@
 /* 设计思路
  * 先检查插件是否符合规范(先要有一套规范)
  * 然后进行权限检查
- * 因为启用插件默认就是通过函数启用,所以不用担心变量污染问题
+ * 因为启用插件默认就是通过函数启用,所以不用担心变量污染问题(但是用的class和function等是会造成污染的)
+ * 本模块不提供插件管理,所以同样不对插件节点权限进行检查
 */
 
 //兼容的sdk版本
@@ -118,7 +119,8 @@ foreach($plugin_path_array as $plugin_package_name)
             $config_array['System']=array(
                 'State'=>false,
                 'Grade'=>empty($info_default_json->Grade)?0:$info_default_json->Grade,
-                'Main'=>empty($info_default_json->Main)?0:$info_default_json->Main,
+                'Main'=>$info_default_json->Main,
+                'Permission'=>is_array($info_default_json->Permission)?$info_default_json->Permission:array(),
                 'Authentication'=>array(
                     'State'=>empty($info_default_json->Authentication->State)?false:$info_default_json->Authentication->State,
                     'Id'=>empty($info_default_json->Authentication->Id)?'':$info_default_json->Authentication->Id,

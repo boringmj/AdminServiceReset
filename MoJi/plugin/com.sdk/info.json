@@ -11,6 +11,9 @@
     "Main": "PluginSdkMain",
     "PackageName": "com.sdk",
     "Compatible": "5.0",
+    "Permission": [
+        "request.plugin.from.class"
+    ],
     "Updata": {
         "Open": 0,
         "Url": ""

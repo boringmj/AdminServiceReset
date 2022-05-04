@@ -67,6 +67,9 @@ class PluginVerificationApi
     //接口安全
     public function ApiSecurity()
     {
+        //排除命令行
+        if(REQUEST_IP=='0.0.0.0')
+            return;
         //csrf新增验证内容,该项仅作为额外的验证手段,不作为核心使用,该项不是强制检查的,如果用户不能提供Referer(来源地址),则不会检查
         if(!empty($_SERVER['HTTP_REFERER']))
         {
@@ -253,6 +256,9 @@ class PluginVerificationApi
     //页面安全
     public function ViewSecurity()
     {
+        //排除命令行
+        if(REQUEST_IP=='0.0.0.0')
+            return;
         //所有页面均需要返回一个随机Token到Header中
         $token_info=array(
             'Token'=>get_rand_string_id(),
