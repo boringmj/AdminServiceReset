@@ -210,7 +210,7 @@ else
 }
 
 //检验访问地址合法性
-if(preg_match('/^[A-Za-z0-9_]+$/',$_REQUEST['from']))
+if(!preg_match('/^[A-Za-z0-9_]+$/',$_REQUEST['from']))
 {
     //记录非法请求的信息和地址到日志
     write_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_ILLEGAL.' :'.REQUEST_URI.' '.LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP,__FILE__,10);
@@ -225,7 +225,7 @@ else
     if(!empty($_REQUEST['class']))
     {
         //REQUEST的class参数不为空就被识别为REQUEST的from参数的子系统
-        if(!preg_match("/^[A-Za-z0-9_]+$/",$_REQUEST['class']))
+        if(preg_match("/^[A-Za-z0-9_]+$/",$_REQUEST['class']))
         {
             $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/view').'/'.$_REQUEST['from'].'/'.$_REQUEST['class'].'.php';
         }
