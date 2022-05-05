@@ -3,12 +3,19 @@
 //自动补全目录(前提是程序路径 APPLICATION_PATH 可以写入)
 if(is_writable(APPLICATION_PATH))
 {
-    if(!is_dir(APPLICATION_PATH.'/Data'))
+    if(!file_exists(APPLICATION_PATH.'/Data'))
         mkdir(APPLICATION_PATH.'/Data');
-    if(!is_dir(APPLICATION_PATH.'/Log'))
+    if(!file_exists(APPLICATION_PATH.'/Log'))
         mkdir(APPLICATION_PATH.'/Log');
-    if(!is_dir(APPLICATION_PATH.'/Data/permission'))
-        mkdir(APPLICATION_PATH.'/Data/permission');
+}
+
+//自动补全数据目录的子目录(如果 DATA_PATH 可写的话)
+if(is_writable(DATA_PATH))
+{
+    if(!file_exists(DATA_PATH.'/permission'))
+        mkdir(DATA_PATH.'/permission');
+    if(!file_exists(CACHE_PATH))
+        mkdir(CACHE_PATH);
 }
 
 $write_path_array=array();

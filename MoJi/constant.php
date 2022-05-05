@@ -28,6 +28,7 @@ $constant_array=array(
     'HOST_NAME'=>(empty($_SERVER['SERVER_NAME'])||$_SERVER['SERVER_NAME']=='_')?(empty($_SERVER['HTTP_HOST'])?'0.0.0.0':$_SERVER['HTTP_HOST']):$_SERVER['SERVER_NAME'],
     'RES_PATH'=>dirname(__FILE__).'/res',
     'DATA_PATH'=>APPLICATION_PATH.'/Data',
+    'CACHE_PATH'=>APPLICATION_PATH.'/Data/cache',
     'USER_CLASS_PATH'=>APPLICATION_PATH.'/class',
     'PLUGIN_PATH'=>dirname(__FILE__).'/plugin',
     'PLUGIN_DATA_PATH'=>APPLICATION_PATH.'/Data/plugin',
