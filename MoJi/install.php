@@ -123,14 +123,16 @@ class Install
         );
         //赋予app_id所有api和view权限
         $system_permission=array(
-            'api'=>array(
-                '*'=>true
-            ),
-            'view'=>array(
-                '*'=>true
+            'request'=>array(
+                'api'=>array(
+                    '*'=>true
+                ),
+                'view'=>array(
+                    '*'=>true
+                )
             )
         );
-        file_put_contents(DATA_PATH.'/permission'.'/'.md5($app_id).'data.json',json_encode($system_permission));
+        file_put_contents(DATA_PATH.'/permission'.'/'.md5(CONFIG_KEY_SALT.$app_id.CONFIG_KEY_KEY).'data.json',json_encode($system_permission));
         //创建数据表
         foreach($this->_database_tables as $table=>$info)
         {

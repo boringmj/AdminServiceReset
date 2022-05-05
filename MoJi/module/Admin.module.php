@@ -135,7 +135,7 @@ if(isset($GLOBALS["argv"][1])&&REQUEST_IP=="0.0.0.0")
          */
         if(!isset($GLOBALS["argv"][2]))
             $GLOBALS["argv"][2]="open";
-        $webadmin_data_path=CACHE_PATH.'/webadmin_tmp.data.json';
+        $webadmin_data_path=CACHE_PATH.'/webadmin_tmp_'.md5(CONFIG_KEY_SALT.CONFIG_KEY_KEY).'.data.json';
         if($GLOBALS["argv"][2]=='open')
         {
             //打开
@@ -174,8 +174,8 @@ if(REQUEST_IP=="0.0.0.0")
 if(isset($_REQUEST['from'])&&$_REQUEST['from']=="webadmin")
 {
     //先检查是否已经开启WEB管理(包含访问是否合法)
-    $webadmin_data_path=CACHE_PATH.'/webadmin.data.json';
-    $webadmin_tmp_data_path=CACHE_PATH.'/webadmin_tmp.data.json';
+    $webadmin_data_path=CACHE_PATH.'/webadmin_'.md5(CONFIG_KEY_SALT.CONFIG_KEY_KEY).'.data.json';
+    $webadmin_tmp_data_path=CACHE_PATH.'/webadmin_tmp_'.md5(CONFIG_KEY_SALT.CONFIG_KEY_KEY).'.data.json';
     //这里主要是对权限不足的情况进行处理(毕竟执行php index.php命令的用户不一定是web用户)
     if(file_exists($webadmin_tmp_data_path)&&!file_exists($webadmin_data_path))
         file_put_contents($webadmin_data_path,file_get_contents($webadmin_tmp_data_path));

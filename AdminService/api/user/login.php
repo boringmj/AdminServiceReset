@@ -14,7 +14,22 @@ if(check_request_empty_array('post',array('user','password')))
 }
 
 //导入需要用到的用户类
-load_class_array(array('User'));
+load_class_array(array('User','Security'));
+
+//准备安全类
+$Security=new Security();
+$Security->RecordLogin();
+if(!$Security->CheckLogin())
+{
+    $GLOBALS['return_data']=array(
+        'code'=>1028,
+        'msg'=>'错误: 请求被拒绝',
+        'data'=>array('from'=>$_REQUEST['from'])
+    );
+    $path=CACHE_PATH.'/api_ip_'.md5(CONFIG_KEY_KEY.REQUEST_IP.CONFIG_USER_SALT.CONFIG_KEY_SALT).'.data.json';
+    debug_log(LANGUAGE_LOG_EXCEPTION_ERROR,file_get_contents($path),__FILE__,15);
+    echo_return_data();
+}
 
 //准备用户类
 $User=new User();
@@ -58,6 +73,7 @@ if($uuid)
 }
 else
 {
+    $Security->RecordLoginError();
     $GLOBALS['return_data']=array(
         'code'=>1016,
         'msg'=>'错误: 登录失败',

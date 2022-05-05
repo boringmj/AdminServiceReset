@@ -46,7 +46,22 @@ if(!preg_match(CONFIG_USER_EMAIL_RULE,$_POST['email']))
 }
 
 //导入需要用到的用户类
-load_class_array(array('User'));
+load_class_array(array('User','Security'));
+
+//准备安全类
+$Security=new Security();
+$Security->RecordRegister();
+if(!$Security->CheckRegister())
+{
+    $GLOBALS['return_data']=array(
+        'code'=>1029,
+        'msg'=>'错误: 请求被拒绝',
+        'data'=>array('from'=>$_REQUEST['from'])
+    );
+    $path=CACHE_PATH.'/api_ip_'.md5(CONFIG_KEY_KEY.REQUEST_IP.CONFIG_USER_SALT.CONFIG_KEY_SALT).'.data.json';
+    debug_log(LANGUAGE_LOG_EXCEPTION_ERROR,file_get_contents($path),__FILE__,15);
+    echo_return_data();
+}
 
 //准备邮箱类
 $Sendmail=new Sendmail();

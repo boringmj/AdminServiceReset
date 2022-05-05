@@ -18,7 +18,7 @@ class Permission
 
     final protected function _GetPermissionInfo($app_id)
     {
-        $data_path=$this->_data_path.'/'.md5($app_id).'data.json';
+        $data_path=$this->_data_path.'/'.md5(CONFIG_KEY_SALT.$app_id.CONFIG_KEY_KEY).'data.json';
         if(!file_exists($data_path))
             return $this->_default_permission;
         //这里并不与默认权限合并返回,所以在检查权限时,如果没有权限则应该调用默认权限
