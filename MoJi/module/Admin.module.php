@@ -179,7 +179,7 @@ if(isset($_REQUEST['from'])&&$_REQUEST['from']=="webadmin")
     //这里主要是对权限不足的情况进行处理(毕竟执行php index.php命令的用户不一定是web用户)
     if(file_exists($webadmin_tmp_data_path)&&!file_exists($webadmin_data_path))
         file_put_contents($webadmin_data_path,file_get_contents($webadmin_tmp_data_path));
-    if(!file_exists($webadmin_data_path))
+    if(!file_exists($webadmin_data_path)||empty($_REQUEST['id']))
         exit("错误:WEB管理未开启\n\r");
     $webadmin_data_json=json_decode(file_get_contents($webadmin_data_path),true);
     if(!isset($webadmin_data_json["rand_string"])||!isset($webadmin_data_json["expire_time"])||!isset($webadmin_data_json["user_ip"]))
