@@ -105,7 +105,7 @@ class PluginVerificationApiVerification
                 $string_array_return=array();
             }
         }
-        $string_return="var {$string_variable}=\"\";{$string_return}return \"".CONFIG_REQUEST_URL."/?from=verification&type=plugin&ck_key=\"+($string_variable);";
+        $string_return="var {$string_variable}=\"\";{$string_return}return \"".CONFIG_REQUEST_URL."/?from=verification&type=plugin".(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'')."&ck_key=\"+($string_variable);";
         return $string_return;
     }
 
