@@ -20,6 +20,7 @@ $default_permission=array(
         'view'=>array(
             'error'=>true,
             '__install'=>true,
+            '__update'=>true,
             'main'=>true,
             'user'=>array(
                 'head_portrait'=>true
