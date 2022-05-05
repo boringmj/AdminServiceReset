@@ -364,7 +364,7 @@ function sign($data,$app_key)
     $sign_string='';
     foreach($data as $key=>$value)
         $sign_string.=(empty($sign_string)?'':'&')."{$key}={$value}";
-    return $sign=md5($sign_string.'&app_key='.$app_key);
+    return md5($sign_string.'&app_key='.$app_key);
 }
 
 ?>
