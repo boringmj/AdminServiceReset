@@ -132,7 +132,7 @@ class Install
                 )
             )
         );
-        file_put_contents(DATA_PATH.'/permission'.'/'.md5(CONFIG_KEY_SALT.$app_id.CONFIG_KEY_KEY).'data.json',json_encode($system_permission));
+        file_put_contents(DATA_PATH.'/permission'.'/'.md5(CONFIG_KEY_SALT.$app_id.CONFIG_KEY_KEY).'.data.json',json_encode($system_permission));
         //创建数据表
         foreach($this->_database_tables as $table=>$info)
         {

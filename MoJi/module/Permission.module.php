@@ -59,6 +59,14 @@ $default_permission=array(
     )
 );
 
+//如果可写且文件不存在,则将默认权限写入文件
+$default_permission_path=DATA_PATH.'/permission'.'/'.md5(CONFIG_KEY_SALT.'default_permission'.CONFIG_KEY_KEY).'.data.json';
+if(is_writable(DATA_PATH.'/permission')&&!file_exists($default_permission_path))
+    file_put_contents($default_permission_path,json_encode($default_permission));
+//如果可读,则优先从文件读取权限
+if(is_file($default_permission_path)&&is_readable($default_permission_path))
+    $default_permission=json_decode(file_get_contents($default_permission_path),true);
+
 //需要Permission类的支持,否则无法检查权限
 if(class_exists('Permission')){
     //权限检查(权限检查仅检查权限,不验证app_id真实性)

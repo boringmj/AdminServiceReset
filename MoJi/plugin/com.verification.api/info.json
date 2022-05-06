@@ -12,7 +12,9 @@
     "PackageName": "com.verification.api",
     "Compatible": "5.0",
     "Permission": [
-        "request.plugin.verification"
+        "request.plugin.verification",
+        "request.api.verification_get",
+        "request.api.verification_img"
     ],
     "Updata": {
         "Open": 0,
