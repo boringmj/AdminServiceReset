@@ -32,7 +32,7 @@ if($_REQUEST['from']==='error')
             $plugin_array[$main_class]['Object']->RequestError();
     }
     if(empty($_GET['info']))
-    $_GET['info']='NULL';
+        $_GET['info']='NULL';
     $content=file_get_contents(RES_PATH.'/error.html');
     if($_GET['info']==='ERROR_FROM')
     {

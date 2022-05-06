@@ -92,12 +92,12 @@ if(empty($_GET['action']))
 {
     //返回一个用于填写密码和用户名的页面
     $url=CONFIG_REQUEST_URL."?from=user&class=verify&sign={$sign}&user={$user}&token={$_GET['token']}&timestamp={$_GET['timestamp']}&uuid={$_GET['uuid']}&app_id={$_REQUEST['app_id']}&action=yes";
-    $title='激活用户-'.CONFIG_PROJECT_NAME;
+    $title='激活用户-'.CONFIG_PROJECT_OPERATOR;
     $content=variable_load(array(
         'title'=>$title,
         'user'=>$_GET['user'],
         'overdue_date'=>date('Y-m-d H:i:s',$_GET['timestamp']+CONFIG_USER_VERIFY_OVERDUE_TIME),
-        'organization'=>CONFIG_PROJECT_NAME,
+        'organization'=>CONFIG_PROJECT_OPERATOR,
         'url'=>$url,
         'nickname_rule'=>preg_replace('/\\\x\{4e00\}\-\\\x\{9fa5\}/','\u4e00-\u9fa5',CONFIG_USER_NICKNAME_RULE),
         'password_rule'=>preg_replace('/\\\x\{4e00\}\-\\\x\{9fa5\}/','\u4e00-\u9fa5',CONFIG_USER_PASSWORD_RULE)

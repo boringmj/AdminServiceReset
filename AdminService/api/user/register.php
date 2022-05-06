@@ -125,12 +125,12 @@ $sign=sign($sign_array,$GLOBALS['app_key']);
 $url=CONFIG_REQUEST_URL."?from=user&class=verify&sign={$sign}&user={$_POST['user']}&token={$password}&timestamp={$server_timestamp}&uuid={$uuid}&app_id={$_REQUEST['app_id']}";
 
 //发送验证邮件
-$title='感谢您使用-'.CONFIG_PROJECT_NAME;
+$title='感谢您使用-'.CONFIG_PROJECT_OPERATOR;
 $content=variable_load(array(
     'title'=>$title,
     'user_name'=>$_POST['user'],
     'overdue_date'=>date('Y-m-d H:i:s',$server_timestamp+CONFIG_USER_VERIFY_OVERDUE_TIME),
-    'organization'=>CONFIG_PROJECT_NAME,
+    'organization'=>CONFIG_PROJECT_OPERATOR,
     'url'=>$url,
     'date'=>date('Y-m-d H:i:s',$server_timestamp)
 ),file_get_contents(RES_PATH.'/mail/email_user_verify.html'));

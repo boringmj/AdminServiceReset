@@ -24,7 +24,6 @@
  * 
  * 安全警告: SALT 该项涉及安全如不了解请勿随意修改
  */
-
 $CONFIG_USER=array(
     'NAME_RULE'             =>  config_auto('USER_NAME_RULE'),
     'PASSWORD_RULE'         =>  config_auto('USER_PASSWORD_RULE'),
