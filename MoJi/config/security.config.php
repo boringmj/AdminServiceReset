@@ -24,7 +24,7 @@
  * 该文件涉及到程序安全,如不了解相关配置影响范围,不推荐随意修改
  */
 $CONFIG_SECURITY=array(
-    'USER_TOKEN_TIME'=>60*60*24*30,
+    'USER_TOKEN_TIME'=>60*60*24*7,
     'USER_TOKEN_TIME_RESET_TIME'=>true,
     'USER_TOKEN_TIME_BIND_IP_GRADE'=>2,
     'USER_ALLOW_MULTIPLE_TOKEN'=>false,

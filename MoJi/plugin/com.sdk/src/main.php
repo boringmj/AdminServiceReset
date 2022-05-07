@@ -54,6 +54,12 @@ class PluginSdkMain
 
     }
 
+    //Web接口安全
+    public function WebSecurity()
+    {
+
+    }
+
     //页面安全
     public function ViewSecurity()
     {

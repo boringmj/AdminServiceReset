@@ -2,7 +2,6 @@
 <form name="input" action="/?type=api" method="POST" enctype="multipart/form-data">
 <?php
 include "../test_data.php";
-echo "com.verification.api插件需要修改,否则请求将会被作为web非法请求拦截<br>";
 $server_variable=array(
     'from'=>"verification_img",
     'app_id'=>$app_id,

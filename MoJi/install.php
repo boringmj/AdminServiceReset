@@ -121,13 +121,16 @@ class Install
             'group_name'=>CONFIG_USER_DEFAULT_GROUP_NAME,
             'group_level'=>CONFIG_USER_DEFAULT_GROUP_LEVEL
         );
-        //赋予app_id所有api和view权限
+        //赋予app_id所有api,web和view权限
         $system_permission=array(
             'request'=>array(
                 'api'=>array(
                     '*'=>true
                 ),
                 'view'=>array(
+                    '*'=>true
+                ),
+                'web'=>array(
                     '*'=>true
                 )
             )

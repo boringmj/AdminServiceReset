@@ -31,7 +31,7 @@
         },
         "NoVerification": {
             "Name": "验证页面",
-            "Explanation":"排除的view页面和需要验证的api页面,可以填写多个,每个页面用逗号“,”分隔,格式为<type>:<from>[/class]如:view:index,api:user/login,其中view为排除验证的页面,api为需要验证的页面",
+            "Explanation":"排除的view页面和需要验证的api,web页面,可以填写多个,每个页面用逗号“,”分隔,格式为<type>:<from>[/class]如:view:index,api:user/login,其中view为排除验证的页面,api和web为需要验证的页面",
             "Type": 0,
             "Options": {
                 "Text": "view:user/head_portrait,api:verification_get,api:verification_img,api:user/login,api:user/register",

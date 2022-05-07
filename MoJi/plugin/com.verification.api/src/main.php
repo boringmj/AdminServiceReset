@@ -70,9 +70,18 @@ class PluginVerificationApi
         //排除命令行
         if(REQUEST_IP=='0.0.0.0')
             return;
-        //csrf新增验证内容,该项仅作为额外的验证手段,不作为核心使用,该项不是强制检查的,如果用户不能提供Referer(来源地址),则不会检查
-        if(!empty($_SERVER['HTTP_REFERER']))
+        //csrf新增验证内容,该项仅用于web请求(非来源为web的请求,是请求类型为web)
+        if($_REQUEST['type']=='web')
         {
+            if(empty($_SERVER['HTTP_REFERER']))
+            {
+                $GLOBALS['return_data']=array(
+                    'code'=>1030,
+                    'msg'=>'非法请求',
+                    'data'=>array()
+                );
+                echo_return_data();
+            }
             if(preg_match('/^(((https?|file):)?\/\/)?(?<host>[a-zA-Z0-9\.]+\.[a-zA-Z0-9]+)(:[0-9]+)?(\/)?.*$/',$_SERVER['HTTP_REFERER'],$matches))
             {
                 //目前无法兼容localhost等方式访问,只能通过符合规则的ip或域名访问(域名不支持中文域名)
@@ -368,7 +377,8 @@ class PluginVerificationApi
         }
     }
 
-    public function GetRequestInfo(){
+    public function GetRequestInfo()
+    {
         //本次请求信息(默认值同 Request 模块)
         $request_type=(empty($_REQUEST['type'])?'view':$_REQUEST['type']);
         $request_from=(empty($_REQUEST['from'])?'main':$_REQUEST['from']);

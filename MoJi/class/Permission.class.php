@@ -37,7 +37,7 @@ class Permission
         $request_from=(empty($_REQUEST['from'])?'main':$_REQUEST['from']);
         $request_class=(empty($_REQUEST['class'])?'':$_REQUEST['class']);
         //请求类型严格检查
-        if(!in_array($request_type,array('api','view','plugin')))
+        if(!in_array($request_type,array('api','view','plugin','web')))
             return false;
         //from和class开放性检查,数字字母下划线组成即可通过
         if(!preg_match("/^[A-Za-z0-9_]+$/",$request_from))

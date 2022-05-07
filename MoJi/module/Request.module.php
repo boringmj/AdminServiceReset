@@ -56,151 +56,39 @@ load_class_array(array('Admin'));
 
 if($_REQUEST['type']==='api')
 {
-    //接口安全模块
+    //API安全模块
     //加载插件: ApiSecurity()
     foreach($plugin_array as $main_class=>$plugin_data)
     {
         if(is_callable(array($plugin_array[$main_class]['Object'],'ApiSecurity')))
             $plugin_array[$main_class]['Object']->ApiSecurity();
     }
-    //绝对参数处理
-    if(empty($_REQUEST['request_type']))
-        $_REQUEST['request_type']='post';
-    if(empty($_REQUEST['return_type']))
-        $_REQUEST['return_type']='json';
-    if($_REQUEST['request_type']==='ium'||$_REQUEST['return_type']==='ium')
-        load_class_array(array('Iumcode'));
-    //以下操作仅在数据库开启的情况下运行
-    if(DATABASE_ENABLE)
+    check_api();
+    //需要进行鉴权的接口组
+    $from_api_security_array=array('main','user');
+    if(in_array($_REQUEST['from'],$from_api_security_array))
+        api_auth();
+}
+else if($_REQUEST['from']==='web')
+{
+    //因为web代码基本公开,所以需要注意web接口权限别太大了,而且需要严格鉴权
+
+    //WEB安全模块
+    //加载插件: WebSecurity()
+    foreach($plugin_array as $main_class=>$plugin_data)
     {
-        if(empty($_POST['app_id']))
-        {
-            $GLOBALS['return_data']=array(
-                'code'=>-2,
-                'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
-                'data'=>array('error'=>'app_id is empty')
-            );
-            echo_return_data();
-        }
-        $GLOBALS['app_key']=Admin::GetAppKey($Database,$_POST['app_id']);
-        //初步处理传入数据
-        if(empty($GLOBALS['app_key']))
-        {
-            $GLOBALS['return_data']=array(
-                'code'=>-2,
-                'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
-                'data'=>array('error'=>'app_id is error')
-            );
-            echo_return_data();
-        }
-        if($_REQUEST['request_type']==='ium')
-        {
-            if(!empty($_POST['s']))
-            {
-                //尝试解密
-                $temp_data=Iumcode::DecodeIum($_POST['s'],$GLOBALS['app_key']);
-                //销毁传入的s参数
-                unset($_POST['s']);
-                //将上传的数据分割为数组
-                $temp_data=explode('&',$temp_data);
-                foreach( $temp_data as $temp_data_value)
-                {
-                    //截取出提交数据的
-                    if(strpos($temp_data_value,'='))
-                    {
-                        $name=substr($temp_data_value,0,strpos($temp_data_value,'='));
-                        $value=substr($temp_data_value,strpos($temp_data_value,'=')+1);
-                        //请注意,这里采用的不是原值,而是urldecode后的值
-                        $_POST[$name]=urldecode($value);
-                    }
-                    else
-                    {
-                        $_POST[$temp_data_value]="";
-                    }
-                }
-            }
-        }
-        //需要进行鉴权的接口组
-        $from_api_security_array=array('main','user');
-        if(in_array($_REQUEST['from'],$from_api_security_array))
-        {
-            //基础参数检查
-            if(check_request_empty_array('post',array('sign','nonce'))||!(!empty($_POST['time'])||!empty($_POST['timestamp'])))
-            {
-                $GLOBALS['return_data']=array(
-                    'code'=>-2,
-                    'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
-                    'data'=>array('error'=>'required parameters are empty')
-                );
-                echo_return_data();
-            }
-            //取时间戳,值得注意的是,接口的time参数值为now这类的,那么这个接口就永远不会超时过期
-            if(!empty($_POST['timestamp']))
-                $post_timestamp=$_POST['timestamp'];
-            else
-                $post_timestamp=strtotime($_POST['time']);
-            settype($post_timestamp,'int');
-            $server_timestamp=time();
-            //验证请求是否还在合法时间内(运行时间差为10分钟)
-            if($server_timestamp-$post_timestamp>=600||$server_timestamp-$post_timestamp<=-600)
-            {
-                $GLOBALS['return_data']=array(
-                    'code'=>-3,
-                    'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_THREE,
-                    'data'=>array(
-                        'server_timestamp'=>$server_timestamp,
-                        'post_timestamp'=>$post_timestamp
-                    )
-                );
-                echo_return_data();
-            }
-            //验证请求是否重复
-            if(!Admin::CheckNonce($Database,$_POST['app_id'],$_POST['nonce'],$_POST['sign']))
-            {
-                $GLOBALS['return_data']=array(
-                    'code'=>-4,
-                    'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_FOUR,
-                    'data'=>array()
-                );
-                echo_return_data();
-            }
-            //签名校验
-            $post_data='';
-            $post_data_array=$_POST;
-            //排除签名的数据组
-            $not_sign_key=array('sign','language','type');
-            if($_REQUEST['request_type']!=='post')
-                $post_data_array['request_type']=$_REQUEST['request_type'];
-            else
-                array_push($not_sign_key,'return_type');
-            if($_REQUEST['return_type']!=='json')
-                $post_data_array['return_type']=$_REQUEST['return_type'];
-            else
-                array_push($not_sign_key,'return_type');
-            //删除排除的参数,以免对排序造成影响(效率较低)
-            foreach($not_sign_key as $value)
-            {
-                $array_sign_keys=array_keys($post_data_array);
-                $index=array_search($value,$array_sign_keys);
-                if($index!==false)
-                    array_splice($post_data_array,$index,1);
-            }
-            $server_sign=sign($post_data_array,$GLOBALS['app_key']);
-            if($_POST['sign']!=$server_sign)
-            {
-                $GLOBALS['return_data']=array(
-                    'code'=>-5,
-                    'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_FIVES,
-                    'data'=>array()
-                );
-                echo_return_data();
-            }
-        }
+        if(is_callable(array($plugin_array[$main_class]['Object'],'WebSecurity')))
+            $plugin_array[$main_class]['Object']->WebSecurity();
     }
+    check_api();
+    //需要进行鉴权的接口组
+    $from_web_security_array=array('main');
+    if(in_array($_REQUEST['from'],$from_web_security_array))
+        api_auth();
 }
 else
 {
-    //显示安全模块
+    //VIEW安全模块
     //加载插件: ViewSecurity()
     foreach($plugin_array as $main_class=>$plugin_data)
     {
@@ -221,57 +109,67 @@ if(!preg_match('/^[A-Za-z0-9_]+$/',$_REQUEST['from']))
 }
 else
 {
-    //检查是否为子系统
-    if(!empty($_REQUEST['class']))
+    //访问类型对应的目录
+    $app_path_array=array(
+        'api'=>'/api',
+        'view'=>'/view',
+        'web'=>'/web'
+    );
+    //判断访问类型是否存在,不存在则不受理该类请求
+    if(in_array($_REQUEST['type'],array_keys($app_path_array)))
     {
-        //REQUEST的class参数不为空就被识别为REQUEST的from参数的子系统
-        if(preg_match("/^[A-Za-z0-9_]+$/",$_REQUEST['class']))
+        //检查是否为子系统
+        if(!empty($_REQUEST['class']))
         {
-            $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/view').'/'.$_REQUEST['from'].'/'.$_REQUEST['class'].'.php';
+            //REQUEST的class参数不为空就被识别为REQUEST的from参数的子系统
+            if(preg_match('/^[A-Za-z0-9_\/]+$/',$_REQUEST['class']))
+            {
+                $app_path=APPLICATION_PATH.($app_path_array[$_REQUEST['type']]).'/'.$_REQUEST['from'].'/'.$_REQUEST['class'].'.php';
+            }
+            else
+            {
+                //记录非法请求的信息和地址到日志
+                write_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_ILLEGAL.' :'.$_REQUEST['from'].'&class='.$_REQUEST['class'].' '.LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP,__FILE__,10);
+                if(CONFIG_REQUEST_ERROR_LEVEL)
+                    header('Location: '.CONFIG_REQUEST_ERROR_FROM);
+                else
+                    exit(LANGUAGE_REQUEST_ERROR);
+            }
         }
         else
         {
-            //记录非法请求的信息和地址到日志
-            write_log(LANGUAGE_LOG_REQUEST_NAME,LANGUAGE_LOG_REQUEST_ILLEGAL.' :'.$_REQUEST['from'].'&class='.$_REQUEST['class'].' '.LANGUAGE_LOG_REQUEST_IP.': '.REQUEST_IP,__FILE__,10);
+            $app_path=APPLICATION_PATH.($app_path_array[$_REQUEST['type']]).'/'.$_REQUEST['from'].'.php';
+        }
+        if(is_file($app_path))
+            call_user_func(function () use (&$Database,&$plugin_array,$app_path)
+            {
+                //这里使用匿名函数主要还是防止变量污染
+                try
+                {
+                    include $app_path;
+                }
+                catch(Exception $error)
+                {
+                    write_log(LANGUAGE_LOG_EXCEPTION_ERROR,$error->getMessage(),$app_path,20);
+                    if(APPLICATION_DEBUG)
+                        exit($error->getMessage());
+                    else
+                        exit(LANGUAGE_EXCEPTION_ERROR_NOT_DEBUG);
+                }
+            });
+        else
             if(CONFIG_REQUEST_ERROR_LEVEL)
                 header('Location: '.CONFIG_REQUEST_ERROR_FROM);
             else
                 exit(LANGUAGE_REQUEST_ERROR);
-        }
+        unset($app_path);
     }
-    else
+    //加载插件: Finish()
+    foreach($plugin_array as $main_class=>$plugin_data)
     {
-        $app_path=APPLICATION_PATH.($_REQUEST['type']==='api'?'/api':'/view').'/'.$_REQUEST['from'].'.php';
+        if(is_callable(array($plugin_array[$main_class]['Object'],'Finish')))
+            $plugin_array[$main_class]['Object']->Finish();
     }
-    if(is_file($app_path))
-        call_user_func(function () use (&$Database,&$plugin_array,$app_path)
-        {
-            //这里使用匿名函数主要还是防止变量污染
-            try
-            {
-                include $app_path;
-                //加载插件: Finish()
-                foreach($plugin_array as $main_class=>$plugin_data)
-                {
-                    if(is_callable(array($plugin_array[$main_class]['Object'],'Finish')))
-                        $plugin_array[$main_class]['Object']->Finish();
-                }
-            }
-            catch(Exception $error)
-            {
-                write_log(LANGUAGE_LOG_EXCEPTION_ERROR,$error->getMessage(),$app_path,20);
-                if(APPLICATION_DEBUG)
-                    exit($error->getMessage());
-                else
-                    exit(LANGUAGE_EXCEPTION_ERROR_NOT_DEBUG);
-            }
-        });
-    else
-        if(CONFIG_REQUEST_ERROR_LEVEL)
-            header('Location: '.CONFIG_REQUEST_ERROR_FROM);
-        else
-            exit(LANGUAGE_REQUEST_ERROR);
-    unset($app_path);
 }
 
 //通过数组的方式加载类(用户类)
@@ -365,6 +263,144 @@ function sign($data,$app_key)
     foreach($data as $key=>$value)
         $sign_string.=(empty($sign_string)?'':'&')."{$key}={$value}";
     return md5($sign_string.'&app_key='.$app_key);
+}
+
+//接口基本参数检查
+function check_api()
+{
+    //绝对参数处理
+    if(empty($_REQUEST['request_type']))
+        $_REQUEST['request_type']='post';
+    if(empty($_REQUEST['return_type']))
+        $_REQUEST['return_type']='json';
+    if($_REQUEST['request_type']==='ium'||$_REQUEST['return_type']==='ium')
+        load_class_array(array('Iumcode'));
+    //以下操作仅在数据库开启的情况下运行
+    if(DATABASE_ENABLE)
+    {
+        if(empty($_POST['app_id']))
+        {
+            $GLOBALS['return_data']=array(
+                'code'=>-2,
+                'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
+                'data'=>array('error'=>'app_id is empty')
+            );
+            echo_return_data();
+        }
+        $GLOBALS['app_key']=Admin::GetAppKey($Database,$_POST['app_id']);
+        //初步处理传入数据
+        if(empty($GLOBALS['app_key']))
+        {
+            $GLOBALS['return_data']=array(
+                'code'=>-2,
+                'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
+                'data'=>array('error'=>'app_id is error')
+            );
+            echo_return_data();
+        }
+        if($_REQUEST['request_type']==='ium')
+        {
+            if(!empty($_POST['s']))
+            {
+                //尝试解密
+                $temp_data=Iumcode::DecodeIum($_POST['s'],$GLOBALS['app_key']);
+                //销毁传入的s参数
+                unset($_POST['s']);
+                //将上传的数据分割为数组
+                $temp_data=explode('&',$temp_data);
+                foreach( $temp_data as $temp_data_value)
+                {
+                    //截取出提交数据的
+                    if(strpos($temp_data_value,'='))
+                    {
+                        $name=substr($temp_data_value,0,strpos($temp_data_value,'='));
+                        $value=substr($temp_data_value,strpos($temp_data_value,'=')+1);
+                        //请注意,这里采用的不是原值,而是urldecode后的值
+                        $_POST[$name]=urldecode($value);
+                    }
+                    else
+                    {
+                        $_POST[$temp_data_value]="";
+                    }
+                }
+            }
+        }
+    }
+}
+
+//接口鉴权
+function api_auth()
+{
+    //基础参数检查
+    if(check_request_empty_array('post',array('sign','nonce'))||!(!empty($_POST['time'])||!empty($_POST['timestamp'])))
+    {
+        $GLOBALS['return_data']=array(
+            'code'=>-2,
+            'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_TOW,
+            'data'=>array('error'=>'required parameters are empty')
+        );
+        echo_return_data();
+    }
+    //取时间戳,值得注意的是,接口的time参数值为now这类的,那么这个接口就永远不会超时过期
+    if(!empty($_POST['timestamp']))
+        $post_timestamp=$_POST['timestamp'];
+    else
+        $post_timestamp=strtotime($_POST['time']);
+    settype($post_timestamp,'int');
+    $server_timestamp=time();
+    //验证请求是否还在合法时间内(运行时间差为10分钟)
+    if($server_timestamp-$post_timestamp>=600||$server_timestamp-$post_timestamp<=-600)
+    {
+        $GLOBALS['return_data']=array(
+            'code'=>-3,
+            'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_THREE,
+            'data'=>array(
+                'server_timestamp'=>$server_timestamp,
+                'post_timestamp'=>$post_timestamp
+            )
+        );
+        echo_return_data();
+    }
+    //验证请求是否重复
+    if(!Admin::CheckNonce($Database,$_POST['app_id'],$_POST['nonce'],$_POST['sign']))
+    {
+        $GLOBALS['return_data']=array(
+            'code'=>-4,
+            'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_FOUR,
+            'data'=>array()
+        );
+        echo_return_data();
+    }
+    //签名校验
+    $post_data_array=$_POST;
+    //排除签名的数据组
+    $not_sign_key=array('sign','language');
+    if($_REQUEST['request_type']!=='post')
+        $post_data_array['request_type']=$_REQUEST['request_type'];
+    else
+        array_push($not_sign_key,'return_type');
+    if($_REQUEST['return_type']!=='json')
+        $post_data_array['return_type']=$_REQUEST['return_type'];
+    else
+        array_push($not_sign_key,'return_type');
+    //删除排除的参数,以免对排序造成影响(效率较低)
+    foreach($not_sign_key as $value)
+    {
+        $array_sign_keys=array_keys($post_data_array);
+        $index=array_search($value,$array_sign_keys);
+        if($index!==false)
+            array_splice($post_data_array,$index,1);
+    }
+    $server_sign=sign($post_data_array,$GLOBALS['app_key']);
+    if($_POST['sign']!=$server_sign)
+    {
+        $GLOBALS['return_data']=array(
+            'code'=>-5,
+            'msg'=>LANGUAGE_ADMINSERVICE_ERROR_CODE_MINUS_FIVES,
+            'data'=>array()
+        );
+        echo_return_data();
+    }
 }
 
 ?>
