@@ -13,7 +13,7 @@
  */
 $CONFIG_KEY=array(
     'KEY'           =>  config_auto('KEY_KEY'),
-    'SALT'          =>  config_auto('KEY_SALT'),
+    'SALT'          =>  config_auto('KEY_SALT')
 );
 
 //因为情况特殊,所以需要一点运算,如果目录不可写且采用的自动获取那么就可能出点大问题,值会一直变化
