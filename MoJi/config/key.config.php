@@ -26,7 +26,7 @@ if(is_writable(DATA_PATH))
         $_config_json=json_decode(file_get_contents($_config_data_path));
         $CONFIG_KEY=array(
             'KEY'=>$_config_json->KEY,
-            'SALT'=>$_config_json->SALT,
+            'SALT'=>$_config_json->SALT
         );
     }
     else
