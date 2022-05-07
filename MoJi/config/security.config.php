@@ -24,18 +24,18 @@
  * 该文件涉及到程序安全,如不了解相关配置影响范围,不推荐随意修改
  */
 $CONFIG_SECURITY=array(
-    'USER_TOKEN_TIME'=>60*60*24*7,
-    'USER_TOKEN_TIME_RESET_TIME'=>true,
-    'USER_TOKEN_TIME_BIND_IP_GRADE'=>2,
-    'USER_ALLOW_MULTIPLE_TOKEN'=>false,
-    'IP_LOGIN_THRESHOLD'=>20,
-    'IP_LOGIN_TIME'=>60*60*1,
-    'IP_LOGIN_ERROR_THRESHOLD'=>10,
-    'IP_LOGIN_ERROR_TIME'=>60*3,
-    'IP_REGISTER_THRESHOLD'=>3,
-    'IP_REGISTER_TIME'=>60*60*1,
-    'IP_LOGIN_TOTAL_DAY'=>50,
-    'IP_BAN_TIME'=>60*60*3
+    'USER_TOKEN_TIME'               =>  60*60*24*7,
+    'USER_TOKEN_TIME_RESET_TIME'    =>  true,
+    'USER_TOKEN_TIME_BIND_IP_GRADE' =>  2,
+    'USER_ALLOW_MULTIPLE_TOKEN'     =>  false,
+    'IP_LOGIN_THRESHOLD'            =>  20,
+    'IP_LOGIN_TIME'                 =>  60*60*1,
+    'IP_LOGIN_ERROR_THRESHOLD'      =>  10,
+    'IP_LOGIN_ERROR_TIME'           =>  60*3,
+    'IP_REGISTER_THRESHOLD'         =>  3,
+    'IP_REGISTER_TIME'              =>  60*60*1,
+    'IP_LOGIN_TOTAL_DAY'            =>  50,
+    'IP_BAN_TIME'                   =>  60*60*3
 );
 config_examine('CONFIG_SECURITY');
 
