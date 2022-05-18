@@ -19,6 +19,7 @@ $CONFIG_KEY=array(
 //因为情况特殊,所以需要一点运算,如果目录不可写且采用的自动获取那么就可能出点大问题,值会一直变化
 if(is_writable(DATA_PATH))
 {
+    //其实这段代码是可以移动到 config_auto() 中的,但考虑到效率问题就留这里了
     //可以自行将该算法修改并移动到 Write 模块中以获得自动检测是否允许写入的功能
     $_config_data_path=DATA_PATH.'/key.json';
     if(is_file($_config_data_path))

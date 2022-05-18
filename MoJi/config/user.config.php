@@ -1,11 +1,11 @@
 <?php
 
 /* USER(AdminService)
- * NAME_RULE 用户名规则 String 允许填写为auto(),一个合法的正则表达式(请注意,该项数据库最高存储长度为32个字符串)
- * PASSWORD_RULE 密码规则 String 允许填写为auto(),一个合法的正则表达式
- * NICKNAME_RULE 昵称规则 String 允许填写为auto(),一个合法的正则表达式(请注意,该项数据库最高存储32个字符串)
- * EMAIL_RULE 邮箱规则 String 允许填写为auto(),一个合法的正则表达式(请注意,该项数据库最高存储64个字符串)
- * HEAD_PORTRAIT 用户默认头像 String 允许填写为auto(),一个合法的URL(请注意,该项数据库最高存储255个字符串)
+ * NAME_RULE 用户名规则 String 一个合法的正则表达式(请注意,该项数据库最高存储长度为32个字符串)
+ * PASSWORD_RULE 密码规则 String 一个合法的正则表达式
+ * NICKNAME_RULE 昵称规则 String 一个合法的正则表达式(请注意,该项数据库最高存储32个字符串)
+ * EMAIL_RULE 邮箱规则 String 一个合法的正则表达式(请注意,该项数据库最高存储64个字符串)
+ * HEAD_PORTRAIT 用户默认头像 String 默认请使用 default 一个合法的图片id(请注意,该项数据库最高存储255个字符串)
  * DEFAULT_GROUP_NAME 默认组名称 String 任何内容(请注意,该项数据库最高存储32个字符串)
  * DEFAULT_GROUP_LEVEL 默认组权限等级 Int 推荐为1(普通用户权限)
  * USER_DEFAULT_STATUS 默认用户状态 Int 推荐为2,用户状态: 1(正常)、2(待激活)、3(封禁)
@@ -15,6 +15,7 @@
  * 
  * 注意: 本配置文件为AdminService独有配置
  * 正则表达式需要使用 "/"开头和结尾,例如: '/^[a-zA-Z0-9_]{6,16}$/'
+ * 中文字符请使用 \x{4e00}-\x{9fa5} 表示,这条规则可以在某些情况下自动转换为 \u4e00-\u9fa5
  * 
  * 默认规则:
  * 用户名: /^[a-zA-Z0-9_]{6,32}$/ 使用字母数字下划线任意组合的6-32个字符
@@ -25,11 +26,11 @@
  * 安全警告: SALT 该项涉及安全如不了解请勿随意修改
  */
 $CONFIG_USER=array(
-    'NAME_RULE'             =>  config_auto('USER_NAME_RULE'),
-    'PASSWORD_RULE'         =>  config_auto('USER_PASSWORD_RULE'),
-    'NICKNAME_RULE'         =>  config_auto('USER_NICKNAME_RULE'),
-    'EMAIL_RULE'            =>  config_auto('USER_EMAIL_RULE'),
-    'HEAD_PORTRAIT'         =>  config_auto('USER_HEAD_PORTRAIT'),
+    'NAME_RULE'             =>  '/^[a-zA-Z0-9_]{6,32}$/',
+    'PASSWORD_RULE'         =>  '/^.{6,36}$/',
+    'NICKNAME_RULE'         =>  '/^[a-zA-Z0-9_\x{4e00}-\x{9fa5}]{2,16}$/u',
+    'EMAIL_RULE'            =>  '/^(?=.{6,64}$)[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)+$/',
+    'HEAD_PORTRAIT'         =>  'default',
     'DEFAULT_GROUP_NAME'    =>  '普通用户',
     'DEFAULT_GROUP_LEVEL'   =>  1,
     'USER_DEFAULT_STATUS'   =>  2,
