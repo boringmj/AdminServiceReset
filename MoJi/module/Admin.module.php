@@ -136,23 +136,28 @@ if(isset($GLOBALS["argv"][1])&&REQUEST_IP=="0.0.0.0")
         if(!isset($GLOBALS["argv"][2]))
             $GLOBALS["argv"][2]="open";
         $webadmin_data_path=CACHE_PATH.'/webadmin_tmp_'.md5(CONFIG_KEY_SALT.CONFIG_KEY_KEY).'.data.json';
+        $webadmin_path=CACHE_PATH.'/webadmin_'.md5(CONFIG_KEY_SALT.CONFIG_KEY_KEY).'.data.json';
         if($GLOBALS["argv"][2]=='open')
         {
             //打开
-            $rand_string=get_rand_string(32);
+            $rand_string=get_rand_string(128);
             $webadmin_data_json=array(
                 "rand_string"=>$rand_string,
                 "expire_time"=>time()+60*5,
                 "user_ip"=>"NULL"
             );
+            if(file_exists($webadmin_path))
+                unlink($webadmin_path);
             file_put_contents($webadmin_data_path,json_encode($webadmin_data_json));
             exit("管理页面地址: /?from=webadmin&id={$rand_string}\n\r");
         }
         else if($GLOBALS["argv"][2]=='cancel')
         {
             //关闭
-            unlink($webadmin_data_path);
-            unlink(DATA_PATH.'/webadmin.data.json');
+            if(file_exists($webadmin_data_path))
+                unlink($webadmin_data_path);
+            if(file_exists($webadmin_path))
+                unlink($webadmin_path);
             exit("已关闭管理页面\n\r");
         }
     }
