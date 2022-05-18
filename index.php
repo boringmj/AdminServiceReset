@@ -50,7 +50,7 @@
  *     不过并不推荐直接赋予 AdminService 可写权限,这将会导致新的安全隐患,推荐逐一补全并检查目录或文件的读写权限
  * 
  * 3. 为什么提示数据库连接失败?
- * 答: 这是仅存在开启数据库的情况下下的错误,请您手动检查 MoJi/config/database.config.php 配置是否正确
+ * 答: 这是仅存在开启数据库的情况下的错误,请您手动检查 MoJi/config/database.config.php 配置是否正确
  * 
  * 4. 我关闭数据库后为什么会报错? ( Uncaught Error: Call to a member function GetTablename() on null )
  * 答: 这是因为部分插件或程序违规使用了数据库,我们并不能提供额外的帮助,您可以选择开启数据库以解决该类问题
