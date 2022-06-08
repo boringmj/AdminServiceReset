@@ -106,6 +106,16 @@ class Install
             $url=CONFIG_REQUEST_URL.'/?from=__install'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'');
             echo LANGUAGE_INSTALL_NOT_INSTALL." <a href='{$url}'>".LANGUAGE_INSTALL_NOT_INSTALL_CLICK."</a>";
         }
+        else
+        {
+            echo json_encode(array(
+                'code'=>-6,
+                'msg'=>'Install',
+                'data'=>array(
+                    'url'=>CONFIG_REQUEST_URL.'/?from=__install'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'')
+                )
+            ));
+        }
         return false;
     }
 

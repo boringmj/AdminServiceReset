@@ -68,7 +68,8 @@ if(is_file($default_permission_path)&&is_readable($default_permission_path))
     $default_permission=json_decode(file_get_contents($default_permission_path),true);
 
 //需要Permission类的支持,否则无法检查权限
-if(class_exists('Permission')){
+if(class_exists('Permission'))
+{
     //权限检查(权限检查仅检查权限,不验证app_id真实性)
     $Permission=new Permission(empty($_REQUEST['app_id'])?'':$_REQUEST['app_id']);
     $Permission->SetDefaultPermission($default_permission);
