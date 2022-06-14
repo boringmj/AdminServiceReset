@@ -106,7 +106,7 @@ class Install
             $url=CONFIG_REQUEST_URL.'/?from=__install'.(CURRENT_LANGUAGE!=DEFAULT_LANGUAGE?'&language='.CURRENT_LANGUAGE:'');
             echo LANGUAGE_INSTALL_NOT_INSTALL." <a href='{$url}'>".LANGUAGE_INSTALL_NOT_INSTALL_CLICK."</a>";
         }
-        else
+        else if($_REQUEST['from']!=='__install'&&$_REQUEST['from']!=='__update')
         {
             echo json_encode(array(
                 'code'=>-6,

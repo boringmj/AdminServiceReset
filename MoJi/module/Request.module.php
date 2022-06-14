@@ -63,11 +63,11 @@ if($_REQUEST['type']==='api')
         if(is_callable(array($plugin_array[$main_class]['Object'],'ApiSecurity')))
             $plugin_array[$main_class]['Object']->ApiSecurity();
     }
-    check_api();
+    check_api($Database);
     //需要进行鉴权的接口组
     $from_api_security_array=array('main','user');
     if(in_array($_REQUEST['from'],$from_api_security_array))
-        api_auth();
+        api_auth($Database);
 }
 else if($_REQUEST['from']==='web')
 {
@@ -80,11 +80,11 @@ else if($_REQUEST['from']==='web')
         if(is_callable(array($plugin_array[$main_class]['Object'],'WebSecurity')))
             $plugin_array[$main_class]['Object']->WebSecurity();
     }
-    check_api();
+    check_api($Database);
     //需要进行鉴权的接口组
     $from_web_security_array=array('main');
     if(in_array($_REQUEST['from'],$from_web_security_array))
-        api_auth();
+        api_auth($Database);
 }
 else
 {
@@ -266,7 +266,7 @@ function sign($data,$app_key)
 }
 
 //接口基本参数检查
-function check_api()
+function check_api(&$Database)
 {
     //绝对参数处理
     if(empty($_REQUEST['request_type']))
@@ -329,7 +329,7 @@ function check_api()
 }
 
 //接口鉴权
-function api_auth()
+function api_auth(&$Database)
 {
     //基础参数检查
     if(check_request_empty_array('post',array('sign','nonce'))||!(!empty($_POST['time'])||!empty($_POST['timestamp'])))
