@@ -53,6 +53,9 @@ $default_permission=array(
         'api'=>array(
             'main'=>true
         ),
+        'web'=>array(
+            'main'=>true
+        ),
         'plugin'=>array(
             '*'=>true
         )
