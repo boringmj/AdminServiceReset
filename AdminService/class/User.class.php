@@ -13,21 +13,47 @@ class User
     public $user_salt;
     protected $_Database;
 
+    /**
+     * 设置数据库对象
+     * 
+     * @param object $Database 数据库对象
+     * @return void
+     */
     public function SetDatabase(&$Database)
     {
         $this->_Database=&$Database;
     }
 
+    /**
+     * 设置用户加密盐
+     * 
+     * @param string $salt 用户加密盐
+     * @return void
+     */
     public function SetUserSalt($salt)
     {
         $this->user_salt=$salt;
     }
 
+    /**
+     * 获取PDO调试错误信息
+     * 
+     * @return mixed
+     */
     public function DebugGetPdoError()
     {
         return $this->_Database->object->errorInfo();
     }
 
+    /**
+     * 添加一个新用户(如果成功返回用户UUID,否则返回0)
+     * 
+     * @param string $user 用户名
+     * @param string $nickname 昵称
+     * @param string $password 密码
+     * @param string $email 邮箱
+     * @return boolean|string
+     */
     public function AddUser($user,$nickname,$password,$email)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -55,6 +81,13 @@ class User
             return 0;
     }
 
+    /**
+     * 添加一个新用户组(如果成功返回用户组ID,否则返回0)
+     * 
+     * @param string $group_name 用户组名
+     * @param string $group_level 用户组级别
+     * @return boolean|string
+     */
     public function AddUserGroup($group_name,$group_level)
     {
         $tab_name=$this->_Database->GetTablename('system_user_group');
@@ -70,6 +103,12 @@ class User
             return 0;
     }
 
+    /**
+     * 添加一个用户的身份令牌(如果成功返回身份令牌ID,否则返回0)
+     * 
+     * @param string $uuid 用户UUID
+     * @return boolean|string
+     */
     public function AddUserToken($uuid)
     {
         $tab_name=$this->_Database->GetTablename('user_token');
@@ -88,6 +127,12 @@ class User
             return 0;
     }
 
+    /**
+     * 通过UUID删除用户
+     * 
+     * @param string $uuid 用户UUID
+     * @return boolean
+     */
     public function RemoveUser($uuid)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -99,6 +144,12 @@ class User
             return 0;
     }
     
+    /**
+     * 通过用户名删除用户
+     * 
+     * @param string $user_name 用户名
+     * @return boolean
+     */
     public function RemoveUserByUserName($user_name)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -110,6 +161,12 @@ class User
             return 0;
     }
 
+    /**
+     * 通过用户组ID删除用户组
+     * 
+     * @param string $group_id 用户组ID
+     * @return boolean
+     */
     public function RemoveGroup($id)
     {
         $tab_name=$this->_Database->GetTablename('system_user_group');
@@ -121,6 +178,11 @@ class User
             return 0;
     }
 
+    /**
+     * 删除所有过期未激活用户
+     * 
+     * @return boolean
+     */
     public function RemoveExpiredUser()
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -133,6 +195,12 @@ class User
             return 0;
     }
 
+    /**
+     * 删除用户所有身份令牌
+     * 
+     * @param string $uuid 用户UUID
+     * @return boolean
+     */
     public function RemoveUserToken($uuid)
     {
         $tab_name=$this->_Database->GetTablename('user_token');
@@ -144,6 +212,11 @@ class User
             return 0;
     }
 
+    /**
+     * 删除所有过期的身份令牌
+     * 
+     * @return boolean
+     */
     public function RemoveExpiredToken()
     {
         $tab_name=$this->_Database->GetTablename('user_token');
@@ -156,6 +229,12 @@ class User
             return 0;
     }
 
+    /**
+     * 通过ID检查用户组是否存在
+     * 
+     * @param string $id 用户组ID
+     * @return boolean
+     */
     public function CheckUserGroup($id)
     {
         $tab_name=$this->_Database->GetTablename('system_user_group');
@@ -174,6 +253,13 @@ class User
             return 0;
     }
 
+    /**
+     * 通过用户名和密码检查用户是否存在(需要用户处于正常状态),常用于登录检查
+     * 
+     * @param string $user 用户名
+     * @param string $password 密码
+     * @return boolean
+     */
     public function CheckUser($user,$password)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -192,6 +278,13 @@ class User
         return '';
     }
 
+    /**
+     * 通过用户名和邮箱检查用户是否存在
+     * 
+     * @param string $user 用户名
+     * @param string $email 邮箱
+     * @return boolean
+     */
     public function CheckUserExist($user,$email)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -211,6 +304,13 @@ class User
             return 0;
     }
 
+    /**
+     * 检查用户身份令牌是否存在
+     * 
+     * @param string $uuid 用户UUID
+     * @param string $token 身份令牌
+     * @return boolean
+     */
     public function CheckUserToken($uuid,$token)
     {
         $tab_name=$this->_Database->GetTablename('user_token');
@@ -231,6 +331,13 @@ class User
             return 0;
     }
 
+    /**
+     * 重置用户身份令牌过期时间
+     * 
+     * @param string $uuid 用户UUID
+     * @param string $token 身份令牌
+     * @return boolean
+     */
     public function ResteUserTokenTime($uuid,$token)
     {
         $tab_name=$this->_Database->GetTablename('user_token');
@@ -245,6 +352,12 @@ class User
             return 0;
     }
 
+    /**
+     * 通过身份令牌获取用户信息
+     * 
+     * @param string $uuid 身份令牌
+     * @return null|array
+     */
     public function GetUserInfo($uuid)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -260,6 +373,12 @@ class User
         return '';
     }
 
+    /**
+     * 通过用户名获取用户信息
+     * 
+     * @param string $user 用户名
+     * @return null|array
+     */
     public function GetUserInfoByUser($user)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -275,6 +394,12 @@ class User
         return '';
     }
 
+    /**
+     * 通过邮箱获取用户信息
+     * 
+     * @param string $email 邮箱
+     * @return null|array
+     */
     public function GetUserInfoByEmail($email)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -290,6 +415,12 @@ class User
         return '';
     }
 
+    /**
+     * 通过ID获取用户组信息
+     * 
+     * @param string $id 用户组ID
+     * @return null|array
+     */
     public function GetUserGroup($id)
     {
         $tab_name=$this->_Database->GetTablename('system_user_group');
@@ -305,6 +436,13 @@ class User
         return '';
     }
 
+    /**
+     * 通过UUId设置用户状态
+     * 
+     * @param string $uuid 用户UUID
+     * @param string $status 用户状态
+     * @return boolean
+     */
     public function SetUserStatus($uuid,$status)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -318,6 +456,13 @@ class User
             return 0;
     }
 
+    /**
+     * 通过UUID设置用户昵称
+     * 
+     * @param string $uuid 用户UUID
+     * @param string $nickname 用户昵称
+     * @return boolean
+     */
     public function SetUserNickname($uuid,$nickname)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -331,6 +476,13 @@ class User
             return 0;
     }
 
+    /**
+     * 通过UUID设置用户密码
+     * 
+     * @param string $uuid 用户UUID
+     * @param string $password 用户密码
+     * @return boolean
+     */
     public function SetUserPassword($uuid,$password)
     {
         $tab_name=$this->_Database->GetTablename('system_user');
@@ -345,6 +497,13 @@ class User
             return 0;
     }
 
+    /**
+     * 构造函数
+     * 
+     * @param string $app_id 应用ID
+     * @param string $user_salt 用户密码加盐
+     * @return void
+     */
     public function __construct($app_id='',$user_salt='')
     {
         if(!empty($app_id))

@@ -17,7 +17,14 @@ class PluginSdkMain
     protected $_data_path;      //数据存放目录
     protected $_config;         //程序配置数据
 
-    //默认调用的方法,请保留该方法且不可修改形参
+    /**
+     * 启动插件事件(默认调用的方法,请保留该方法且不可修改形参)
+     * 
+     * @param object $Database 数据库对象
+     * @param string $data_path 数据存放目录
+     * @param array $config 程序配置数据
+     * @return void
+     */
     public function Start(&$Database,$data_path,$config)
     {
         $this->_Database=$Database;
@@ -25,7 +32,13 @@ class PluginSdkMain
         $this->_config=$config;
     }
 
-    //插件被初始化,请使用公共静态修饰,请保留该方法且不可修改形参
+    /**
+     * 初始化插件事件(默认调用的方法,请保留该方法且不可修改形参,请不要修改修饰符)
+     * 
+     * @param object $Database 数据库对象
+     * @param string $data_path 数据存放目录
+     * @return void
+     */
     static public function Init(&$Database,$data_path)
     {
         /** 事件说明
@@ -48,31 +61,51 @@ class PluginSdkMain
         file_put_contents($path,json_encode($data));
     }
 
-    //接口安全
+    /**
+     * 接口安全验证事件(不可修改形参)
+     * 
+     * @return void
+     */
     public function ApiSecurity()
     {
 
     }
 
-    //Web接口安全
+    /**
+     * Web接口安全事件(不可修改形参)
+     * 
+     * @return void
+     */
     public function WebSecurity()
     {
 
     }
 
-    //页面安全
+    /**
+     * 页面安全事件(不可修改形参)
+     * 
+     * @return void
+     */
     public function ViewSecurity()
     {
 
     }
 
-    //请求错误页
+    /**
+     * 请求错误页事件(不可修改形参)
+     * 
+     * @return void
+     */
     public function RequestError()
     {
 
     }
 
-    //完成请求
+    /**
+     * 完成请求事件(不可修改形参)
+     * 
+     * @return void
+     */
     public function Finish()
     {
         

@@ -7,12 +7,24 @@ class Admin
 
     protected $_Database;   //数据库对象
 
+    /**
+     * 设置数据库对象
+     * 
+     * @param object $Database 数据库对象
+     * @return void
+     */
     public function SetDatabase(&$Database)
     {
         $this->_Database=&$Database;
     }
 
-     static public function CreatePlatform(&$_Database)
+    /**
+     * 创建一个新应用(新的访问令牌)
+     * 
+     * @param objiec $_Database 数据库对象
+     * @return object
+     */
+    static public function CreatePlatform(&$_Database)
     {
         //注意,本方法不生成对应的用户组等其他信息,需要调用者自己生成
         $server_timestamp=time();
@@ -31,6 +43,13 @@ class Admin
             return 0;
     }
 
+    /**
+     * 获取应用秘钥
+     * 
+     * @param object $_Database 数据库对象
+     * @param string $app_id 应用ID
+     * @return string
+     */
     static public function GetAppKey(&$_Database,$app_id)
     {
         $table_name=$_Database->GetTablename('system_info');
@@ -45,6 +64,15 @@ class Admin
         return '';
     }
 
+    /**
+     * 检查随机数是否合法
+     * 
+     * @param object $_Database 数据库对象
+     * @param string $app_id 应用ID
+     * @param string $rand_string 随机数
+     * @param string $sign 签名
+     * @return boolean
+     */
     static public function CheckNonce(&$_Database,$app_id,$nonce,$sign)
     {
         $table_name=$_Database->GetTablename('system_nonce');
@@ -68,6 +96,13 @@ class Admin
         return true;
     }
 
+    /**
+     * 构造函数
+     * 
+     * @param string $app_id 应用ID
+     * @param string $app_key 应用秘钥
+     * @return void
+     */
     public function __construct($app_id='',$app_key='')
     {
         $this->app_id=$app_id;

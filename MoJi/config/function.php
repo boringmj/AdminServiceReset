@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * 自动填充配置项(失败返回配置项名称)
+ * 
+ * @param string $name 完整的配置项名称
+ * @return mixed
+ */
 function config_auto($name=null)
 {
     switch($name)
@@ -58,6 +64,13 @@ function config_auto($name=null)
     }
 }
 
+/**
+ * 加载配置项(失败返回配置项内容)
+ * 
+ * @param string $name 完整的配置项名称
+ * @param mixed $content 配置项内容
+ * @return mixed
+ */
 function config_load($name=null,$content='')
 {
     if($name==='PROJECT_COPYRIGHT')

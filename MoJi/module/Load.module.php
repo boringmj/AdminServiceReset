@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * 加载模块
+ * 
+ * @param array $module_array 模块数组
+ * @return void
+ */
 function LoadModule($module_array)
 {
     global $Database,$plugin_array;

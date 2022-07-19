@@ -6,16 +6,34 @@ class Permission
     private $_data_path;
     private $_default_permission;
 
+    /**
+     * 设置APP_ID
+     * 
+     * @param string $app_id APP_ID
+     * @return void
+     */
     public function SetAppId($app_id)
     {
         $this->_app_id=$app_id;
     }
 
+    /**
+     * 设置默认权限
+     * 
+     * @param array $permission 默认权限数组
+     * @return void
+     */
     public function SetDefaultPermission($permission)
     {
         $this->_default_permission=$permission;
     }
 
+    /**
+     * 获取权限数组(app_id=default_permission 为默认数组)
+     * 
+     * @param string $app_id APP_ID
+     * @return array
+     */
     final protected function _GetPermissionInfo($app_id)
     {
         //app_id=default_permission 为默认权限
@@ -29,7 +47,11 @@ class Permission
         return $permission_info;
     }
 
-    //获取当前权限节点名称
+    /**
+     * 获取当前权限节点名称
+     * 
+     * @return boolean|string
+     */
     static public function GetPermissionName()
     {
         //需与Request模块中的默认值保持一致
@@ -47,7 +69,12 @@ class Permission
         return 'request.'.$request_type.'.'.$request_from.($request_class?'.'.$request_class:'');
     }
 
-    //检查节点权限
+    /**
+     * 检查节点权限
+     * 
+     * @param string $permission_name 节点名称
+     * @return boolean
+     */
     public function CheckPermission($permission_name='')
     {
         if(empty($permission_name))
@@ -59,7 +86,14 @@ class Permission
         return $permission;
     }
 
-    //根据节点数组获取权限
+    /**
+     * 根据节点数组获取权限
+     * 
+     * @param array $permission_name_array 节点数组
+     * @param array $permission_info 权限数组
+     * @param boolean $is_default 是否为默认节点(为True将不再检查默认节点)
+     * @return boolean
+     */
     public function GetPermissionByArray($permission_name_array,$permission_info,$is_default=false)
     {
         if(!is_array($permission_name_array))
@@ -109,6 +143,12 @@ class Permission
         return $permission;
     }
 
+    /**
+     * 构造函数
+     * 
+     * @param integer $app_id APP_ID
+     * @return void
+     */
     public function __construct($app_id='')
     {
         $this->_app_id=$app_id;

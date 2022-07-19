@@ -2,6 +2,12 @@
 
 class AEM
 {
+    /**
+     * 创建秘钥文件(含秘钥和iv)
+     * 
+     * @param string $path 秘钥文件路径
+     * @return boolean
+     */
     static function CreateKeyFile($path)
     {
         $cipher='AES-128-CBC';
@@ -13,6 +19,12 @@ class AEM
         return true;
     }
     
+    /**
+     * 通过文件名获取秘钥和iv
+     * 
+     * @param string $path 秘钥文件路径
+     * @return array
+     */
     static function GetKeyFile($path)
     {
         $key_array=array();
@@ -27,6 +39,14 @@ class AEM
         return $key_array;
     }
 
+    /**
+     * AEM加密
+     * 
+     * @param string $str 待加密字符串
+     * @param string $key 秘钥
+     * @param string $iv iv
+     * @return string
+     */
     static function Encrypt($str,$key,$iv)
     {
         $encode_text='';
@@ -36,6 +56,14 @@ class AEM
         return $encode_text;
     }
 
+    /**
+     * AEM解密
+     * 
+     * @param string $str 待解密字符串
+     * @param string $key 秘钥
+     * @param string $iv iv
+     * @return string
+     */
     static function Decrypt($str,$key,$iv)
     {
         $decode_text='';

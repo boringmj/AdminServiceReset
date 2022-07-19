@@ -17,61 +17,114 @@ class Sendmail
     protected $_ssl;             //是否打开ssl
     public $error_info;          //错误信息
 
-    //设置smtp端口
+    /**
+     * 设置smtp端口
+     * 
+     * @param int $smtp_port smtp端口
+     * @return void
+     */
     public function SetSmtpPort($smtp_port)
     {
         $this->_smtp_port=$smtp_port;
     }
 
-    //设置smtp主机地址
+    /**
+     * 设置smtp主机地址
+     * 
+     * @param string $smtp_host smtp主机地址
+     * @return void
+     */
     public function SetSmtpHost($smtp_host)
     {
         $this->_smtp_host=$smtp_host;
     }
 
-    //设置smtp用户
+    /**
+     * 设置smtp用户名
+     * 
+     * @param string $smtp_user smtp用户名
+     * @return void
+     */
     public function SetSmtpUser($smtp_user)
     {
         $this->_smtp_user=$smtp_user;
     }
 
-    //设置smtp密码
+    /**
+     * 设置smtp密码或授权码
+     * 
+     * @param string $smtp_pass smtp密码或授权码
+     * @return void
+     */
     public function SetSmtpPass($smtp_pass)
     {
         $this->_smtp_pass=$smtp_pass;
     }
 
-    //设置发送邮箱
+    /**
+     * 设置发件邮箱的电子邮箱
+     * 
+     * @param string $from_email 发件邮箱的电子邮箱
+     * @return void
+     */
     public function SetFromEmail($from_email)
     {
         $this->_from_email=$from_email;
     }
 
-    //设置发送昵称
+    /**
+     * 设置发件邮箱的昵称
+     * 
+     * @param string $from_name 发件邮箱的昵称
+     * @return void
+     */
     public function SetFromName($from_name)
     {
         $this->_from_name=$from_name;
     }
 
-    //设置回复邮箱
+    /**
+     * 设置回复邮箱(一般为空)
+     * 
+     * @param string $reply_email 回复邮箱
+     * @return void
+     */
     public function SetReplyEmail($reply_email)
     {
         $this->_reply_email=$reply_email;
     }
 
-    //设置回复昵称
+    /**
+     * 设置回复昵称(一般为空)
+     * 
+     * @param string $reply_name 回复昵称
+     * @return void
+     */
     public function SetReplyName($reply_name)
     {
         $this->_reply_name=$reply_name;
     }
 
-    //设置是否打开ssl
+    /**
+     * 设置是否打开ssl
+     * 
+     * @param bool $ssl 是否打开ssl
+     * @return void
+     */
     public function SetSsl($ssl)
     {
         $this->_ssl=$ssl;
     }
 
-    //整体设置smtp信息
+    /**
+     * 整体设置smtp信息
+     * 
+     * @param string $smtp_port smtp端口
+     * @param string $smtp_host smtp主机地址
+     * @param string $smtp_user smtp用户名
+     * @param string $smtp_pass smtp密码或授权码
+     * @return void
+     */
     public function SetSmtpConfig($smtp_port,$smtp_host,$smtp_user,$smtp_pass)
     {
         $this->_smtp_port=$smtp_port;
@@ -80,21 +133,41 @@ class Sendmail
         $this->_smtp_pass=$smtp_pass;
     }
 
-    //整体设置发送邮箱信息
+    /**
+     * 整体设置发件邮箱信息
+     * 
+     * @param string $from_email 发件邮箱的电子邮箱
+     * @param string $from_name 发件邮箱的昵称
+     * @return void
+     */
     public function SetFromConfig($from_email,$from_name)
     {
         $this->_from_email=$from_email;
         $this->_from_name=$from_name;
     }
 
-    //整体设置回复邮箱信息
+    /**
+     * 整体设置回复邮箱信息
+     * 
+     * @param string $reply_email 回复邮箱
+     * @param string $reply_name 回复昵称
+     * @return void
+     */
     public function SetReplyConfig($reply_email,$reply_name)
     {
         $this->_reply_email=$reply_email;
         $this->_reply_name=$reply_name;
     }
 
-    //发送邮件至邮箱
+    /**
+     * 发送邮件至邮箱
+     * 
+     * @param string $title 邮件标题
+     * @param string $content 邮件内容
+     * @param string $to_email 收件邮箱
+     * @param string $to_name 收件昵称(可以为空)
+     * @return bool
+     */
     public function Send($title,$content,$to_email,$to_name='')
     {
         if($this->_Check())
@@ -150,7 +223,11 @@ class Sendmail
         }
     }
 
-    //检查是否配置完成
+    /**
+     * 检查配置是否完成
+     * 
+     * @return bool
+     */
     protected function _Check()
     {
         if(empty($this->_smtp_port))
@@ -175,6 +252,11 @@ class Sendmail
             return false;
     }
 
+    /**
+     * 构造函数
+     * 
+     * @return void
+     */
     public function __construct()
     {
         $this->_smtp_port=465;

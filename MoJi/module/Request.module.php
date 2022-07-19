@@ -172,7 +172,12 @@ else
     }
 }
 
-//通过数组的方式加载类(用户类)
+/**
+ * 通过数组的方式加载类(用户类)
+ * 
+ * @param array $class_array 类名数组
+ * @return void
+ */
 function load_class_array($class_name)
 {
     foreach($class_name as $class)
@@ -185,7 +190,12 @@ function load_class_array($class_name)
     }
 }
 
-//接口强制输出内容(结束本次运行)
+/**
+ * 接口强制输出内容(结束本次运行)
+ * 
+ * @param string $return_path 结束文件的路径(为空默认为当前位置)
+ * @return void
+ */
 function echo_return_data($return_path='')
 {
     //目前支持的返回方式只有json
@@ -223,7 +233,13 @@ function echo_return_data($return_path='')
     exit();
 }
 
-//验证参数是否传入且不为空
+/**
+ * 验证参数是否传入且不为空
+ * 
+ * @param array $type 验证的请求类型
+ * @param array $parameter 验证的参数名数组
+ * @return boolean
+ */
 function check_request_empty_array($type,$post_variable)
 {
     //放弃代码量选择效率(反正差距不大)
@@ -247,7 +263,13 @@ function check_request_empty_array($type,$post_variable)
     return false;
 }
 
-//隐藏隐私信息
+/**
+ * 隐藏隐私信息
+ * 
+ * @param array $data 需要隐藏的数据
+ * @param array $type 需要隐藏的键名数组
+ * @return void
+ */
 function hide_private_info_array(&$data,$info_array)
 {
     foreach($info_array as $info)
@@ -255,7 +277,13 @@ function hide_private_info_array(&$data,$info_array)
             $data[$info]='******';
 }
 
-//签名
+/**
+ * 签名
+ * 
+ * @param array $data 需要签名的数据
+ * @param string $key 签名的密钥
+ * @return string
+ */
 function sign($data,$app_key)
 {
     krsort($data);
@@ -265,7 +293,12 @@ function sign($data,$app_key)
     return md5($sign_string.'&app_key='.$app_key);
 }
 
-//接口基本参数检查
+/**
+ * 接口基本参数检查
+ * 
+ * @param object $Database 数据库对象
+ * @return mixed
+ */
 function check_api(&$Database)
 {
     //绝对参数处理
@@ -328,7 +361,12 @@ function check_api(&$Database)
     }
 }
 
-//接口鉴权
+/**
+ * 接口鉴权
+ * 
+ * @param object $Database 数据库对象
+ * @return mixed
+ */
 function api_auth(&$Database)
 {
     //基础参数检查

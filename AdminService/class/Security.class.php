@@ -2,7 +2,11 @@
 
 class Security
 {
-    //记录IP登录次数
+    /**
+     * 记录IP登录次数
+     * 
+     * @return void
+     */
     public function RecordLogin()
     {
         //获取数据
@@ -36,7 +40,11 @@ class Security
         $this->_SaveData($data);
     }
 
-    //记录IP登录错误次数
+    /**
+     * 记录IP登录错误次数
+     * 
+     * @return void
+     */
     public function RecordLoginError()
     {
         //获取数据
@@ -56,7 +64,11 @@ class Security
         $this->_SaveData($data);
     }
 
-    //记录IP注册次数
+    /**
+     * 记录IP注册次数
+     * 
+     * @return void
+     */
     public function RecordRegister()
     {
         //获取数据
@@ -76,7 +88,11 @@ class Security
         $this->_SaveData($data);
     }
 
-    //检查登录
+    /**
+     * 检查登录次数
+     * 
+     * @return boolean
+     */
     public function CheckLogin()
     {
         $data=$this->_GetData();
@@ -104,7 +120,11 @@ class Security
         return true;
     }
 
-    //检查注册
+    /**
+     * 检查注册次数
+     * 
+     * @return boolean
+     */
     public function CheckRegister()
     {
         $data=$this->_GetData();
@@ -122,6 +142,11 @@ class Security
         return true;
     }
 
+    /**
+     * 封禁IP
+     * 
+     * @return void
+     */
     private function _BanIp()
     {
         $data=$this->_GetData();
@@ -129,6 +154,11 @@ class Security
         $this->_SaveData($data);
     }
 
+    /**
+     * 获取数据
+     * 
+     * @return array
+     */
     private function _GetData()
     {
         $path=CACHE_PATH.'/api_ip_'.md5(CONFIG_KEY_KEY.REQUEST_IP.CONFIG_USER_SALT.CONFIG_KEY_SALT).'.data.json';
@@ -163,6 +193,12 @@ class Security
         );
     }
 
+    /**
+     * 保存数据
+     * 
+     * @param array $data
+     * @return void
+     */
     private function _SaveData($data)
     {
         $path=CACHE_PATH.'/api_ip_'.md5(CONFIG_KEY_KEY.REQUEST_IP.CONFIG_USER_SALT.CONFIG_KEY_SALT).'.data.json';

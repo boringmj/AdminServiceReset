@@ -162,7 +162,12 @@ foreach($plugin_path_array as $plugin_package_name)
     }
 }
 
-//检查插件是否已经就绪
+/**
+ * 检查插件是否已就绪
+ * 
+ * @param string $main_class 插件主类名
+ * @return boolean
+ */
 function check_plugin($main_class)
 {
     global $plugin_array;
@@ -172,7 +177,12 @@ function check_plugin($main_class)
         return 0;
 }
 
-//加载单个插件
+/**
+ * 加载插件
+ * 
+ * @param string $main_class 插件主类名
+ * @return void
+ */
 function load_plugin($main_class)
 {
     global $Database,$plugin_array;

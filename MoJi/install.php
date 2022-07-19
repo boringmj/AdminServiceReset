@@ -8,6 +8,9 @@
  * 安装一切信息都将会直接输入到网页内,不记入日志内,且不分调试
  */
 
+/**
+ * 安装类
+ */
 class Install
 {
     public $error_info=array();
@@ -51,7 +54,12 @@ class Install
         )'
     );
 
-    //默认调用的方法
+    /**
+     * 入口方法
+     * 
+     * @param object $Database 数据库对象
+     * @return mixed
+     */
     public function Start(&$Database='')
     {
         //判断安装是否有价值,没有价值就不进行安装
@@ -75,7 +83,12 @@ class Install
         return false;
     }
 
-    //检查是否需要安装
+    /**
+     * 检查是否需要安装
+     * 
+     * @param object $Database 数据库对象
+     * @return boolean
+     */
     protected function _Check(&$Database)
     {
         if(file_exists($this->_data_path))
@@ -119,7 +132,12 @@ class Install
         return false;
     }
 
-    //数据库类信息安装
+    /**
+     * 数据库类信息安装
+     * 
+     * @param object $Database 数据库对象
+     * @return mixed
+     */
     protected function _Database(&$Database)
     {
         $server_timestamp=time();
@@ -170,13 +188,22 @@ class Install
         echo $sql_statement->execute()?"{$table_name}数据表初始数据已插入,<font color=red>App_id={$app_id},Group_name={$user_group_default['group_name']},Group_level={$user_group_default['group_level']}</font><br>":"";
     }
 
-    //安装其他东西
+    /**
+     * 安装其他东西
+     * 
+     * @return mixed
+     */
     protected function _Other()
     {
 
     }
 
-    //卸载安装(请在命令行调用该方法)
+    /**
+     * 卸载安装(请在命令行调用该方法)
+     * 
+     * @param object $Database 数据库对象
+     * @return mixed
+     */
     public function Uninstall(&$Database)
     {
         if(DATABASE_ENABLE)
@@ -196,7 +223,12 @@ class Install
         echo LANGUAGE_INSTALL_UNINSTALL_SUCCESS."\n\r";
     }
 
-    //安装更新内容
+    /**
+     * 安装更新内容
+     * 
+     * @param object $Database 数据库对象
+     * @return mixed
+     */
     protected function _Updata(&$Database)
     {
         if(DATABASE_ENABLE)
@@ -205,7 +237,12 @@ class Install
         }
     }
 
-    //删除目录和目录下所有文件
+    /**
+     * 删除目录和目录下所有文件
+     * 
+     * @param string $dir 目录路径
+     * @return boolean
+     */
     protected function _DeleteDir($dir)
     {
         if(!is_dir($dir))
@@ -223,7 +260,11 @@ class Install
         return rmdir($dir);
     }
 
-    //使用构造方法兼容5.x版本
+    /**
+     * 使用构造方法兼容5.x版本
+     * 
+     * @return void
+     */
     public function __construct()
     {
         $this->_data_path=DATA_PATH.'/install.data.json';

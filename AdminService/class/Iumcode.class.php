@@ -7,6 +7,13 @@
 
 class Iumcode
 {
+    /**
+     * 加密解密核心
+     * 
+     * @param string $str 加密字符串
+     * @param string $key 加密密钥
+     * @return string
+     */
     static public function EncodeBase($str,$key)
     {
         $ret='';
@@ -21,11 +28,25 @@ class Iumcode
         return $ret;
     }
 
+    /**
+     * IUMCODE加密
+     * 
+     * @param string $str 加密字符串
+     * @param string $key 加密密钥
+     * @return string
+     */
     static public function EncodeIum($str,$key)
     {
         return base64_encode(self::EncodeBase(base64_encode($str),$key));
     }
 
+    /**
+     * IUMCODE解密
+     * 
+     * @param string $str 解密字符串
+     * @param string $key 解密密钥
+     * @return string
+     */
     static public function DecodeIum($str,$key)
     {
         return base64_decode(self::EncodeBase(base64_decode($str),$key));

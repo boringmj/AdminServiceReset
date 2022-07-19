@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * 将配置项加载到系统中
+ * 
+ * @param array $config_array 配置项数组
+ * @return void
+ */
 function config_examine($config_array)
 {
     global $$config_array;

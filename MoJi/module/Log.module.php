@@ -1,6 +1,15 @@
 <?php
 
 //debug_log("title","msg",__FILE__);
+/**
+ * 写入调试日志
+ * 
+ * @param string $title 日志标题
+ * @param string $msg 日志内容
+ * @param string $file 文件名
+ * @param int $grade 日志等级
+ * @return void
+ */
 function debug_log($title,$msg,$file,$grade=1)
 {
     if(CONFIG_LOG_LEVEL!=0&&$grade<CONFIG_LOG_LEVEL)
@@ -25,6 +34,15 @@ function debug_log($title,$msg,$file,$grade=1)
 }
 
 //write_log("title","msg",__FILE__);
+/**
+ * 写入日志
+ * 
+ * @param string $title 日志标题
+ * @param string $msg 日志内容
+ * @param string $file 文件名
+ * @param int $grade 日志等级
+ * @return void
+ */
 function write_log($title,$msg,$file,$grade=1)
 {
     if(CONFIG_LOG_LEVEL!=0&&$grade<CONFIG_LOG_LEVEL)
