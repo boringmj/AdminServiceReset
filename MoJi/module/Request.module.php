@@ -281,7 +281,7 @@ function hide_private_info_array(&$data,$info_array)
  * 签名
  * 
  * @param array $data 需要签名的数据
- * @param string $key 签名的密钥
+ * @param string $app_key 签名的密钥
  * @return string
  */
 function sign($data,$app_key)
