@@ -258,7 +258,7 @@ class User
      * 
      * @param string $user 用户名
      * @param string $password 密码
-     * @return boolean
+     * @return string|null
      */
     public function CheckUser($user,$password)
     {
