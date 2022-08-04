@@ -50,7 +50,7 @@ if($ukey!=$_POST['ukey'])
 if(CONFIG_SECURITY_USER_TOKEN_TIME_RESET_TIME)
 {
     //不验证是否成功
-    $User->ResteUserTokenTime($_POST['uuid'],$_POST['token']);
+    $User->ResetUserTokenTime($_POST['uuid'],$_POST['token']);
 }
 
 //获取用户信息

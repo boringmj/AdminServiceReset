@@ -338,7 +338,7 @@ class User
      * @param string $token 身份令牌
      * @return boolean
      */
-    public function ResteUserTokenTime($uuid,$token)
+    public function ResetUserTokenTime($uuid,$token)
     {
         $tab_name=$this->_Database->GetTablename('user_token');
         $sql_statement=$this->_Database->object->prepare("UPDATE {$tab_name} SET `expire_time`=:expire_time WHERE `uuid`=:uuid AND `token`=:token");

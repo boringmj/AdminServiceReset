@@ -175,7 +175,7 @@ else
 /**
  * 通过数组的方式加载类(用户类)
  * 
- * @param array $class_array 类名数组
+ * @param array $class_name 类名数组
  * @return void
  */
 function load_class_array($class_name)
@@ -237,7 +237,7 @@ function echo_return_data($return_path='')
  * 验证参数是否传入且不为空
  * 
  * @param array $type 验证的请求类型
- * @param array $parameter 验证的参数名数组
+ * @param array $post_variable 验证的参数名数组
  * @return boolean
  */
 function check_request_empty_array($type,$post_variable)
@@ -267,7 +267,7 @@ function check_request_empty_array($type,$post_variable)
  * 隐藏隐私信息
  * 
  * @param array $data 需要隐藏的数据
- * @param array $type 需要隐藏的键名数组
+ * @param array $info_array 需要隐藏的键名数组
  * @return void
  */
 function hide_private_info_array(&$data,$info_array)
