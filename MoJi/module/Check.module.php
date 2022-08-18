@@ -17,7 +17,7 @@ if(!class_exists('PDO'))
 if(!function_exists('uuid_create'))
     write_log(LANGUAGE_LOG_EXTENSION_UNSPPORTED,'UUID '.LANGUAGE_LOG_EXTENSION_UNSPPORTED_WARN,__FILE__,10);
 if(!class_exists('OpenSSLAsymmetricKey'))
-    array_push($unsupported_extension,'OpenSSL');
+    write_log(LANGUAGE_LOG_EXTENSION_UNSPPORTED,'OpenSSL '.LANGUAGE_LOG_EXTENSION_UNSPPORTED_WARN,__FILE__,10);
 if(!empty($unsupported_extension))
 {
     if(APPLICATION_DEBUG)
