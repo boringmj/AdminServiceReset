@@ -13,8 +13,8 @@ class RSA
      */
     public function __construct($public_key,$private_key)
     {
-        $this->public_key_resource=!empty($public_key)?openssl_pkey_get_public($this->get_public_key($public_key)):false;
-        $this->private_key_resource=!empty($private_key)?openssl_pkey_get_private($this->get_private_key($private_key)):false;
+        $this->public_key_resource=!empty($public_key)?openssl_pkey_get_public($this->GetPublicKey($public_key)):false;
+        $this->private_key_resource=!empty($private_key)?openssl_pkey_get_private($this->GetPrivateKey($private_key)):false;
     }
 
     /**
@@ -25,7 +25,7 @@ class RSA
      * @param string $cnf_path 秘钥配置文件路径(可选)
      * @return boolean
      */
-    public function create_key($dir_path,$key_length=1024,$cnf_path=null)
+    public function CreateKey($dir_path,$key_length=1024,$cnf_path=null)
     {
         if(!is_dir($dir_path)||!is_writable($dir_path))
             return false;
@@ -53,7 +53,7 @@ class RSA
      * @param string $private_key 公钥数据字符串
      * @return string
 	 */
-	public function get_private_key($private_key)
+	public function GetPrivateKey($private_key)
     {
 		$search = [
 			"-----BEGIN RSA PRIVATE KEY-----",
@@ -74,7 +74,7 @@ class RSA
      * @param string $public_key 公钥数据字符串
      * @return string
 	 */
-	public function get_public_key($public_key)
+	public function GetPublicKey($public_key)
     {
 		$search = [
 			"-----BEGIN PUBLIC KEY-----",
@@ -93,7 +93,7 @@ class RSA
      * @param string $input 待加密数据
      * @return string
      */
-    public function private_encrypt($input)
+    public function PrivateEncrypt($input)
     {
         openssl_private_encrypt($input,$output,$this->private_key_resource);
         return base64_encode($output);
@@ -105,7 +105,7 @@ class RSA
      * @param string $input 加密后的密文
      * @return string
      */
-    public function public_decrypt($input)
+    public function PublicDecrypt($input)
     {
         openssl_public_decrypt(base64_decode($input),$output,$this->public_key_resource);
         return $output;
@@ -117,7 +117,7 @@ class RSA
      * @param string $input 待加密的数据
      * @return string
      */
-    public function public_encrypt($input)
+    public function PublicEncrypt($input)
     {
         openssl_public_encrypt($input,$output,$this->public_key_resource,OPENSSL_PKCS1_OAEP_PADDING);
         return base64_encode($output);
@@ -129,7 +129,7 @@ class RSA
      * @param string $input 加密后的密文
      * @return string
      */
-    public function private_decrypt($input)
+    public function PrivateDecrypt($input)
     {
         openssl_private_decrypt(base64_decode($input),$output,$this->private_key_resource,OPENSSL_PKCS1_OAEP_PADDING);
         return $output;
