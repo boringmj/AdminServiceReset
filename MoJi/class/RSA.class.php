@@ -38,10 +38,10 @@ class RSA
         );
         if($cnf_path!=null&&is_file($cnf_path))
             $config['config']=$cnf_path;
-        $res = openssl_pkey_new($config);
+        $res=openssl_pkey_new($config);
         openssl_pkey_export($res,$privKey,null,$config);
-        $pubKey = openssl_pkey_get_details($res);
-        $pubKey = $pubKey["key"];
+        $pubKey=openssl_pkey_get_details($res);
+        $pubKey=$pubKey["key"];
         file_put_contents("privkey.pem",$privKey);
         file_put_contents("pubkey.pem",$pubKey);
         return true;
