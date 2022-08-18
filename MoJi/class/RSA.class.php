@@ -17,13 +17,23 @@ class RSA
         $this->private_key_resource=!empty($private_key)?openssl_pkey_get_private($this->get_private_key($private_key)):false;
     }
 
-    public function create_key($dir_path,$cnf_path=null)
+    /**
+     * 创建秘钥对
+     * 
+     * @param string $dir_path 秘钥存放目录(可写)
+     * @param int $key_length 秘钥长度(默认:512,可选:512)
+     * @param string $cnf_path 秘钥配置文件路径(可选)
+     * @return boolean
+     */
+    public function create_key($dir_path,$key_length=1024,$cnf_path=null)
     {
         if(!is_dir($dir_path)||!is_writable($dir_path))
             return false;
+        if(!in_array($key_length,array(512,1024,2048)))
+            $key_length=1024;
         $config=array(
             "digest_alg"        =>  "sha512",
-            "private_key_bits"  =>  512,
+            "private_key_bits"  =>  $key_length,
             "private_key_type"  =>  OPENSSL_KEYTYPE_RSA
         );
         if($cnf_path!=null&&is_file($cnf_path))
