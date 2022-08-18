@@ -25,7 +25,7 @@ class RSA
      * @param string $cnf_path 秘钥配置文件路径(可选)
      * @return boolean
      */
-    public function CreateKey($dir_path,$key_length=1024,$cnf_path=null)
+    static public function CreateKey($dir_path,$key_length=1024,$cnf_path=null)
     {
         if(!is_dir($dir_path)||!is_writable($dir_path))
             return false;
@@ -55,7 +55,7 @@ class RSA
 	 */
 	public function GetPrivateKey($private_key)
     {
-		$search = [
+		$search=array(
 			"-----BEGIN RSA PRIVATE KEY-----",
 			"-----END RSA PRIVATE KEY-----",
             "-----BEGIN PRIVATE KEY-----",
@@ -63,7 +63,7 @@ class RSA
 			"\n",
 			"\r",
 			"\r\n"
-		];
+        );
 		$private_key=str_replace($search,"",$private_key);
 		return $search[0].PHP_EOL.wordwrap($private_key,64,"\n",true).PHP_EOL.$search[1];
 	}
@@ -76,13 +76,13 @@ class RSA
 	 */
 	public function GetPublicKey($public_key)
     {
-		$search = [
+		$search=array(
 			"-----BEGIN PUBLIC KEY-----",
 			"-----END PUBLIC KEY-----",
 			"\n",
 			"\r",
 			"\r\n"
-		];
+        );
 		$public_key=str_replace($search,"",$public_key);
 		return $search[0].PHP_EOL.wordwrap($public_key,64,"\n",true).PHP_EOL.$search[1];
 	}
