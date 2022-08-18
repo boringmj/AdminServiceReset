@@ -21,7 +21,7 @@ class RSA
      * 创建秘钥对
      * 
      * @param string $dir_path 秘钥存放目录(可写)
-     * @param int $key_length 秘钥长度(默认:512,可选:512)
+     * @param int $key_length 秘钥长度(默认:1024,可选:512,1024,2048)
      * @param string $cnf_path 秘钥配置文件路径(可选)
      * @return boolean
      */
