@@ -122,7 +122,7 @@ $sign_array=array(
     'app_id'=>$_REQUEST['app_id']
 );
 $sign=sign($sign_array,$GLOBALS['app_key']);
-$url=CONFIG_REQUEST_URL."?from=user&class=verify&sign={$sign}&user={$_POST['user']}&token={$password}&timestamp={$server_timestamp}&uuid={$uuid}&app_id={$_REQUEST['app_id']}";
+$url=CONFIG_REQUEST_URL."?from=user&class=verify&sign={$sign}&app_id={$_REQUEST['app_id']}&timestamp={$server_timestamp}&uuid={$uuid}&user={$_POST['user']}&token={$password}";
 
 //发送验证邮件
 $title='感谢您使用-'.CONFIG_PROJECT_OPERATOR;
