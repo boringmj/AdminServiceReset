@@ -21,7 +21,7 @@ class Admin
     /**
      * 创建一个新应用(新的访问令牌)
      * 
-     * @param objiec $_Database 数据库对象
+     * @param object $_Database 数据库对象
      * @return object
      */
     static public function CreatePlatform(&$_Database)
