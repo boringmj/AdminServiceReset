@@ -299,7 +299,7 @@ class PluginVerificationApi extends Pulgin
             else
             {
                 $javascript_code=file_get_contents(__DIR__.'/../res/verification.js');
-                $javascript_script=new PluginVerificationApiVerification($this->_this->_Database);
+                $javascript_script=new PluginVerificationApiVerification($this->_Database);
                 $javascript_script->key=$this->GetUserConfigValue("Key");
                 $javascript_script->expire_time=$this->GetUserConfigValue("Expiration");
                 $javascript_tmp=$javascript_script->StartCheck();
