@@ -6,38 +6,39 @@
             "Type": 1,
             "Options": {
                 "Content": [["是", true, "请无视下面的“秘钥”选项"],["否", false, "请填写下面的“秘钥”选项"]],
-                "Default": ["是", true, "请无视下面的“秘钥”选项"]
-            }
+                "Current": 0
+            },
+            "Value": true
         },
         "Key": {
             "Name": "秘钥",
             "Explanation":"秘钥用于本插件的各种验证,请勿随意更改",
             "Type": 0,
             "Options": {
-                "Text": "",
                 "Hint": "请在此处填写秘钥",
                 "Type": "text"
-            }
+            },
+            "Value": ""
         },
         "Expiration": {
             "Name": "验证过期时间",
             "Explanation":"单个验证周期的最大时间,超过该时长的验证将不再合法(知道秘钥是可以伪造时间的),单位:秒",
             "Type": 0,
             "Options": {
-                "Text": 10800,
                 "Hint": "请填写一个合法的整数",
                 "Type": "int"
-            }
+            },
+            "Value": 10800
         },
         "NoVerification": {
             "Name": "验证页面",
             "Explanation":"排除的view页面和需要验证的api,web页面,可以填写多个,每个页面用逗号“,”分隔,格式为<type>:<from>[/class]如:view:index,api:user/login,其中view为排除验证的页面,api和web为需要验证的页面",
             "Type": 0,
             "Options": {
-                "Text": "view:user/head_portrait,api:verification_get,api:verification_img,api:user/login,api:user/register",
                 "Hint": "每个页面用逗号“,”分隔,格式为<type>:<from>[/class]如:view:index,api:user/login",
                 "Type": "text"
-            }
+            },
+            "Value": "view:user/head_portrait,api:verification_get,api:verification_img,api:user/login,api:user/register"
         }
     }
 }

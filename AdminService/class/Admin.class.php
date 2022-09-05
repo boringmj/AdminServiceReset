@@ -10,7 +10,7 @@ class Admin
     /**
      * 设置数据库对象
      * 
-     * @param object $Database 数据库对象
+     * @param Database $Database 数据库对象
      * @return void
      */
     public function SetDatabase(&$Database)
@@ -21,8 +21,8 @@ class Admin
     /**
      * 创建一个新应用(新的访问令牌)
      * 
-     * @param object $_Database 数据库对象
-     * @return object
+     * @param Database $_Database 数据库对象
+     * @return mixed
      */
     static public function CreatePlatform(&$_Database)
     {
@@ -46,7 +46,7 @@ class Admin
     /**
      * 获取应用秘钥
      * 
-     * @param object $_Database 数据库对象
+     * @param Database $_Database 数据库对象
      * @param string $app_id 应用ID
      * @return string
      */
@@ -67,7 +67,7 @@ class Admin
     /**
      * 检查随机数是否合法
      * 
-     * @param object $_Database 数据库对象
+     * @param Database $_Database 数据库对象
      * @param string $app_id 应用ID
      * @param string $rand_string 随机数
      * @param string $sign 签名

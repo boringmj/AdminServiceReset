@@ -8,7 +8,7 @@
 */
 
 //兼容的sdk版本
-$compatible_level=array(1);
+$compatible_level=array(2);
 
 //检查插件
 if(!file_exists(PLUGIN_DATA_PATH))
@@ -110,7 +110,7 @@ foreach($plugin_path_array as $plugin_package_name)
             }
             //main.php 文件检查
             $main_content=file_get_contents($plugin_main_path);
-            if(!preg_match('/class\s+'.$main_class.'.*\{.*(public\s+function\s+Start\s*\().*\}/s',$main_content))
+            if(!preg_match('/class\s+'.$main_class.'\s+extends\s+Pulgin/s',$main_content))
             {
                 write_log(LANGUAGE_LOG_PLUGIN_PARSING_FAILED,LANGUAGE_LOG_PLUGIN_MAIN_CLASS_FORMAT_NOT_STANDARD,$plugin_path,15);
                 continue;

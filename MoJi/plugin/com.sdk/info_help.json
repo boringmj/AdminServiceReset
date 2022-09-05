@@ -1,0 +1,26 @@
+{
+    "Name": "插件SDK",                              //插件名称
+    "Description": "官方提供的SDK",                 //插件描述
+    "Tag": ["SDK"],                                //插件标签
+    "Type": 0,                                     //插件类型
+    "Developer": "Boringmj",                       //插件开发者
+    "Email": "wuliaodemoji@wuliaomj.com",          //插件开发者邮箱
+    "Version": "1.0",                              //插件版本
+    "Grade": 0,                                    //插件优先级
+    "Level": 2,                                    //插件api等级
+    "Main": "PluginSdkMain",                       //插件主类名称
+    "PackageName": "com.sdk",                      //插件包名
+    "Compatible": "5.0",                           //插件兼容的php版本
+    "Permission": [                                //插件需要的权限
+        "request.plugin.from.class"
+    ],
+    "Updata": {                                    //插件更新配置(开启该配置后,管理员可以在后台进行插件更新)
+        "Open": 0,                                 //是否支持在线更新
+        "Url": ""                                  //更新地址
+    },
+    "Authentication": {                            //插件认证配置(通过该配置可以对插件进行认证)
+        "State": false,                            //是否开启认证
+        "Id": "",                                  //认证id
+        "Sign": ""                                 //认证签名
+    }
+}

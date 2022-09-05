@@ -5,10 +5,10 @@
             "Explanation":"这是一个编辑框",
             "Type": 0,
             "Options": {
-                "Text": "默认内容",
                 "Hint": "提示信息",
                 "Type": "text"
-            }
+            },
+            "Value": "默认内容"
         },
         "Name2": {
             "Name": "单选",
@@ -16,17 +16,19 @@
             "Type": 1,
             "Options": {
                 "Content": [["选项一", true, "这里是选择该选项的提示内容"],["选项二", false, "这里是选择该选项的提示内容"]],
-                "Default": ["选项一", true, "这里是选择该选项的提示内容"]
-            }
+                "Current": 0
+            },
+            "Value": true
         },
         "Name3": {
             "Name": "多选",
             "Explanation":"这是一组多选框",
             "Type": 2,
             "Options": {
-                "Content": [["选项一", true, "这里是选择该选项的提示内容"],["选项二", false, "这里是选择该选项的提示内容"]],
-                "Default": [["选项一", true, "这里是选择该选项的提示内容"]]
-            }
+                "Content": [["选项一", "one", "这里是选择该选项的提示内容"],["选项二", "two", "这里是选择该选项的提示内容"]],
+                "Current": [0, 1]
+            },
+            "Value": ["one", "two"]
         },
         "Name4": {
             "Name": "下拉菜单",
@@ -34,8 +36,9 @@
             "Type": 3,
             "Options": {
                 "Content": [["选项一", 1, "这里是选择该选项的提示内容"],["选项二", 2, "这里是选择该选项的提示内容"]],
-                "Default": ["菜单一", 1, "这里是选择该选项的提示内容"]
-            }
+                "Current": 0
+            },
+            "Value": 1
         }
     },
     "System": {
@@ -43,10 +46,8 @@
             "Database": false
         },
         "Config": {
-            "Options": {
-                "Name1": "Value1",
-                "Name2": "Value2"
-            } 
+            "Name1": "Value1",
+            "Name2": "Value2"
         }
     }
 }

@@ -2,46 +2,21 @@
 
 /** 一般规范
  * 我们规定,main.php中应该有且只有 info.json->Main 中注册的主类
+ * 所有依赖请在定义类之前引用
+ * 该类应该继承自 Pulgin 抽象类,且不可重写 Start 方法
  * 如果需要自定义类,请将类的类名使用 主类名称+自定义类名称 命名,并存放在插件的src目录或自定义目录中
- * 主类请务必保留 Start(&$Database,$data_path,$config) 方法,且不可修改其形参
- * 主类的 Init(&$Database,$data_path) 方法请使用 公共静态(static public) 修饰,且同样需要保留,也不可修改其形参
- * 主类中不必要的方法允许删除,但请注意上两条
- * 三个保留字段请保留
+ * 主类的 Init(&$Database,$data_path) 方法请在主类中实现
+ * 主类中不必要的方法允许删除
  * 插件数据请存放入规定的 数据存放目录(protected $_data_path)
  */
 
 //请注意类名需要与 info.json->Main 保持一致,且符合命名规范
-class PluginSdkMain
+class PluginSdkMain extends Pulgin
 {
-    protected $_Database;       //数据库对象
-    protected $_data_path;      //数据存放目录
-    protected $_config;         //程序配置数据
-
-    /**
-     * 启动插件事件(默认调用的方法,请保留该方法且不可修改形参)
-     * 
-     * @param object $Database 数据库对象
-     * @param string $data_path 数据存放目录
-     * @param array $config 程序配置数据
-     * @return void
-     */
-    public function Start(&$Database,$data_path,$config)
-    {
-        $this->_Database=$Database;
-        $this->_data_path=$data_path;
-        $this->_config=$config;
-    }
-
-    /**
-     * 初始化插件事件(默认调用的方法,请保留该方法且不可修改形参,请不要修改修饰符)
-     * 
-     * @param object $Database 数据库对象
-     * @param string $data_path 数据存放目录
-     * @return void
-     */
     static public function Init(&$Database,$data_path)
     {
         /** 事件说明
+         * 本方法需要严格定义为 公共静态(static public) 修饰且建议不要修改形参
          * 这里是是给开发者预留的事件,常用于初始化插件或者安装内容
          * 安装状态和内容可以输出到数据存放目录内
          * 下面是一段存放数据代码

@@ -16,7 +16,7 @@ class User
     /**
      * 设置数据库对象
      * 
-     * @param object $Database 数据库对象
+     * @param Database $Database 数据库对象
      * @return void
      */
     public function SetDatabase(&$Database)
